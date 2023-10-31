@@ -1,0 +1,27 @@
+
+#search {
+    margin: 20px 0px;
+}
+#display {
+    margin: 0px 0px 20px 0px;
+}
+#description {
+    padding: 0px 0px 0px 30px;
+}
+#wordInput {
+    padding: 10px 12px;
+}
+#descriptionInput {
+    padding: 10px 12px;
+}
+#registrationBtn {
+    padding: 10px 12px;
+}
+#goodBtn {
+    border: 0px;
+    background: #ffff;
+}
+#badBtn {
+    border: 0px;
+    background: #ffff;
+}
