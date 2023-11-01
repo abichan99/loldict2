@@ -6,5 +6,5 @@ lol dictionary app code
  - application.goのmode変数の修正
 
 # コマンドについて
- - サーバー稼働：air
+ - サーバー稼働：air || go run application.go (./backendフォルダ内で実行)
  <!-- - s -->

@@ -9,6 +9,7 @@ import (
 	"strconv"
 
 	"net/http"
+
 	"golang.org/x/crypto/acme/autocert"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -62,16 +63,22 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 func main() {
 	// if deploy, set https
 	// 認証取得に上限あるためいったんdeploy環境でも認証機能使わないようにしとく(mode=deployにしとく)
-	mode := "localhost"
+	mode := "dev"
 
-	tmp, err := os.ReadFile("dbServerLocation.txt")
+	tmp, err := os.ReadFile("../dbServerLocation.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
-	dbServerLocation := string(tmp[:])
+	// 開発環境の時はlocalhostのデータベース使う。
+	var dbServerLocation string
+	if mode == "dev" {
+		dbServerLocation = "root:abichan99@tcp(localhost:3306)/loldictdb"
+	} else {
+		dbServerLocation = string(tmp[:])
+	}
 
 	e := echo.New()
-	e.Static("/static", "./app/static")
+	e.Static("/static", "../frontend/app/static")
 	if mode == "deploy" {
 		e.AutoTLSManager.HostPolicy = autocert.HostWhitelist("www.loldictkrjp.ap-northeast-1.elasticbeanstalk.com/")
 		e.AutoTLSManager.Cache = autocert.DirCache("/var/www/.cache")
@@ -84,7 +91,7 @@ func main() {
 	e.Debug = true
 	// link this server with index.html
 	renderer := &Template{
-		templates: template.Must(template.New("funcmap").Funcs(funcMap).ParseFiles("app/templates/index.html")),
+		templates: template.Must(template.New("funcmap").Funcs(funcMap).ParseFiles("../frontend/app/templates/index.html")),
 	}
 	e.Renderer = renderer
 
@@ -175,7 +182,7 @@ func main() {
 		if mode == "deploy" {
 			httpPort = "443"
 			e.Logger.Fatal(e.StartAutoTLS(":443"))
-			} else {
+		} else {
 			httpPort = "5000"
 			e.Logger.Fatal(e.Start(":" + httpPort))
 		}
