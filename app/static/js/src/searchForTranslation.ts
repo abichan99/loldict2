@@ -1,4 +1,4 @@
-import { validateWord, store2localStorage } from "./utils";
+import { validateWord, store2localStorage } from "./utils/index";
 
 /** 検索ワードがvalidなときに訳語を検索、あれば表示する関数。なければないと知らせる。
  *

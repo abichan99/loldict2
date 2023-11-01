@@ -1,4 +1,4 @@
-import { validateWord, validateDescription } from "./utils";
+import { validateWord, validateDescription } from "./utils/index";
 
 export const IDs = {
   registrationForm: "registrationForm",

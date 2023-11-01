@@ -4,7 +4,7 @@
  * @returns {{boolean; string}} {isValid, errMessage} validかどうか、invalidの時のエラーメッセ―ジ
  */
 export function validateWord(word) {
-    var validationConditions = {
+    const validationConditions = {
         maxLen: 30,
         // allowed unicode properties: Letter, Number
         allowedUnicodeCategoryList: ["L", "N"],
@@ -39,7 +39,7 @@ export function validateWord(word) {
  * @returns {{boolean; string}} {isValid, errMessage} validかどうか、invalidの時のエラーメッセ―ジ
  */
 export function validateDescription(description) {
-    var validationConditions = {
+    const validationConditions = {
         maxLen: 200,
         // allowed unicode properties: Letter, Number
         allowedUnicodeCategoryList: ["L", "N"],
@@ -82,18 +82,18 @@ export function validateDescription(description) {
  */
 export function returnValidationResult(target, validationConditions) {
     // validationConditions.allowedUnicodeCategoryListに入っているunicode categoryに属さない文字をすべてリストに代入する正規表現
-    var REGEXP_PROHIBITED_CHARACTERS = createRegexpGu(validationConditions.allowedUnicodeCategoryList);
+    const REGEXP_PROHIBITED_CHARACTERS = createRegexpGu(validationConditions.allowedUnicodeCategoryList);
     // raise an error if word length is longer than validationConditions.maxLen
     if (target.length > validationConditions.maxLen) {
         return {
             isValid: false,
-            errMessage: "".concat(validationConditions.maxLen, "\uC790 \uC774\uB0B4\uB85C \uC785\uB825\uD574 \uC8FC\uC138\uC694."),
+            errMessage: `${validationConditions.maxLen}자 이내로 입력해 주세요.`,
         };
     }
     // NFC：サロゲートペアを単一の文字コードで表すように正規化にする
     // NFCの説明：https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize
-    var normalizedWord = target.normalize("NFC");
-    var invalidCharacterList = normalizedWord.match(REGEXP_PROHIBITED_CHARACTERS);
+    const normalizedWord = target.normalize("NFC");
+    const invalidCharacterList = normalizedWord.match(REGEXP_PROHIBITED_CHARACTERS);
     if (invalidCharacterList === null) {
         return {
             isValid: true,
@@ -103,12 +103,12 @@ export function returnValidationResult(target, validationConditions) {
     // raise an error if...
     // 1. word includes characters that are not letters or numbers and
     // 2. any of them are not the element of validationConditions.allowedIndividualCharacterList
-    for (var i = 0; i < invalidCharacterList.length; i++) {
-        var invalidCharacter = invalidCharacterList[i];
+    for (let i = 0; i < invalidCharacterList.length; i++) {
+        const invalidCharacter = invalidCharacterList[i];
         if (!validationConditions.allowedIndividualCharacterList.includes(invalidCharacter)) {
             return {
                 isValid: false,
-                errMessage: "\uC0AC\uC6A9 \uD560 \uC218 \uC5C6\uB294 \uBB38\uC790\uAC00 \uD3EC\uD568\uB418\uC5B4 \uC788\uC2B5\uB2C8\uB2E4: ".concat(invalidCharacter, "."),
+                errMessage: `사용 할 수 없는 문자가 포함되어 있습니다: ${invalidCharacter}.`,
             };
         }
     }
@@ -127,10 +127,10 @@ export function returnValidationResult(target, validationConditions) {
  * @returns 引数で与えられたunicode categoryに属さない文字を見つける正規表現
  */
 export function createRegexpGu(unicodeCategoryList) {
-    var regexp = "[^";
-    for (var i = 0; i < unicodeCategoryList.length; i++) {
-        var elem = unicodeCategoryList[i];
-        regexp += "\\p{".concat(elem, "}");
+    let regexp = "[^";
+    for (let i = 0; i < unicodeCategoryList.length; i++) {
+        const elem = unicodeCategoryList[i];
+        regexp += `\\p{${elem}}`;
     }
     regexp += "]";
     return new RegExp(regexp, "gu");

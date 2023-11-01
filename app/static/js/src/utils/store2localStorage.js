@@ -1,4 +1,4 @@
-import { validateWord } from ".";
+import { validateWord } from "./index";
 /**
  *
  * @param keyword 検索された単語(dbに登録されてないものも含む、一応validationする)
@@ -6,12 +6,12 @@ import { validateWord } from ".";
  */
 export function store2localStorage(keyword) {
     // local storageに保存するkeywordの最大値
-    var MAX_KEYWORD_NUM = 10;
-    var searchingHistory = window.localStorage.getItem("searchingHistory");
+    const MAX_KEYWORD_NUM = 10;
+    const searchingHistory = window.localStorage.getItem("searchingHistory");
     if (!validateWord(keyword).isValid) {
         return;
     }
-    var validKeyword = keyword;
+    const validKeyword = keyword;
     // local storageには文字列しか入力できないので、csv形式で検索ワードを保存する(単語が一つの時は先頭にコンマ書く)。
     // 検索履歴がないときの処理
     if (searchingHistory === null || searchingHistory === "") {
@@ -19,7 +19,7 @@ export function store2localStorage(keyword) {
         return;
     }
     // local storageに保存されているワードをリストに保存
-    var storedKeywordAry;
+    let storedKeywordAry;
     if (searchingHistory.indexOf(",") === -1) {
         storedKeywordAry = [searchingHistory];
     }
@@ -27,13 +27,13 @@ export function store2localStorage(keyword) {
         storedKeywordAry = searchingHistory.split(",");
     }
     // storedKeywordsAryの要素のうちvalidな単語だけ抽出
-    var validKeywordAry = [];
-    storedKeywordAry.forEach(function (word) {
+    const validKeywordAry = [];
+    storedKeywordAry.forEach((word) => {
         if (validateWord(word).isValid) {
             validKeywordAry.push(word);
         }
     });
-    var numValidKeywords = validKeywordAry.length;
+    const numValidKeywords = validKeywordAry.length;
     // 検索履歴に含まれているものを検索した場合、重複を許さず該当のワードを最新の検索ワードとするように順番を入れ替える
     // ex) keyword: Mango, searchingHistory: "Banana,Orange,Apple,Mango,Berry"
     // retval: "Banana,Orange,Apple,Berry,Mango"
@@ -47,7 +47,7 @@ export function store2localStorage(keyword) {
         return;
     }
     // 検索履歴に含まれていないワードが検索されたときはsearchingHistoryの最後尾にワードを追加
-    window.localStorage.setItem("searchingHistory", "".concat(searchingHistory, ",").concat(keyword));
+    window.localStorage.setItem("searchingHistory", `${searchingHistory},${keyword}`);
 }
 /**
  * 先頭要素(一番古く検索された単語)を削除したvalidKeywordsAryとkeywordを用いて、keywordを最新の検索単語とするcsv形式の検索履歴を返す
@@ -57,11 +57,11 @@ export function store2localStorage(keyword) {
  * @returns 一番古く検索された単語を削除し、最新の単語を追加したcsv形式の検索履歴
  */
 export function removeOldestAndAdd(validKeywordAry, validatedKeyword) {
-    var newSearchingHistory = validKeywordAry[1];
-    for (var i = 2; i < validKeywordAry.length; i++) {
-        newSearchingHistory = "".concat(newSearchingHistory, ",").concat(validKeywordAry[i]);
+    let newSearchingHistory = validKeywordAry[1];
+    for (let i = 2; i < validKeywordAry.length; i++) {
+        newSearchingHistory = `${newSearchingHistory},${validKeywordAry[i]}`;
     }
-    newSearchingHistory = "".concat(newSearchingHistory, ",").concat(validatedKeyword);
+    newSearchingHistory = `${newSearchingHistory},${validatedKeyword}`;
     return newSearchingHistory;
 }
 /** keywordを最後尾の単語とするcsv形式の検索履歴を返す関数
@@ -79,14 +79,14 @@ export function move2end(validKeywordAry, validKeyword) {
         return validKeyword.toString();
     }
     // storedKeywordAryからkeywordを取り除く
-    var index = validKeywordAry.indexOf(validKeyword);
+    const index = validKeywordAry.indexOf(validKeyword);
     validKeywordAry.splice(index, 1);
-    var newSearchingHistory = validKeywordAry[0];
+    let newSearchingHistory = validKeywordAry[0];
     // 更新られたsotredKeywordAryをカンマ区切りの文字列に変換
-    for (var i = 1; i < validKeywordAry.length; i++) {
-        newSearchingHistory = "".concat(newSearchingHistory, ",").concat(validKeywordAry[i]);
+    for (let i = 1; i < validKeywordAry.length; i++) {
+        newSearchingHistory = `${newSearchingHistory},${validKeywordAry[i]}`;
     }
     // keywordを最後尾に追加
-    newSearchingHistory = "".concat(newSearchingHistory, ",").concat(validKeyword);
+    newSearchingHistory = `${newSearchingHistory},${validKeyword}`;
     return newSearchingHistory;
 }

@@ -1,4 +1,4 @@
-import { validateWord, store2localStorage } from "./utils";
+import { validateWord, store2localStorage } from "./utils/index";
 /** 検索ワードがvalidなときに訳語を検索、あれば表示する関数。なければないと知らせる。
  *
  * 検索ワードがinvalidな時はurl更新せずinput fieldにエラーメッセージ表示。
@@ -7,7 +7,7 @@ import { validateWord, store2localStorage } from "./utils";
 export function searchForTranslation(homepageUrl) {
     var _a;
     (_a = document
-        .getElementById("searchingForm")) === null || _a === void 0 ? void 0 : _a.addEventListener("submit", function (event) {
+        .getElementById("searchingForm")) === null || _a === void 0 ? void 0 : _a.addEventListener("submit", (event) => {
         searchIfValid(event, homepageUrl);
     });
 }
@@ -17,15 +17,15 @@ export function searchForTranslation(homepageUrl) {
  */
 export function searchIfValid(e, curUrl) {
     e.preventDefault();
-    var elem = e.target.querySelector("#translationSearchingBar");
-    var keyword = elem.value;
-    var tmp = validateWord(keyword);
+    const elem = e.target.querySelector("#translationSearchingBar");
+    const keyword = elem.value;
+    const tmp = validateWord(keyword);
     // when invalid, stop sending data and display error messages on input fields
     if (elem != null && !tmp.isValid) {
         elem.setCustomValidity(tmp.errMessage);
         return;
     }
     store2localStorage(keyword);
-    var url = "".concat(curUrl, "?keyword=").concat(keyword);
+    const url = `${curUrl}?keyword=${keyword}`;
     window.location.href = url;
 }

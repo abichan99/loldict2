@@ -1,5 +1,5 @@
-import { validateWord, validateDescription } from "./utils";
-export var IDs = {
+import { validateWord, validateDescription } from "./utils/index";
+export const IDs = {
     registrationForm: "registrationForm",
     wordKr: "wordKrInput",
     wordJp: "wordJpInput",
@@ -15,13 +15,13 @@ export function registerTranslation() {
 export function registerIfValid(e) {
     // assign input data
     e.preventDefault();
-    var wordKr = e.target.querySelector("#".concat(IDs.wordKr));
-    var wordJp = e.target.querySelector("#".concat(IDs.wordJp));
-    var description = e.target.querySelector("#".concat(IDs.description));
+    const wordKr = e.target.querySelector(`#${IDs.wordKr}`);
+    const wordJp = e.target.querySelector(`#${IDs.wordJp}`);
+    const description = e.target.querySelector(`#${IDs.description}`);
     // validate each input data
-    var validationResultWordKr = validateWord(wordKr.value);
-    var validationResultWordJp = validateWord(wordJp.value);
-    var validationResultDescription = validateDescription(description.value);
+    const validationResultWordKr = validateWord(wordKr.value);
+    const validationResultWordJp = validateWord(wordJp.value);
+    const validationResultDescription = validateDescription(description.value);
     // when invalid, stop sending data and display error messages on input fields
     if (!validationResultWordKr.isValid) {
         wordKr.setCustomValidity(validationResultWordKr.errMessage);
@@ -36,14 +36,14 @@ export function registerIfValid(e) {
         return;
     }
     // include input data to json if valid
-    var requestData = {
+    const requestData = {
         wordKr: wordKr.value,
         wordJp: wordJp.value,
         description: description.value,
     };
     // send ajax post request to register data to db
-    var url = document.getElementById(IDs.registrationForm).action;
-    var xhr = new XMLHttpRequest();
+    const url = document.getElementById(IDs.registrationForm).action;
+    const xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {

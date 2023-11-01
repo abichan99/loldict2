@@ -1,4 +1,4 @@
-import { validateWord, store2localStorage, cntStoredKeywords } from "./utils";
+import { validateWord, store2localStorage, cntStoredKeywords } from "./utils/index";
 
 /**
  * 検索履歴の単語が押されたときにその単語を検索ワードとして訳語をサーチ。検索ワードのvalidationも行う。
@@ -7,7 +7,7 @@ import { validateWord, store2localStorage, cntStoredKeywords } from "./utils";
 export function searchFromSearchingHistory(homepageUrl: string) {
   const numStoredKeywords: number = cntStoredKeywords();
   for (let i = 0; i < numStoredKeywords; i++) {
-    const id: string = `searched-word${i.toString()}`; // 検索履歴に表示された単語それぞれのid
+    const id: string = `searched-word${i.toString()}`; // 検索履歴に表示された単語それぞれのhtmlのid
     const wordBtn = document.getElementById(id)?.children[0];
     const keyword = wordBtn?.innerHTML;
 

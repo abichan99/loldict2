@@ -2,7 +2,7 @@
  *
  * head内にも似たようなコードがあるが、以下のコードはhtmlが読み込まれた後にdark mode switchをチェック状態にするかどうかを決めている */
 export function initializeDarkModeBtn() {
-    var darkModeBtn = document.getElementById("darkModeBtn");
+    const darkModeBtn = document.getElementById("darkModeBtn");
     if (darkModeBtn != null) {
         if (localStorage.theme === "dark") {
             darkModeBtn.checked = true;

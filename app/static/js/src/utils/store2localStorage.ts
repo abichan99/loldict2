@@ -1,4 +1,4 @@
-import { validateWord } from ".";
+import { validateWord } from "./index";
 
 /**
  *

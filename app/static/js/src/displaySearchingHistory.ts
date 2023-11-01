@@ -1,4 +1,4 @@
-import { validateWord, Falsy } from "./utils";
+import { validateWord, Falsy } from "./utils/index";
 
 export const classListDiv: Array<string> = [
   "flex",
