@@ -3,14 +3,14 @@ import { Falsy } from "./falsy";
 /**
  * validationする際の条件
  *
- * maxLen: 文字数の上限
+ * maxCharNum: 文字数の上限
  *
  * allowedUnicodeCategoryList: 許可するunicode category
  *
  * allowedIndividualCharacterList: allowedUnicodeCategoryListの条件を満たさない文字のうち、例外的に許可する文字
  */
 type ValidationConditions = {
-  maxLen: number;
+  maxCharNum: number;
   allowedUnicodeCategoryList: Array<string>;
   allowedIndividualCharacterList: Array<string>;
 };
@@ -25,7 +25,7 @@ export function validateWord(word: string): {
   errMessage: string;
 } {
   const validationConditions: ValidationConditions = {
-    maxLen: 30,
+    maxCharNum: 30,
     // allowed unicode properties: Letter, Number
     allowedUnicodeCategoryList: ["L", "N"],
     allowedIndividualCharacterList: [
@@ -64,7 +64,7 @@ export function validateDescription(description: string): {
   errMessage: string;
 } {
   const validationConditions: ValidationConditions = {
-    maxLen: 200,
+    maxCharNum: 200,
     // allowed unicode properties: Letter, Number
     allowedUnicodeCategoryList: ["L", "N"],
     allowedIndividualCharacterList: [
@@ -114,11 +114,11 @@ export function returnValidationResult(
     validationConditions.allowedUnicodeCategoryList,
   );
 
-  // raise an error if word length is longer than validationConditions.maxLen
-  if ((target as string).length > validationConditions.maxLen) {
+  // raise an error if word length is longer than validationConditions.maxCharNum
+  if ((target as string).length > validationConditions.maxCharNum) {
     return {
       isValid: false,
-      errMessage: `${validationConditions.maxLen}자 이내로 입력해 주세요.`,
+      errMessage: `${validationConditions.maxCharNum}자 이내로 입력해 주세요.`,
     };
   }
 

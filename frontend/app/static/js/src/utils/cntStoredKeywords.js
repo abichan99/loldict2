@@ -1,12 +1,18 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.cntStoredKeywords = cntStoredKeywords;
 /**
  * localStorageのsearchingHistoryに保存されている単語の数を検索
  * @returns searchingHistoryに保存されている単語の数
  */
-export function cntStoredKeywords() {
-    const searchingHistory = localStorage.getItem("searchingHistory");
-    let numStoredKeywords = 0;
-    if (!!searchingHistory && searchingHistory !== "undefined") {
-        numStoredKeywords = searchingHistory.split(",").length;
-    }
-    return numStoredKeywords;
+function cntStoredKeywords() {
+  var searchingHistory = localStorage.getItem("searchingHistory");
+  var numStoredKeywords = 0;
+  if (!!searchingHistory && searchingHistory !== "undefined") {
+    numStoredKeywords = searchingHistory.split(",").length;
+  }
+  return numStoredKeywords;
 }
