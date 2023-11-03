@@ -1,18 +1,21 @@
-export const IDlist = [
-    "wordKrInput",
-    "wordJpInput",
-    "descriptionInput",
-    "translationSearchingBar",
-];
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.IDlist = void 0;
+exports.cleanValidationErrMsg = cleanValidationErrMsg;
+var IDlist = exports.IDlist = ["wordKrInput", "wordJpInput", "descriptionInput", "translationSearchingBar"];
+
 /** input要素のvalueが変わったらvalidation messageを空にする */
-export function cleanValidationErrMsg() {
-    cleanMsg(IDlist);
+function cleanValidationErrMsg() {
+  cleanMsg(IDlist);
 }
 function cleanMsg(IDlist) {
-    IDlist.forEach((id) => {
-        var _a;
-        (_a = document.getElementById(id)) === null || _a === void 0 ? void 0 : _a.addEventListener("change", function () {
-            this.setCustomValidity("");
-        });
+  IDlist.forEach(function (id) {
+    var _document$getElementB;
+    (_document$getElementB = document.getElementById(id)) === null || _document$getElementB === void 0 || _document$getElementB.addEventListener("change", function () {
+      this.setCustomValidity("");
     });
+  });
 }
