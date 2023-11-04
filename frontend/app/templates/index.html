@@ -44,7 +44,7 @@
 
             <!-- title -->
             <div class="flex justify-center items-center my-5">
-                <a id="title" class="text-4xl myapp-text">LOL 한일사전</a>
+                <a id="header-title" class="text-4xl myapp-text">LOL 한일사전</a>
             </div>
 
             <!-- dark mode switcher (template: https://preline.co/docs/switch.html) -->
@@ -85,7 +85,7 @@
                         <polygon points="15.293 3.293 6.586 12 15.293 20.707 16.707 19.293 9.414 12 16.707 4.707 15.293 3.293"/>
                     </svg>
                 </button>
-                <div id="displaySearchingHistory" class="flex overflow-x-hidden m-3" style="max-width: 40vw;">
+                <div id="searchingHistoryField" class="flex overflow-x-hidden m-3" style="max-width: 40vw;">
                 </div>
                 <button id="scroll-button-right" style="touch-action: none; user-select: none;" oncontextmenu="return false;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-slate-700 dark:fill-slate-500 object-cover">
@@ -145,7 +145,7 @@
         <!-- registration section -->
         <div class="container m-auto">
             <div class="flex justify-center items-center">
-                <button name="collapseBtn" type="button" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-400 text-white hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+                <button name="collapseBtnRegistrationForm" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-400 text-white hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
                     단어 등록하기
                     <svg class="hs-collapse-open:rotate-180 w-2.5 h-2.5 text-white" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -182,7 +182,7 @@
 
             // ホームページへのリンク挿入はhtmlに直接書き込まずjsの変数を利用して自動化している。こっちのほうが本番とローカルの切り替えの時に安全。
             window.addEventListener("DOMContentLoaded", function() {
-                const elem = document.getElementById("title");
+                const elem = document.getElementById("header-title");
                 elem.setAttribute("href", HOMEPAGE_URL);
             });
 
@@ -211,7 +211,7 @@
             const searchingHistory = localStorage.searchingHistory;
             const classListDiv = ["flex", "justify-center", "items-center", "mx-3.5"];
             const classListBtn = ["mx-2", "myapp-text", "break-keep", "hover:underline"];   // Btnと書いているが、検索ワードを表示する役がメインであり、クリックすると飛ぶようにしたかったので仕方なくボタンにした。
-            const target = document.getElementById("displaySearchingHistory");
+            const target = document.getElementById("searchingHistoryField");
             if (createHtmlDisplaySearchingHistory(searchingHistory, classListDiv, classListBtn) != undefined) {
                 target.innerHTML = createHtmlDisplaySearchingHistory(searchingHistory, classListDiv, classListBtn);
             }
@@ -337,7 +337,7 @@
             });
 
             // 訳語登録フォームの表示／非表示の切り替え
-            var coll = document.getElementsByName("collapseBtn");
+            var coll = document.getElementsByName("collapseBtnRegistrationForm");
             var i;
             coll.forEach(function(element) {
                 element.addEventListener("click", function() {

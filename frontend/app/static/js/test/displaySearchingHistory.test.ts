@@ -48,10 +48,10 @@ describe("test convert2classCode", () => {
 
 describe("test createHtmlDisplayingSearchingHistory", () => {
   test("searchingHistoryがundefinedの時", () => {
-    testCreateHtmlDisplayingSearchingHistory(undefined, undefined);
+    testCreateHtmlDisplayingSearchingHistory(undefined, "");
   });
   test("searchingHistoryが空の文字列の時", () => {
-    testCreateHtmlDisplayingSearchingHistory("", undefined);
+    testCreateHtmlDisplayingSearchingHistory("", "");
   });
   test("searchingHistoryにfalsy及びinvalidな単語が含まれる時", () => {
     const retValExpect = `<div id="searched-word0" ${convert2classCode(classListDiv)}>`
@@ -60,7 +60,7 @@ describe("test createHtmlDisplayingSearchingHistory", () => {
     testCreateHtmlDisplayingSearchingHistory("sth,undefined,invalid@", retValExpect);
   });
   test("searchingHistoryにvalidな単語が含まれていない時", () => {
-    testCreateHtmlDisplayingSearchingHistory("undefined,,invalid@", undefined);
+    testCreateHtmlDisplayingSearchingHistory("undefined,,invalid@", "");
   });
   test("searchingHistoryに単語が一つしかないとき", () => {
     const retValExpect = `<div id="searched-word0" ${convert2classCode(classListDiv)}>`
