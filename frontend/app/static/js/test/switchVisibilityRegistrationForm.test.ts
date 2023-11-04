@@ -12,9 +12,9 @@ describe("test switchVisibilityRegistrationForm", () => {
 
   test("登録フォームの表示、非表示がうまくできるか FIXME: jsdomでボタンのclickイベントが動作しない(browserで手動test済み)", () => {
     targetCollapse.style.display = "none"; // targetCollapseを非表示設定
-    fireEvent.click(formBtn);
+    formBtn.click();
     expect(targetCollapse.style.display).toBe("block"); // 表示
-    fireEvent.click(formBtn);
+    formBtn.click();
     expect(targetCollapse.style.display).toBe("none"); // 非表示
   });
 });

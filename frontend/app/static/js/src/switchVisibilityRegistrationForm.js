@@ -12,7 +12,8 @@ function switchVisibilityRegistrationForm() {
     var content = document.getElementById("target-collapse");
     if (content != null && content.style.display === "block") {
       content.style.display = "none";
-    } else if (content != null && content.style.display === "none") {
+    } else if (content != null) {
+      console.log("fds");
       content.style.display = "block";
     }
   });
