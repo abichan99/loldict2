@@ -22,8 +22,7 @@ describe("test createRegexpGu", () => {
 const MAX_LEN_WORD = 30;
 describe("test validateWord", () => {
   test(`${MAX_LEN_WORD}字を超える文字を不正な値と判断できるか`, () => {
-    const { isValid, errMessage } =
-      validateWord(`more than ${MAX_LEN_WORD} characters
+    const { isValid, errMessage } = validateWord(`more than ${MAX_LEN_WORD} characters
                                       .`);
     expect(isValid).toBe(false);
     expect(errMessage).toBe(`${MAX_LEN_WORD}자 이내로 입력해 주세요.`);
@@ -38,8 +37,7 @@ describe("test validateWord", () => {
 const MAX_LEN_DESCRIPTION = 200;
 describe("test validateDescription", () => {
   test(`${MAX_LEN_DESCRIPTION}字を超える文字を不正な値と判断できるか`, () => {
-    const { isValid, errMessage } =
-      validateDescription(`more than ${MAX_LEN_DESCRIPTION} letters                              
+    const { isValid, errMessage } = validateDescription(`more than ${MAX_LEN_DESCRIPTION} letters                              
         fsdddddddddddd                                                                                     d
         fsdddddddddddddddddddddddddvvvvvvvvv                                                                      d         
         sfdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.`);

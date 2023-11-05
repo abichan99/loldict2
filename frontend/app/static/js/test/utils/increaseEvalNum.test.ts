@@ -27,24 +27,23 @@ describe("test updateEval", () => {
 function MockTranslation() {
   loadHTML("app/templates/index.html");
   const displayTranslation = document.getElementById("display") as HTMLElement;
-  displayTranslation.innerHTML =
-    '/<div id="translation0" class="flex items-center">' +
-    '<div class="flex items-center mr-5">' +
-    '<p class="myapp-translation-wordJp text-3xl myapp-text mr-2">{{.WordJp}}</p>' +
-    "<div>" +
+  displayTranslation.innerHTML = "/<div id=\"translation0\" class=\"flex items-center\">"
+    + "<div class=\"flex items-center mr-5\">"
+    + "<p class=\"myapp-translation-wordJp text-3xl myapp-text mr-2\">{{.WordJp}}</p>"
+    + "<div>"
     // <!-- evaluation bar -->
-    '<div class="flex items-center ml-4">' +
+    + "<div class=\"flex items-center ml-4\">"
     // <!-- evaluate translation positively -->
-    '<button style="height: 30px; width: 30px;" class="myapp-translation-goodBtn rounded-full"></button>' +
-    "<!-- display good-bad ratio of the translation -->" +
-    '<div style="width: 180px; height: 20px;" class="myapp-translation-gbRatio flex">' +
-    '<div class="myapp-translation-goodBar bg-red-300 text-center dark:bg-pink-900" style="width: {{$goodBarWidth}}%;"><p class="myapp-text">{{.Good}}</p></div>' +
-    '<div class="myapp-translation-badBar bg-zinc-200 text-center dark:bg-zinc-700" style="width: {{$badBarWidth}}%;"><p class="myapp-text">{{.Bad}}</p></div>' +
-    "</div>" +
+    + "<button style=\"height: 30px; width: 30px;\" class=\"myapp-translation-goodBtn rounded-full\"></button>"
+    + "<!-- display good-bad ratio of the translation -->"
+    + "<div style=\"width: 180px; height: 20px;\" class=\"myapp-translation-gbRatio flex\">"
+    + "<div class=\"myapp-translation-goodBar bg-red-300 text-center dark:bg-pink-900\" style=\"width: {{$goodBarWidth}}%;\"><p class=\"myapp-text\">{{.Good}}</p></div>"
+    + "<div class=\"myapp-translation-badBar bg-zinc-200 text-center dark:bg-zinc-700\" style=\"width: {{$badBarWidth}}%;\"><p class=\"myapp-text\">{{.Bad}}</p></div>"
+    + "</div>"
     // <!-- evaluate translation negatively -->
-    '<button style="height: 30px; width: 30px;" class="myapp-translation-badBtn rounded-full"><img src="/static/imgs/sad_bee.jpg" alt="bad" width="35px" height="35px" class="rounded-full"></button>' +
-    "</div>" +
-    "</div>";
+    + "<button style=\"height: 30px; width: 30px;\" class=\"myapp-translation-badBtn rounded-full\"><img src=\"/static/imgs/sad_bee.jpg\" alt=\"bad\" width=\"35px\" height=\"35px\" class=\"rounded-full\"></button>"
+    + "</div>"
+    + "</div>";
 }
 
 /** evaluation fieldのgood, badが押された回数を設定 */

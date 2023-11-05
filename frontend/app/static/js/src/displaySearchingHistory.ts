@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
 import { validateWord, Falsy } from "./utils/index";
 
 export const classListDiv: Array<string> = [
@@ -73,8 +74,7 @@ export function createHtmlDisplayingSearchingHistory(
 
   // wordListのすべての文字が表示不可条件を満たしていないときは何もしない。
   // 表示不可条件：wordがfalsyかinvalid
-  const refuseDisplay = (word: string | Falsy) =>
-    !word || word === "undefined" || !validateWord(word).isValid;
+  const refuseDisplay = (word: string | Falsy) => !word || word === "undefined" || !validateWord(word).isValid;
   if (wordList.every(refuseDisplay)) {
     return "";
   }
@@ -113,13 +113,13 @@ export function createHtmlDisplayingSearchingHistory(
 export function convert2classCode(classList: Array<string>): string {
   let classCode: string;
   if (classList.length === 0) {
-    return 'class=""';
+    return "class=\"\"";
   }
 
   classCode = `class="${classList[0]}`;
   for (let i = 1; i < classList.length; i++) {
     classCode = `${classCode} ${classList[i]}`;
   }
-  classCode += '"';
+  classCode += "\"";
   return classCode;
 }

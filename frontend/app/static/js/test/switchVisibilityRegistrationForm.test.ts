@@ -1,7 +1,5 @@
-import { describe, expect, test } from "@jest/globals";
 import { switchVisibilityRegistrationForm } from "../src/switchVisibilityRegistrationForm";
 import { loadHTML } from "./testTools";
-import { fireEvent } from "@testing-library/dom";
 
 loadHTML();
 

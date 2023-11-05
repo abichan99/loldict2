@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // localStorageのmock
 export function createMockLocalStorage(storage: any) {
   const localStorageMock = (function () {
@@ -14,7 +15,7 @@ export function createMockLocalStorage(storage: any) {
         store = {};
       },
     };
-  })();
+  }());
 
   Object.defineProperty(window, "localStorage", {
     value: localStorageMock,

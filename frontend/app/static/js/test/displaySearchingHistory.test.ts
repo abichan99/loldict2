@@ -1,4 +1,4 @@
-import { describe, expect, test } from "@jest/globals";
+/* eslint-disable @typescript-eslint/no-var-requires */
 import {
   displaySearchingHistory,
   createHtmlDisplayingSearchingHistory,
@@ -34,10 +34,9 @@ describe("test displaySearchingHistory", () => {
     const field = document.getElementById(
       "searchingHistoryField",
     ) as HTMLElement;
-    const expected: string =
-      `<div id="searched-word0" ${convert2classCode(classListDiv)}>` +
-      `<button ${convert2classCode(classListBtn)}>word1</button>` +
-      "</div>";
+    const expected: string = `<div id="searched-word0" ${convert2classCode(classListDiv)}>`
+      + `<button ${convert2classCode(classListBtn)}>word1</button>`
+      + "</div>";
     expect(field.innerHTML).toBe(expected);
   });
 });
@@ -45,15 +44,15 @@ describe("test displaySearchingHistory", () => {
 describe("test convert2classCode", () => {
   test("クラスの値がないとき", () => {
     const noClass: Array<string> = [];
-    expect(convert2classCode(noClass)).toBe('class=""');
+    expect(convert2classCode(noClass)).toBe("class=\"\"");
   });
   test("クラスの値が一つの時", () => {
     const singleClass: Array<string> = ["sth"];
-    expect(convert2classCode(singleClass)).toBe('class="sth"');
+    expect(convert2classCode(singleClass)).toBe("class=\"sth\"");
   });
   test("クラスの値が2つ以上の時", () => {
     const multipleClasses: Array<string> = ["sth1", "sth2"];
-    expect(convert2classCode(multipleClasses)).toBe('class="sth1 sth2"');
+    expect(convert2classCode(multipleClasses)).toBe("class=\"sth1 sth2\"");
   });
 });
 
@@ -65,10 +64,9 @@ describe("test createHtmlDisplayingSearchingHistory", () => {
     testCreateHtmlDisplayingSearchingHistory("", "");
   });
   test("searchingHistoryにfalsy及びinvalidな単語が含まれる時", () => {
-    const retValExpect =
-      `<div id="searched-word0" ${convert2classCode(classListDiv)}>` +
-      `<button ${convert2classCode(classListBtn)}>sth</button>` +
-      "</div>";
+    const retValExpect = `<div id="searched-word0" ${convert2classCode(classListDiv)}>`
+      + `<button ${convert2classCode(classListBtn)}>sth</button>`
+      + "</div>";
     testCreateHtmlDisplayingSearchingHistory(
       "sth,undefined,invalid@",
       retValExpect,
@@ -78,20 +76,18 @@ describe("test createHtmlDisplayingSearchingHistory", () => {
     testCreateHtmlDisplayingSearchingHistory("undefined,,invalid@", "");
   });
   test("searchingHistoryに単語が一つしかないとき", () => {
-    const retValExpect =
-      `<div id="searched-word0" ${convert2classCode(classListDiv)}>` +
-      `<button ${convert2classCode(classListBtn)}>word1</button>` +
-      "</div>";
+    const retValExpect = `<div id="searched-word0" ${convert2classCode(classListDiv)}>`
+      + `<button ${convert2classCode(classListBtn)}>word1</button>`
+      + "</div>";
     testCreateHtmlDisplayingSearchingHistory("word1", retValExpect);
   });
   test("searchingHistoryに単語が複数個あるとき", () => {
-    const retValExpect =
-      `<div id="searched-word0" ${convert2classCode(classListDiv)}>` +
-      `<button ${convert2classCode(classListBtn)}>word2</button>` +
-      "</div>" +
-      `<div id="searched-word1" ${convert2classCode(classListDiv)}>` +
-      `<button ${convert2classCode(classListBtn)}>word1</button>` +
-      "</div>";
+    const retValExpect = `<div id="searched-word0" ${convert2classCode(classListDiv)}>`
+      + `<button ${convert2classCode(classListBtn)}>word2</button>`
+      + "</div>"
+      + `<div id="searched-word1" ${convert2classCode(classListDiv)}>`
+      + `<button ${convert2classCode(classListBtn)}>word1</button>`
+      + "</div>";
     testCreateHtmlDisplayingSearchingHistory("word1,word2", retValExpect);
   });
 });
@@ -103,7 +99,7 @@ describe("test createHtmlDisplayingSearchingHistory", () => {
  */
 function testCreateHtmlDisplayingSearchingHistory(
   cond: string | undefined,
-  exp: any,
+  exp: string,
 ) {
   const retVal = createHtmlDisplayingSearchingHistory(
     cond,

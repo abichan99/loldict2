@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
 import { Falsy } from "./falsy";
 
 /**
@@ -72,7 +73,7 @@ export function validateDescription(description: string): {
       ",",
       " ",
       "　",
-      '"',
+      "\"",
       "'",
       "`",
       "_",

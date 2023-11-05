@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /**
  * htmlPathにあるhtmlファイルを読み込んでdocument.body.innerHTMLに代入
  * @param htmlPath root directoryからの相対パス ex) "app/templates/index.html"

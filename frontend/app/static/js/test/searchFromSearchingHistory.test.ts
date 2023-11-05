@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-concat */
 import { searchFromSearchingHistory } from "../src/searchFromSearchingHistory";
 import { displaySearchingHistory } from "../src";
 import { loadHTML, mockWindowHref } from "./testTools";
@@ -14,8 +15,7 @@ describe("test searchFromSearchingHistory", () => {
     // ので以下のようにしてinvalidな値のhtmlを直接代入
     (
       document.getElementById("searchingHistoryField") as HTMLElement
-    ).innerHTML =
-      "<div id='searched-word0'>" + "<button>invalid@</button>" + "</div>";
+    ).innerHTML = "<div id='searched-word0'>" + "<button>invalid@</button>" + "</div>";
     testSearchFromSearchingHistory(
       ["word1,invalid@,word3,word4", "searched-word0"],
       ["word1,invalid@,word3,word4", "http://dummy.com"],

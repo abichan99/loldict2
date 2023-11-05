@@ -1,4 +1,4 @@
-import { describe, expect, test } from "@jest/globals";
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { fireEvent } from "@testing-library/dom";
 import { toggleDarkMode } from "../../src/darkMode/toggleDarkMode";
 

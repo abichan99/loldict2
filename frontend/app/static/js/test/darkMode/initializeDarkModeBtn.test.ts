@@ -1,4 +1,4 @@
-import { describe, expect, test } from "@jest/globals";
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { initializeDarkModeBtn } from "../../src/darkMode/initializeDarkModeBtn";
 
 // index.html読み込んでhtmlに代入
