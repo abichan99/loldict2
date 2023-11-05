@@ -3,5 +3,5 @@
     "compilerOptions": {
       "allowJs": true
     },
-    "include": ["./app/static/js/src", "./app/static/js/test", "./app/static/js/*.ts", "./.*.js"],
+    "include": ["./app/static/ts/src", "./app/static/ts/test", "./app/static/ts/*.ts", "./.*.js"],
 }
