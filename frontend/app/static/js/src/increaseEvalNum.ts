@@ -13,7 +13,7 @@ export function increaseGoodNum(
 
   // TODO: callback関数とか使ってみる
   // 1秒後(サーバーとのやり取りが終わった後)に画面更新
-  const output = () => (window.location.reload());
+  const output = () => window.location.reload();
   setTimeout(output, 1000); // time unit: ms
 }
 
@@ -28,7 +28,7 @@ export function increaseBadNum(
 
   // TODO: callback関数とか使ってみる
   // 1秒後(サーバーとのやり取りが終わった後)に画面更新
-  const output = () => (window.location.reload());
+  const output = () => window.location.reload();
   setTimeout(output, 1000); // time unit: ms
 }
 

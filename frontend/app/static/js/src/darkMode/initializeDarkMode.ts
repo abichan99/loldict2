@@ -5,9 +5,9 @@
  */
 export function initializeDarkMode() {
   if (
-    localStorage.getItem("theme") === "dark"
-    || (!("theme" in localStorage)
-      && window.matchMedia("(prefers-color-scheme: dark)").matches)
+    localStorage.getItem("theme") === "dark" ||
+    (!("theme" in localStorage) &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
   ) {
     localStorage.setItem("theme", "dark");
     document.documentElement.classList.add("dark");

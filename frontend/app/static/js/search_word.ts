@@ -1,12 +1,11 @@
-import {validateWord, validateDescription} from "./validators.js";
+import { validateWord, validateDescription } from "./validators.js";
 
-document.getElementById("submit_btn")!.addEventListener("submit", searchWord)
+document.getElementById("submit_btn")!.addEventListener("submit", searchWord);
 function searchWord(e) {
-    e.preventDefault();
-    const word = e.target!.querySelector('#searchWord')!;
-    console.log(word)
+  e.preventDefault();
+  const word = e.target!.querySelector("#searchWord")!;
+  console.log(word);
 
-    // const xhr = new XMLHttpRequest();
-    // xhr.open("GET", "../server.go", true);
-
+  // const xhr = new XMLHttpRequest();
+  // xhr.open("GET", "../server.go", true);
 }

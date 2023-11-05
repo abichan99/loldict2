@@ -16,6 +16,8 @@ export function mockXhr(): Partial<XMLHttpRequest> {
     response: "Hello World!",
     responseText: "Hello World!",
   };
-  jest.spyOn(window, "XMLHttpRequest").mockImplementation(() => xhrMock as XMLHttpRequest);
+  jest
+    .spyOn(window, "XMLHttpRequest")
+    .mockImplementation(() => xhrMock as XMLHttpRequest);
   return xhrMock;
 }

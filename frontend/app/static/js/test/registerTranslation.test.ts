@@ -8,32 +8,47 @@ loadHTML("app/templates/index.html");
 describe("test registerTranslation", () => {
   const wordKr = document.getElementById(IDs.wordKr) as HTMLInputElement;
   const wordJp = document.getElementById(IDs.wordJp) as HTMLInputElement;
-  const description = document.getElementById(IDs.description) as HTMLInputElement;
+  const description = document.getElementById(
+    IDs.description,
+  ) as HTMLInputElement;
 
   test("韓国語の入力欄がinvalidなとき", () => {
     submitValues("invalid@", "有効な日本語valid", "有効なdescipriton");
-    expect(wordKr.validationMessage).toBe("사용 할 수 없는 문자가 포함되어 있습니다: @.");
+    expect(wordKr.validationMessage).toBe(
+      "사용 할 수 없는 문자가 포함되어 있습니다: @.",
+    );
   });
   test("日本語の入力欄がinvalidなとき", () => {
     submitValues("有効な韓国語valid", "invalid+", "有効なdescipriton");
-    expect(wordJp.validationMessage).toBe("사용 할 수 없는 문자가 포함되어 있습니다: +.");
+    expect(wordJp.validationMessage).toBe(
+      "사용 할 수 없는 문자가 포함되어 있습니다: +.",
+    );
   });
   test("descriptionの入力欄がinvalidなとき", () => {
     submitValues("有効な韓国語valid", "有効な日本語valid", "invalid@");
-    expect(description.validationMessage).toBe("사용 할 수 없는 문자가 포함되어 있습니다: @.");
+    expect(description.validationMessage).toBe(
+      "사용 할 수 없는 문자가 포함되어 있습니다: @.",
+    );
   });
   test("すべてvalidなとき", () => {
     const xhrMock = mockXhr();
     // mock alert
     window.alert = jest.fn();
-    Object.defineProperty(window, 'location', {
+    Object.defineProperty(window, "location", {
       writable: true,
-      value: { reload: jest.fn() }
+      value: { reload: jest.fn() },
     });
 
     submitValues("valid", "valid", "valid");
-    expect(xhrMock.open).toBeCalledWith("POST", "http://localhost/register", true);
-    expect(xhrMock.setRequestHeader).toBeCalledWith("Content-Type", "application/json");
+    expect(xhrMock.open).toBeCalledWith(
+      "POST",
+      "http://localhost/register",
+      true,
+    );
+    expect(xhrMock.setRequestHeader).toBeCalledWith(
+      "Content-Type",
+      "application/json",
+    );
     (xhrMock.onreadystatechange as EventListener)(new Event("")); // trigger onreadystatechange
     expect(window.alert).toBeCalledWith("Hello World!"); // triggered when readystate changes
   });

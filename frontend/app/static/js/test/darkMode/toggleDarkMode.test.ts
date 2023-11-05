@@ -5,11 +5,16 @@ import { toggleDarkMode } from "../../src/darkMode/toggleDarkMode";
 // index.html読み込んでhtmlに代入
 const fs = require("fs");
 
-const htmlStr = fs.readFileSync("app/templates/index.html", { encoding: "utf-8", flag: "r" });
+const htmlStr = fs.readFileSync("app/templates/index.html", {
+  encoding: "utf-8",
+  flag: "r",
+});
 document.body.innerHTML = htmlStr;
 
 describe("test toggleDarkMode", () => {
-  const darkModeBtn = document.getElementById("darkModeBtn") as HTMLInputElement;
+  const darkModeBtn = document.getElementById(
+    "darkModeBtn",
+  ) as HTMLInputElement;
   localStorage.setItem("theme", "sth");
   toggleDarkMode();
   test("dark modeをonにした時", () => {

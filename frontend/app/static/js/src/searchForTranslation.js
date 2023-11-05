@@ -1,7 +1,7 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+  value: true,
 });
 exports.searchForTranslation = searchForTranslation;
 exports.searchIfValid = searchIfValid;
@@ -13,9 +13,11 @@ var _index = require("./utils/index");
  */
 function searchForTranslation(homepageUrl) {
   var _document$getElementB;
-  (_document$getElementB = document.getElementById("searchingForm")) === null || _document$getElementB === void 0 || _document$getElementB.addEventListener("submit", function (event) {
-    searchIfValid(event, homepageUrl);
-  });
+  (_document$getElementB = document.getElementById("searchingForm")) === null ||
+    _document$getElementB === void 0 ||
+    _document$getElementB.addEventListener("submit", function (event) {
+      searchIfValid(event, homepageUrl);
+    });
 }
 
 /**

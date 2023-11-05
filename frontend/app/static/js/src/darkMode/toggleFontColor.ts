@@ -1,5 +1,5 @@
 export const props = {
-  nameClass: "myapp-text",  // index.htmlのテキスト要素につけているclassの名前
+  nameClass: "myapp-text", // index.htmlのテキスト要素につけているclassの名前
   darkMode: "dark:text-gray-400",
 };
 

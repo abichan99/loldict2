@@ -1,7 +1,7 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+  value: true,
 });
 exports.createRegexpGu = createRegexpGu;
 exports.returnValidationResult = returnValidationResult;
@@ -27,7 +27,28 @@ function validateWord(word) {
     maxCharNum: 30,
     // allowed unicode properties: Letter, Number
     allowedUnicodeCategoryList: ["L", "N"],
-    allowedIndividualCharacterList: [" ", "　", "`", "_", "-", "、", "。", "「", "」", "ー", "(", ")", "（", "）", "[", "]", "%", "％", "‘", "’"]
+    allowedIndividualCharacterList: [
+      " ",
+      "　",
+      "`",
+      "_",
+      "-",
+      "、",
+      "。",
+      "「",
+      "」",
+      "ー",
+      "(",
+      ")",
+      "（",
+      "）",
+      "[",
+      "]",
+      "%",
+      "％",
+      "‘",
+      "’",
+    ],
   };
   return returnValidationResult(word, validationConditions);
 }
@@ -42,7 +63,34 @@ function validateDescription(description) {
     maxCharNum: 200,
     // allowed unicode properties: Letter, Number
     allowedUnicodeCategoryList: ["L", "N"],
-    allowedIndividualCharacterList: [".", ",", " ", "　", "\"", "'", "`", "_", "-", "、", "。", "「", "」", "^", "~", "ー", "(", ")", "{", "}", "[", "]", "%", "％", "‘", "’"]
+    allowedIndividualCharacterList: [
+      ".",
+      ",",
+      " ",
+      "　",
+      '"',
+      "'",
+      "`",
+      "_",
+      "-",
+      "、",
+      "。",
+      "「",
+      "」",
+      "^",
+      "~",
+      "ー",
+      "(",
+      ")",
+      "{",
+      "}",
+      "[",
+      "]",
+      "%",
+      "％",
+      "‘",
+      "’",
+    ],
   };
   return returnValidationResult(description, validationConditions);
 }
@@ -55,13 +103,18 @@ function validateDescription(description) {
  */
 function returnValidationResult(target, validationConditions) {
   // validationConditions.allowedUnicodeCategoryListに入っているunicode categoryに属さない文字をすべてリストに代入する正規表現
-  var REGEXP_PROHIBITED_CHARACTERS = createRegexpGu(validationConditions.allowedUnicodeCategoryList);
+  var REGEXP_PROHIBITED_CHARACTERS = createRegexpGu(
+    validationConditions.allowedUnicodeCategoryList,
+  );
 
   // raise an error if word length is longer than validationConditions.maxCharNum
   if (target.length > validationConditions.maxCharNum) {
     return {
       isValid: false,
-      errMessage: "".concat(validationConditions.maxCharNum, "\uC790 \uC774\uB0B4\uB85C \uC785\uB825\uD574 \uC8FC\uC138\uC694.")
+      errMessage: "".concat(
+        validationConditions.maxCharNum,
+        "\uC790 \uC774\uB0B4\uB85C \uC785\uB825\uD574 \uC8FC\uC138\uC694.",
+      ),
     };
   }
 
@@ -72,7 +125,7 @@ function returnValidationResult(target, validationConditions) {
   if (invalidCharacterList === null) {
     return {
       isValid: true,
-      errMessage: ""
+      errMessage: "",
     };
   }
 
@@ -81,10 +134,18 @@ function returnValidationResult(target, validationConditions) {
   // 2. any of them are not the element of validationConditions.allowedIndividualCharacterList
   for (var i = 0; i < invalidCharacterList.length; i++) {
     var invalidCharacter = invalidCharacterList[i];
-    if (!validationConditions.allowedIndividualCharacterList.includes(invalidCharacter)) {
+    if (
+      !validationConditions.allowedIndividualCharacterList.includes(
+        invalidCharacter,
+      )
+    ) {
       return {
         isValid: false,
-        errMessage: "\uC0AC\uC6A9 \uD560 \uC218 \uC5C6\uB294 \uBB38\uC790\uAC00 \uD3EC\uD568\uB418\uC5B4 \uC788\uC2B5\uB2C8\uB2E4: ".concat(invalidCharacter, ".")
+        errMessage:
+          "\uC0AC\uC6A9 \uD560 \uC218 \uC5C6\uB294 \uBB38\uC790\uAC00 \uD3EC\uD568\uB418\uC5B4 \uC788\uC2B5\uB2C8\uB2E4: ".concat(
+            invalidCharacter,
+            ".",
+          ),
       };
     }
   }
@@ -93,7 +154,7 @@ function returnValidationResult(target, validationConditions) {
   // set isValid as true if the given word passes all the validation
   return {
     isValid: true,
-    errMessage: ""
+    errMessage: "",
   };
 }
 

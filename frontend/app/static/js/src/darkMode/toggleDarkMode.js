@@ -1,7 +1,7 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+  value: true,
 });
 exports.toggleDarkMode = toggleDarkMode;
 /** toggle dark mode and switch localStorage value (localStorage.theme: dark <-> light) */

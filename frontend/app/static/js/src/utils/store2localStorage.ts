@@ -8,7 +8,8 @@ import { validateWord } from "./index";
 export function store2localStorage(keyword: string): undefined {
   // local storageに保存するkeywordの最大値
   const MAX_KEYWORD_NUM: number = 10;
-  const searchingHistory: string | null = window.localStorage.getItem("searchingHistory");
+  const searchingHistory: string | null =
+    window.localStorage.getItem("searchingHistory");
 
   if (!validateWord(keyword).isValid) {
     return;

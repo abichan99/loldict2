@@ -73,7 +73,8 @@ export function createHtmlDisplayingSearchingHistory(
 
   // wordListのすべての文字が表示不可条件を満たしていないときは何もしない。
   // 表示不可条件：wordがfalsyかinvalid
-  const refuseDisplay = (word: string | Falsy) => !word || word === "undefined" || !validateWord(word).isValid;
+  const refuseDisplay = (word: string | Falsy) =>
+    !word || word === "undefined" || !validateWord(word).isValid;
   if (wordList.every(refuseDisplay)) {
     return "";
   }
@@ -93,8 +94,7 @@ export function createHtmlDisplayingSearchingHistory(
 
     // 引数のclassListでclass属性のコード書く
     html += `${convert2classCode(classListDiv)}>`;
-    html
-      += `<button ${convert2classCode(classListBtn)}>${word}</button>`;
+    html += `<button ${convert2classCode(classListBtn)}>${word}</button>`;
     html += "</div>";
 
     // 単語を表示するそれぞれhtmlコードをretvalに追加
@@ -113,13 +113,13 @@ export function createHtmlDisplayingSearchingHistory(
 export function convert2classCode(classList: Array<string>): string {
   let classCode: string;
   if (classList.length === 0) {
-    return "class=\"\"";
+    return 'class=""';
   }
 
   classCode = `class="${classList[0]}`;
   for (let i = 1; i < classList.length; i++) {
     classCode = `${classCode} ${classList[i]}`;
   }
-  classCode += "\"";
+  classCode += '"';
   return classCode;
 }

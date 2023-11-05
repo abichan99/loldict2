@@ -1,7 +1,7 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+  value: true,
 });
 exports.initializeDarkModeBtn = initializeDarkModeBtn;
 /** localStorage.themeの値によってダークモードボタンのcheck具合を変える

@@ -1,7 +1,7 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+  value: true,
 });
 exports.increaseBadNum = increaseBadNum;
 exports.increaseGoodNum = increaseGoodNum;
@@ -57,8 +57,14 @@ function sendAjaxReq(url, translationID, state) {
  */
 function updateEval(translationID, state) {
   var translation = document.getElementById(translationID);
-  var good = translation === null || translation === void 0 ? void 0 : translation.querySelector(".myapp-translation-goodBar");
-  var bad = translation === null || translation === void 0 ? void 0 : translation.querySelector(".myapp-translation-badBar");
+  var good =
+    translation === null || translation === void 0
+      ? void 0
+      : translation.querySelector(".myapp-translation-goodBar");
+  var bad =
+    translation === null || translation === void 0
+      ? void 0
+      : translation.querySelector(".myapp-translation-badBar");
 
   // stateに応じてgoodまたはbadが押された回数に1を足す。さらにdom内に記録された回数も更新
   var goodNum = parseInt(good.children[0].innerHTML, 10);
@@ -73,7 +79,7 @@ function updateEval(translationID, state) {
 
   // 更新されたgoodNum, badNumをもとに幅を計算しdom要素のstyle.widthに代入
   var totalNum = goodNum + badNum;
-  var goodWidth = Math.round(goodNum * 100 / totalNum);
+  var goodWidth = Math.round((goodNum * 100) / totalNum);
   var badWidth = 100 - goodWidth;
   good.style.width = "".concat(goodWidth.toString(), "px");
   bad.style.width = "".concat(badWidth.toString(), "px");

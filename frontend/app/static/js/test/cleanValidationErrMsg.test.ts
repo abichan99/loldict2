@@ -8,7 +8,9 @@ loadHTML();
 // IDlist内のidを持つ要素のvalidation message, valueを初期化し、それぞれを配列に代入
 const beforeChangeMsg: string[] = [];
 for (let i = 0; i < IDlist.length; i++) {
-  (document.getElementById(IDlist[i]) as HTMLInputElement).setCustomValidity(`msg${i.toString()}`);
+  (document.getElementById(IDlist[i]) as HTMLInputElement).setCustomValidity(
+    `msg${i.toString()}`,
+  );
   beforeChangeMsg.push(`msg${i.toString()}`);
 }
 

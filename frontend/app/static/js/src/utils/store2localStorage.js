@@ -1,7 +1,7 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+  value: true,
 });
 exports.move2end = move2end;
 exports.removeOldestAndAdd = removeOldestAndAdd;
@@ -47,18 +47,27 @@ function store2localStorage(keyword) {
   // ex) keyword: Mango, searchingHistory: "Banana,Orange,Apple,Mango,Berry"
   // retval: "Banana,Orange,Apple,Berry,Mango"
   if (validKeywordAry.indexOf(validKeyword) !== -1) {
-    window.localStorage.setItem("searchingHistory", move2end(validKeywordAry, validKeyword));
+    window.localStorage.setItem(
+      "searchingHistory",
+      move2end(validKeywordAry, validKeyword),
+    );
     return;
   }
 
   // 保存された検索ワード数がMAX_KEYWORD_NUMを超えたときに、一番長く検索されなかったワードを捨てて最新の検索ワードを追加する
   if (numValidKeywords >= MAX_KEYWORD_NUM) {
-    window.localStorage.setItem("searchingHistory", removeOldestAndAdd(validKeywordAry, validKeyword));
+    window.localStorage.setItem(
+      "searchingHistory",
+      removeOldestAndAdd(validKeywordAry, validKeyword),
+    );
     return;
   }
 
   // 検索履歴に含まれていないワードが検索されたときはsearchingHistoryの最後尾にワードを追加
-  window.localStorage.setItem("searchingHistory", "".concat(searchingHistory, ",").concat(keyword));
+  window.localStorage.setItem(
+    "searchingHistory",
+    "".concat(searchingHistory, ",").concat(keyword),
+  );
 }
 
 /**
@@ -71,9 +80,13 @@ function store2localStorage(keyword) {
 function removeOldestAndAdd(validKeywordAry, validatedKeyword) {
   var newSearchingHistory = validKeywordAry[1];
   for (var i = 2; i < validKeywordAry.length; i++) {
-    newSearchingHistory = "".concat(newSearchingHistory, ",").concat(validKeywordAry[i]);
+    newSearchingHistory = ""
+      .concat(newSearchingHistory, ",")
+      .concat(validKeywordAry[i]);
   }
-  newSearchingHistory = "".concat(newSearchingHistory, ",").concat(validatedKeyword);
+  newSearchingHistory = ""
+    .concat(newSearchingHistory, ",")
+    .concat(validatedKeyword);
   return newSearchingHistory;
 }
 
@@ -97,9 +110,13 @@ function move2end(validKeywordAry, validKeyword) {
   var newSearchingHistory = validKeywordAry[0];
   // 更新られたsotredKeywordAryをカンマ区切りの文字列に変換
   for (var i = 1; i < validKeywordAry.length; i++) {
-    newSearchingHistory = "".concat(newSearchingHistory, ",").concat(validKeywordAry[i]);
+    newSearchingHistory = ""
+      .concat(newSearchingHistory, ",")
+      .concat(validKeywordAry[i]);
   }
   // keywordを最後尾に追加
-  newSearchingHistory = "".concat(newSearchingHistory, ",").concat(validKeyword);
+  newSearchingHistory = ""
+    .concat(newSearchingHistory, ",")
+    .concat(validKeyword);
   return newSearchingHistory;
 }

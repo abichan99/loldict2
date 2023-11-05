@@ -1,7 +1,7 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+  value: true,
 });
 exports.initializeDarkMode = initializeDarkMode;
 // tailwind公式文書を参照して作成：https://tailwindcss.com/docs/dark-mode
@@ -10,7 +10,11 @@ exports.initializeDarkMode = initializeDarkMode;
  * </body>下のスクリプトタグ内に置くと、画面が一瞬白になってからダークモードが発動するので目に悪いので、headタグ内に置く。
  */
 function initializeDarkMode() {
-  if (localStorage.getItem("theme") === "dark" || !("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+  if (
+    localStorage.getItem("theme") === "dark" ||
+    (!("theme" in localStorage) &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
     localStorage.setItem("theme", "dark");
     document.documentElement.classList.add("dark");
   } else {

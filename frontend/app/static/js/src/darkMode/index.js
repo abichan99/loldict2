@@ -1,7 +1,7 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+  value: true,
 });
 var _toggleFontColor = require("./toggleFontColor");
 Object.keys(_toggleFontColor).forEach(function (key) {
@@ -11,7 +11,7 @@ Object.keys(_toggleFontColor).forEach(function (key) {
     enumerable: true,
     get: function get() {
       return _toggleFontColor[key];
-    }
+    },
   });
 });
 var _toggleDarkMode = require("./toggleDarkMode");
@@ -22,7 +22,7 @@ Object.keys(_toggleDarkMode).forEach(function (key) {
     enumerable: true,
     get: function get() {
       return _toggleDarkMode[key];
-    }
+    },
   });
 });
 var _initializeDarkModeBtn = require("./initializeDarkModeBtn");
@@ -33,7 +33,7 @@ Object.keys(_initializeDarkModeBtn).forEach(function (key) {
     enumerable: true,
     get: function get() {
       return _initializeDarkModeBtn[key];
-    }
+    },
   });
 });
 var _initializeDarkMode = require("./initializeDarkMode");
@@ -44,6 +44,6 @@ Object.keys(_initializeDarkMode).forEach(function (key) {
     enumerable: true,
     get: function get() {
       return _initializeDarkMode[key];
-    }
+    },
   });
 });

@@ -72,7 +72,7 @@ export function validateDescription(description: string): {
       ",",
       " ",
       "　",
-      "\"",
+      '"',
       "'",
       "`",
       "_",

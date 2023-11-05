@@ -1,4 +1,8 @@
-import { validateWord, store2localStorage, cntStoredKeywords } from "./utils/index";
+import {
+  validateWord,
+  store2localStorage,
+  cntStoredKeywords,
+} from "./utils/index";
 
 /**
  * 検索履歴の単語が押されたときにその単語を検索ワードとして訳語をサーチ。検索ワードのvalidationも行う。
@@ -21,7 +25,7 @@ export function searchFromSearchingHistory(homepageUrl: string) {
       }
       // store the input elem to local storage(検索履歴の単語の順番を更新)
       store2localStorage(keyword);
-      window.location.href = `${homepageUrl}?keyword=${(keyword)}`;
+      window.location.href = `${homepageUrl}?keyword=${keyword}`;
     });
   }
 }

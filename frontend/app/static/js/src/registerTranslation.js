@@ -1,23 +1,26 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+  value: true,
 });
 exports.IDs = void 0;
 exports.registerIfValid = registerIfValid;
 exports.registerTranslation = registerTranslation;
 var _index = require("./utils/index");
-var IDs = exports.IDs = {
+var IDs = (exports.IDs = {
   registrationForm: "registrationForm",
   wordKr: "wordKrInput",
   wordJp: "wordJpInput",
-  description: "descriptionInput"
-};
+  description: "descriptionInput",
+});
 
 /** inputsがvalidな時に訳語としてdbに登録 */
 function registerTranslation() {
   var _document$getElementB;
-  (_document$getElementB = document.getElementById(IDs.registrationForm)) === null || _document$getElementB === void 0 || _document$getElementB.addEventListener("submit", registerIfValid);
+  (_document$getElementB = document.getElementById(IDs.registrationForm)) ===
+    null ||
+    _document$getElementB === void 0 ||
+    _document$getElementB.addEventListener("submit", registerIfValid);
 }
 
 /** それぞれのinput dataのうち一つでもinvalidならエラーメッセージを表示、validならdbに登録 */
@@ -31,7 +34,9 @@ function registerIfValid(e) {
   // validate each input data
   var validationResultWordKr = (0, _index.validateWord)(wordKr.value);
   var validationResultWordJp = (0, _index.validateWord)(wordJp.value);
-  var validationResultDescription = (0, _index.validateDescription)(description.value);
+  var validationResultDescription = (0, _index.validateDescription)(
+    description.value,
+  );
 
   // when invalid, stop sending data and display error messages on input fields
   if (!validationResultWordKr.isValid) {
@@ -51,7 +56,7 @@ function registerIfValid(e) {
   var requestData = {
     wordKr: wordKr.value,
     wordJp: wordJp.value,
-    description: description.value
+    description: description.value,
   };
 
   // send ajax post request to register data to db
