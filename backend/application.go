@@ -50,6 +50,7 @@ var funcMap = map[string]interface{}{
 		goodBarWidth = numGood * 100 / (numGood + numBad)
 		return int(goodBarWidth)
 	},
+	// TOOD: numbad消す
 	"calculateBadBarWidth": func(goodBarWidth, numBad int) (badBarWidth int) {
 		badBarWidth = 100 - goodBarWidth
 		return badBarWidth
@@ -61,11 +62,11 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 }
 
 func main() {
-	// if deploy, set https
-	// 認証取得に上限あるためいったんdeploy環境でも認証機能使わないようにしとく(mode=deployにしとく)
+	// mode==deployの時http認証を行う。
+	// 認証取得に上限あるためいったんdeploy環境でも認証機能使わないようにしとく(mode=devにしとく)
 	mode := "dev"
 
-	tmp, err := os.ReadFile("../dbServerLocation.txt")
+	tmp, err := os.ReadFile("dbServerLocation.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -78,7 +79,7 @@ func main() {
 	}
 
 	e := echo.New()
-	e.Static("/static", "../frontend/app/static")
+	e.Static("/static", "./app/static")
 	if mode == "deploy" {
 		e.AutoTLSManager.HostPolicy = autocert.HostWhitelist("www.loldictkrjp.ap-northeast-1.elasticbeanstalk.com/")
 		e.AutoTLSManager.Cache = autocert.DirCache("/var/www/.cache")
@@ -89,9 +90,9 @@ func main() {
 		e.Pre(middleware.HTTPSWWWRedirect())
 	}
 	e.Debug = true
-	// link this server with index.html
+	// link this with index.html
 	renderer := &Template{
-		templates: template.Must(template.New("funcmap").Funcs(funcMap).ParseFiles("../frontend/app/templates/index.html")),
+		templates: template.Must(template.New("funcmap").Funcs(funcMap).ParseFiles("app/templates/index.html")),
 	}
 	e.Renderer = renderer
 
@@ -102,7 +103,7 @@ func main() {
 		)
 		// params of c.render(c.render renders index.html with given parameters)
 		data := make(map[string]interface{})
-		db, err := connectDB(dbServerLocation)
+		db, err := Connect2DB(dbServerLocation)
 		if err != nil {
 			return c.String(http.StatusBadRequest, "Cannot connect to database")
 		}
@@ -134,7 +135,7 @@ func main() {
 	})
 
 	e.GET("/increaseGoodNum", func(c echo.Context) error {
-		db, err := connectDB(dbServerLocation)
+		db, err := Connect2DB(dbServerLocation)
 		if err != nil {
 			return c.String(http.StatusBadRequest, "Cannot connect to database")
 		}
@@ -146,7 +147,7 @@ func main() {
 	})
 
 	e.GET("/increaseBadNum", func(c echo.Context) error {
-		db, err := connectDB(dbServerLocation)
+		db, err := Connect2DB(dbServerLocation)
 		if err != nil {
 			return c.String(http.StatusBadRequest, "Cannot connect to database")
 		}
@@ -164,7 +165,7 @@ func main() {
 			return c.String(http.StatusBadRequest, "bad request")
 		}
 
-		db, err := connectDB(dbServerLocation)
+		db, err := Connect2DB(dbServerLocation)
 		if err != nil {
 			return c.String(http.StatusBadRequest, "Cannot connect to database")
 		}
@@ -189,7 +190,7 @@ func main() {
 	}
 }
 
-func connectDB(dbServerLocation string) (*sql.DB, error) {
+func Connect2DB(dbServerLocation string) (*sql.DB, error) {
 	db, err := sql.Open("mysql", dbServerLocation)
 	if err != nil {
 		log.Fatalf("cnt %v", err)
