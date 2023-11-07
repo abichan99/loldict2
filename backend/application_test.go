@@ -16,3 +16,15 @@ func TestConnect2DB(t *testing.T) {
 	}
 	t.Log(db.Exec("select * from translations"))
 }
+func TestRegisterTranslation(t *testing.T) {
+	db, err := Connect2DB(dbServerLocation)
+	if err != nil {
+		t.Fatalf("db connection failed")
+		return
+	}
+	id, err := registerTranslation(db, "한2", "に", "descripton")
+	if err != nil {
+		t.Fatalf(`registerTranslation(%q): got err %v, expected nil`, id, err)
+	}
+	t.Log(id)
+}

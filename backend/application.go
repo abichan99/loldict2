@@ -66,7 +66,7 @@ func main() {
 	// 認証取得に上限あるためいったんdeploy環境でも認証機能使わないようにしとく(mode=devにしとく)
 	mode := "dev"
 
-	tmp, err := os.ReadFile("dbServerLocation.txt")
+	tmp, err := os.ReadFile("../dbServerLocation.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -79,7 +79,7 @@ func main() {
 	}
 
 	e := echo.New()
-	e.Static("/static", "./app/static")
+	e.Static("/static", "../frontend/app/static")
 	if mode == "deploy" {
 		e.AutoTLSManager.HostPolicy = autocert.HostWhitelist("www.loldictkrjp.ap-northeast-1.elasticbeanstalk.com/")
 		e.AutoTLSManager.Cache = autocert.DirCache("/var/www/.cache")
@@ -92,7 +92,7 @@ func main() {
 	e.Debug = true
 	// link this with index.html
 	renderer := &Template{
-		templates: template.Must(template.New("funcmap").Funcs(funcMap).ParseFiles("app/templates/index.html")),
+		templates: template.Must(template.New("funcmap").Funcs(funcMap).ParseFiles("../frontend/app/templates/index.html")),
 	}
 	e.Renderer = renderer
 
@@ -105,6 +105,7 @@ func main() {
 		data := make(map[string]interface{})
 		db, err := Connect2DB(dbServerLocation)
 		if err != nil {
+			log.Fatal(err)
 			return c.String(http.StatusBadRequest, "Cannot connect to database")
 		}
 
@@ -194,6 +195,10 @@ func Connect2DB(dbServerLocation string) (*sql.DB, error) {
 	db, err := sql.Open("mysql", dbServerLocation)
 	if err != nil {
 		log.Fatalf("cnt %v", err)
+	}
+	err = db.Ping()
+	if err != nil {
+		log.Fatal(err)
 	}
 	return db, err
 }

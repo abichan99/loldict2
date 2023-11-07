@@ -1,8 +1,8 @@
 export const IDlist: string[] = [
-  "wordKrInput",
-  "wordJpInput",
-  "descriptionInput",
-  "translationSearchingBar",
+  "wordKrInput", // 韓国語入力欄
+  "wordJpInput", // 日本語入力欄
+  "descriptionInput", // 説明入力欄
+  "translationSearchingBar", // 検索ワード入力欄
 ];
 
 /** input要素のvalueが変わったらvalidation messageを空にする */

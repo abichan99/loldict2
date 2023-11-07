@@ -16,13 +16,12 @@ export const classListBtn: Array<string> = [
 
 /** localHistory内に作ったsearchingHistoryを使って検索履歴を表示させる関数。 */
 export function displaySearchingHistory() {
-  // display searching history dynamically using javascript
   // classList：wordのelementそれぞれに対する共通のクラス
   // それぞれのワードに対するdivのid：searched-word + i(iはそれぞれのワードを区別するためのもので特に取り方に意味なし、iは0～検索履歴の単語の数-1、整数)
   const searchingHistory = window.localStorage.getItem(
     "searchingHistory",
   ) as string;
-  const html4searchingHistory: string = createHtmlDisplayingSearchingHistory(
+  const html4searchingHistory: string = createHtml4SearchingHistory(
     searchingHistory,
     classListDiv,
     classListBtn,
@@ -35,14 +34,14 @@ export function displaySearchingHistory() {
 
 /**
  * 検索履歴を表示するためのhtmlコードを生成する関数。
- * 表示するものがないときはundefinedを返す。生成例は関数内のコメントを参照。
+ * 表示するものがないときは空の文字列を返す。生成例は関数内のコメントを参照。
  *
  * @param {string | Falsy} searchingHistory csv形式の検索履歴
  * @param {Array<string>} classListDiv 作成するコード内のdivのクラスの値の配列
  * @param {Array<string>} classListBtn 作成するコード内のbtnのクラスの値の配列
  * @returns
  */
-export function createHtmlDisplayingSearchingHistory(
+export function createHtml4SearchingHistory(
   searchingHistory: string | Falsy,
   classListDiv: Array<string>,
   classListBtn: Array<string>,
@@ -64,6 +63,7 @@ export function createHtmlDisplayingSearchingHistory(
   // wordList：最新の検索履歴が前に来る配列
   let wordList: Array<string>;
   if (searchingHistory.indexOf(",") === -1) {
+    // 検索履歴の単語が一つの時の処理
     wordList = [searchingHistory];
   } else {
     wordList = searchingHistory.split(",").reverse();

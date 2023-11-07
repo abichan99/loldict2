@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import {
   displaySearchingHistory,
-  createHtmlDisplayingSearchingHistory,
+  createHtml4SearchingHistory,
   convert2classCode,
   classListDiv,
   classListBtn,
@@ -101,7 +101,7 @@ function testCreateHtmlDisplayingSearchingHistory(
   cond: string | undefined,
   exp: string,
 ) {
-  const retVal = createHtmlDisplayingSearchingHistory(
+  const retVal = createHtml4SearchingHistory(
     cond,
     classListDiv,
     classListBtn,
