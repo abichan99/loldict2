@@ -6,17 +6,6 @@ import { loadHTML, mockXhr as _u2 } from "../testTools";
 loadHTML();
 MockTranslation();
 
-// const xhrMock = mockXhr();
-// describe("test sendAjaxReq", () => {
-//     test("sendAjaxOpen関数が正しく動作したか", () => {
-//       updateEval = jest.fn();
-//       tmp.sendAjaxReq("url", "translation0", "good");
-//       expect(xhrMock.open).toBeCalledWith("GET", "url", true);
-//       (xhrMock.onreadystatechange as EventListener)(new Event('')); // trigger onreadystatechange
-//       expect(mockUpdateEval).toBeCalledWith("translation0", "good");
-//     })
-// })
-
 describe("test updateEval", () => {
   testUpdateEval(["0", "0", "good"], ["1", "0", "100", "0"]);
   testUpdateEval(["0", "0", "bad"], ["0", "1", "0", "100"]);

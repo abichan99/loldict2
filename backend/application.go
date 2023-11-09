@@ -1,3 +1,4 @@
+// エラーのログ出力はmain関数内ではなく呼び出される関数のほうで出力する
 package main
 
 import (
@@ -16,46 +17,6 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-type registrationForm struct {
-	WordKr      string `json:"wordKr"`
-	WordJp      string `json:"wordJp"`
-	Description string `json:"description"`
-}
-
-type Template struct {
-	templates *template.Template
-}
-
-type translationForm struct {
-	WordJp      string
-	Description string
-	Good        int
-	Bad         int
-	Id          int
-}
-
-type errMessage struct {
-	ErrMessage string
-}
-
-var funcMap = map[string]interface{}{
-	"createTranslationID": func(i int) string {
-		return "translation" + strconv.Itoa(i)
-	},
-	"calculateGoodBarWidth": func(numGood, numBad int) (goodBarWidth int) {
-		if numGood+numBad == 0 {
-			return 50
-		}
-		goodBarWidth = numGood * 100 / (numGood + numBad)
-		return int(goodBarWidth)
-	},
-	// TOOD: numbad消す
-	"calculateBadBarWidth": func(goodBarWidth, numBad int) (badBarWidth int) {
-		badBarWidth = 100 - goodBarWidth
-		return badBarWidth
-	},
-}
-
 func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
 	return t.templates.ExecuteTemplate(w, name, data)
 }
@@ -65,7 +26,8 @@ func main() {
 	// 認証取得に上限あるためいったんdeploy環境でも認証機能使わないようにしとく(mode=devにしとく)
 	mode := "dev"
 
-	tmp, err := os.ReadFile("../dbServerLocation.txt")
+	// データベースサーバーに接続する文が書かれたファイルを読み込む
+	dbServer, err := os.ReadFile("../dbServerLocation.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -74,22 +36,24 @@ func main() {
 	if mode == "dev" {
 		dbServerLocation = "root:abichan99@tcp(localhost:3306)/loldictdb"
 	} else {
-		dbServerLocation = string(tmp[:])
+		dbServerLocation = string(dbServer[:])
 	}
 
 	e := echo.New()
 	e.Static("/static", "../frontend/app/static")
 	if mode == "deploy" {
+		// https認証（実際に動くかはまだ試してない）
 		e.AutoTLSManager.HostPolicy = autocert.HostWhitelist("www.loldictkrjp.ap-northeast-1.elasticbeanstalk.com/")
 		e.AutoTLSManager.Cache = autocert.DirCache("/var/www/.cache")
 	}
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	if mode == "deploy" {
+		// https認証（実際に動くかはまだ試してない）
 		e.Pre(middleware.HTTPSWWWRedirect())
 	}
 	e.Debug = true
-	// link this with index.html
+	// link this function with index.html
 	renderer := &Template{
 		templates: template.Must(template.New("funcmap").Funcs(funcMap).ParseFiles("../frontend/app/templates/index.html")),
 	}
@@ -104,12 +68,15 @@ func main() {
 		data := make(map[string]interface{})
 		db, err := Connect2DB(dbServerLocation)
 		if err != nil {
-			log.Fatal(err)
 			return c.String(http.StatusBadRequest, "Cannot connect to database")
 		}
-
 		// elements of autocompletion which is used for searching translations in the loldict website
-		keywordList := pullKeywordListFromDB(db)
+		keywordList, err := pullKeywordListFromDB(db)
+		if err != nil {
+			log.Fatal(err)
+			// TODO: change err msg
+			return c.String(http.StatusBadRequest, "Cannot connect to database")
+		}
 
 		keyword := c.QueryParam("keyword")
 		data["registeredWords"] = keywordList
@@ -118,7 +85,12 @@ func main() {
 
 		// render the loldict website with translations when clients search for translations
 		if keyword != "" {
-			translations = pullTranslationFromDB(db, keyword)
+			translations, err = pullTranslationFromDB(db, keyword)
+			if err != nil {
+				log.Fatal(err)
+				// TODO: change err msg
+				return c.String(http.StatusBadRequest, "Cannot connect to database")
+			}
 			data["translations"] = translations
 			// show error message if no translation found
 			if len(translations) == 0 {

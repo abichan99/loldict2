@@ -2,14 +2,60 @@ package main
 
 import (
 	"database/sql"
+	"html/template"
 	"log"
+	"strconv"
 )
 
+var funcMap = map[string]interface{}{
+	"createTranslationID": func(i int) string {
+		return "translation" + strconv.Itoa(i)
+	},
+	"calculateGoodBarWidth": func(numGood, numBad int) (goodBarWidth int) {
+		if numGood+numBad == 0 {
+			return 50
+		}
+		goodBarWidth = numGood * 100 / (numGood + numBad)
+		return int(goodBarWidth)
+	},
+	// TOOD: numbad消す
+	"calculateBadBarWidth": func(goodBarWidth, numBad int) (badBarWidth int) {
+		badBarWidth = 100 - goodBarWidth
+		return badBarWidth
+	},
+}
+
+// クライアントから受け取った値を保持したりする
+type registrationForm struct {
+	WordKr      string `json:"wordKr"`
+	WordJp      string `json:"wordJp"`
+	Description string `json:"description"`
+}
+
+type Template struct {
+	templates *template.Template
+}
+
+// データベースに登録されている訳語の情報を格納できたりする
+type translationForm struct {
+	WordJp      string
+	Description string
+	Good        int
+	Bad         int
+	Id          int
+}
+
+type errMessage struct {
+	ErrMessage string
+}
+
+// FIXME: dbの住所が間違ったりしてもerr変数にエラーが保存されない。。(ブラウザで開くブラウザのデフォルトのエラー出る)
 func Connect2DB(dbServerLocation string) (*sql.DB, error) {
 	db, err := sql.Open("mysql", dbServerLocation)
 	if err != nil {
 		log.Fatalf("cnt %v", err)
 	}
+	// 上のOpen操作だとデータベースとやり取りはできないのでPingでやり取りできるか確認
 	err = db.Ping()
 	if err != nil {
 		log.Fatal(err)
@@ -38,7 +84,7 @@ func registerTranslation(db *sql.DB, wordKr, wordJp, description string) (int64,
 	return id, err
 }
 
-func pullKeywordListFromDB(db *sql.DB) []string {
+func pullKeywordListFromDB(db *sql.DB) ([]string, error) {
 	var (
 		keywordList []string
 		i           int = 0
@@ -62,10 +108,10 @@ func pullKeywordListFromDB(db *sql.DB) []string {
 		log.Fatal(err)
 	}
 
-	return keywordList
+	return keywordList, err
 }
 
-func pullTranslationFromDB(db *sql.DB, wordKr string) (t []translationForm) {
+func pullTranslationFromDB(db *sql.DB, wordKr string) (t []translationForm, err error) {
 	var i int = 0
 
 	rows, err := db.Query("select wordJp, description, good, bad, id from translations where wordKr = ?", wordKr)
@@ -87,7 +133,7 @@ func pullTranslationFromDB(db *sql.DB, wordKr string) (t []translationForm) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return t
+	return t, err
 }
 
 func increaseGoodNum(db *sql.DB, id int) error {
