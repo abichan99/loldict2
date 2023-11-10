@@ -12,11 +12,18 @@ import (
 // テスト用のローカルデータベース
 var dbServerLocation = "root:abichan99@tcp(localhost:3306)/loldictdb"
 
-func TestConnect2DB(t *testing.T) {
-	db, err := Connect2DB(dbServerLocation)
+func TestConnect2DB_noErrExpected(t *testing.T) {
+	_, err := Connect2DB(dbServerLocation)
 	if err != nil {
-		t.Logf("db: %v", db) // db変数使わないとエラー出るので適当に使っておく
-		t.Fatalf(`Connect2DB(%q): got err %v, expected nil`, dbServerLocation, err)
+		t.Fatal(err)
+	}
+}
+
+func TestConnect2DB_invalidDBlocation(t *testing.T) {
+	invalidDBlocation := "root:abichan9@tcp(localhost:3306)/loldictdb"
+	_, err := Connect2DB(invalidDBlocation)
+	if err == nil {
+		t.Fatal("got no err, expected invalid db location error")
 	}
 }
 
@@ -26,8 +33,7 @@ var db, _ = Connect2DB(dbServerLocation)
 func TestRegisterTranslation(t *testing.T) {
 	id, err := registerTranslation(db, "sthKr", "sthJp", "description")
 	if err != nil {
-		t.Logf(`id: %v`, id)
-		t.Fatalf(`registerTranslation(): got err %v, expected nil`, err)
+		t.Fatal(err)
 	}
 	// 修正されたデータを元に戻す
 	_, err = db.Exec(
@@ -40,10 +46,9 @@ func TestRegisterTranslation(t *testing.T) {
 }
 
 func TestPullKeywordListFromDB(t *testing.T) {
-	keywordList, err := pullKeywordListFromDB(db)
+	_, err := pullKeywordListFromDB(db)
 	if err != nil {
-		t.Logf(`keywordList: %v`, keywordList)
-		t.Fatalf(`pullKeywordListFromDB(%v): got err %v, expected nil`, db, err)
+		t.Fatal(err)
 	}
 }
 
@@ -52,7 +57,7 @@ func TestPullTranslationFromDB_noErrExpected(t *testing.T) {
 	expect := translationForm{"demoJp", "descripton", 0, 0, 18}
 	translation, err := pullTranslationFromDB(db, keyword)
 	if err != nil {
-		t.Fatalf(`pullTranslationFromDB(%v, %q): got err %v, expected nil`, db, keyword, err)
+		t.Fatal(err)
 	}
 	if !(reflect.DeepEqual(translation[0], expect)) {
 		t.Fatalf("got %v, expected: %v", translation[0], expect)
@@ -64,7 +69,7 @@ func TestPullTranslationFromDB_KeywordNotRegistered(t *testing.T) {
 	keyword := "notRegisteredKr"
 	translation, err := pullTranslationFromDB(db, keyword)
 	if err != nil {
-		t.Fatalf(`pullTranslationFromDB(%v, %q): got err %v, expected nil`, db, keyword, err)
+		t.Fatal(err)
 	}
 	if len(translation) != 0 {
 		t.Fatalf("got: %v, expected an empty object", translation)
@@ -79,26 +84,25 @@ func TestPullTranslationFromDB_multipleTranslations(t *testing.T) {
 	translations, err := pullTranslationFromDB(db, keyword)
 	both_match := (reflect.DeepEqual(expected1, translations[0]) && reflect.DeepEqual(expected2, translations[1]))
 	if err != nil {
-		t.Fatalf(`pullTranslationFromDB(%v, %q): got err %v, expected nil`, db, keyword, err)
+		t.Fatal(err)
 	}
 	if !both_match {
 		t.Logf("got %v, expected %v", translations[0], expected1)
 		t.Fatalf("got %v, expected %v", translations[1], expected2)
 	}
-	t.Log(translations)
 }
 
 func TestIncreaseGoodNum_noErrExpected(t *testing.T) {
 	id := 21
 	err := increaseGoodNum(db, id)
 	if err != nil {
-		t.Fatalf(`increaseGoodNum(%v, %d): got err %v, expected nil`, db, id, err)
+		t.Fatal(err)
 	}
 	keyword := "goodNumKr"
 	expect := translationForm{"goodNumJp", "description", 1, 0, id}
 	translation, err := pullTranslationFromDB(db, keyword)
 	if err != nil {
-		t.Fatalf(`pullTranslationFromDB(%v, %q): got err %v, expected nil`, db, keyword, err)
+		t.Fatal(err)
 	}
 	if expect != translation[0] || err != nil {
 		t.Fatalf("got %v, expected %v", translation[0], expect)
@@ -125,13 +129,13 @@ func TestIncreaseBadNum_noErrExpected(t *testing.T) {
 	id := 23
 	err := increaseBadNum(db, id)
 	if err != nil {
-		t.Fatalf(`increaseBadNum(%v, %d): got err %v, expected nil`, db, id, err)
+		t.Fatal(err)
 	}
 	keyword := "badNumKr"
 	expect := translationForm{"badNumJp", "description", 0, 1, id}
 	translation, err := pullTranslationFromDB(db, keyword)
 	if err != nil {
-		t.Fatalf(`pullTranslationFromDB(%v, %q): got err %v, expected nil`, db, keyword, err)
+		t.Fatal(err)
 	}
 	if expect != translation[0] || err != nil {
 		t.Fatalf("got %v, expected %v", translation[0], expect)

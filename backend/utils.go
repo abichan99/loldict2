@@ -75,7 +75,7 @@ func registerTranslation(db *sql.DB, wordKr, wordJp, description string) (int64,
 		err = fmt.Errorf("registerTranslation(%v, %q, %q, %q): got error while executing query, error: %v", db, wordKr, wordJp, description, err)
 		return -1, err
 	}
-
+	// TODO: 以下のコードブロックの挙動調べる
 	id, err := res.LastInsertId()
 	if err != nil {
 		err = fmt.Errorf("in registerTranslation(%v, %q, %q, %q): rows.Scan() returned error: %v", db, wordKr, wordJp, description, err)
@@ -89,6 +89,7 @@ func pullKeywordListFromDB(db *sql.DB) ([]string, error) {
 		keywordList []string
 		i           int = 0
 	)
+	// 登録されてる韓国語を全部取ってくる
 	rows, err := db.Query(("select wordKr from translations"))
 	if err != nil {
 		err = fmt.Errorf("pullKeyowrdListFromDB(%v): got error while executing query, error: %v", db, err)
@@ -96,6 +97,7 @@ func pullKeywordListFromDB(db *sql.DB) ([]string, error) {
 	}
 	defer rows.Close()
 
+	// rowsに入ったままだと使えないのでkeywordListにrowsの要素を入れる
 	for rows.Next() {
 		keywordList = append(keywordList, "")
 		err := rows.Scan(&keywordList[i])
@@ -116,7 +118,7 @@ func pullKeywordListFromDB(db *sql.DB) ([]string, error) {
 
 func pullTranslationFromDB(db *sql.DB, wordKr string) (t []translationForm, err error) {
 	var i int = 0
-
+	// wordKrをキーとしてヒットした訳語を全部取ってくる
 	rows, err := db.Query("select wordJp, description, good, bad, id from translations where wordKr = ?", wordKr)
 	if err != nil {
 		err = fmt.Errorf("pullTranslationFromDB(%v, %q): got error while executing query, error: %v", db, wordKr, err)
@@ -124,6 +126,7 @@ func pullTranslationFromDB(db *sql.DB, wordKr string) (t []translationForm, err 
 	}
 	defer rows.Close()
 
+	// rowsに入ったままだと使えないのでtにrowsの要素を入れる
 	for rows.Next() {
 		// 鋳型をappend
 		tmp := translationForm{WordJp: "", Description: "", Good: 0, Bad: 0, Id: 0}
@@ -158,9 +161,9 @@ func increaseGoodNum(db *sql.DB, id int) error {
 		err = fmt.Errorf("in increaseGoodNum(%v, %d), res.RowsAffected() got error: %v, expected nil", db, id, err)
 		return err
 	}
-	// idがデータベースに存在しないなどの理由で更新されたデータがないときの処理
-	if num == 0 {
-		err = fmt.Errorf("increaseGoodNum(%v, %d): failed to update data of given id: %d", db, id, id)
+	// データが正しく更新されてないとき(更新されてなかったり、複数の行が更新されたり)の処理
+	if num != 1 {
+		err = fmt.Errorf("increaseGoodNum(%v, %d): failed to update data in a proper way; number of affected rows: %d, expected 1", db, id, num)
 		return err
 	}
 	return err
@@ -180,9 +183,9 @@ func increaseBadNum(db *sql.DB, id int) error {
 		err = fmt.Errorf("in increaseBadNum(%v, %d), res.RowsAffected() got error: %v", db, id, err)
 		return err
 	}
-	// idがデータベースに存在しないなどの理由で更新されたデータがないときの処理
-	if num == 0 {
-		err = fmt.Errorf("increaseBadNum(%v, %d): failed to update data of given id: %d", db, id, id)
+	// データが正しく更新されてないとき(更新されてなかったり、複数の行が更新されたり)の処理
+	if num != 1 {
+		err = fmt.Errorf("increaseBadNum(%v, %d): failed to update data in a proper way; number of affected rows: %d, expected 1", db, id, num)
 	}
 	return err
 }
