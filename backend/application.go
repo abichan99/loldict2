@@ -105,7 +105,7 @@ func main() {
 		db.Close()
 		return c.Render(http.StatusOK, "index.html", data)
 	})
-
+	// TODO: postに直す
 	e.GET("/increaseGoodNum", func(c echo.Context) error {
 		db, err := Connect2DB(dbServerLocation)
 		if err != nil {
@@ -118,6 +118,7 @@ func main() {
 		return c.String(http.StatusOK, "")
 	})
 
+	// TODO: postに直す
 	e.GET("/increaseBadNum", func(c echo.Context) error {
 		db, err := Connect2DB(dbServerLocation)
 		if err != nil {

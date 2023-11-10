@@ -50,15 +50,17 @@ type errMessage struct {
 }
 
 // FIXME: dbの住所が間違ったりしてもerr変数にエラーが保存されない。。(ブラウザで開くブラウザのデフォルトのエラー出る)
+// sql.Openでデータベースに接続し、Ping()でやり取りできるかも確認する
 func Connect2DB(dbServerLocation string) (*sql.DB, error) {
 	db, err := sql.Open("mysql", dbServerLocation)
 	if err != nil {
-		log.Fatalf("cnt %v", err)
+		log.Fatalf("Connect2DB(%q) got error: %v", dbServerLocation, err)
+		return db, err
 	}
 	// 上のOpen操作だとデータベースとやり取りはできないのでPingでやり取りできるか確認
 	err = db.Ping()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("in Connecet2DB, db.Ping() got error: %v", err)
 	}
 	return db, err
 }
@@ -136,26 +138,40 @@ func pullTranslationFromDB(db *sql.DB, wordKr string) (t []translationForm, err 
 	return t, err
 }
 
-func increaseGoodNum(db *sql.DB, id int) error {
-	_, err := db.Exec(
+func increaseGoodNum(db *sql.DB, id int) (int64, error) {
+	res, err := db.Exec(
 		"UPDATE translations SET good = good + 1 WHERE id = ?",
 		id,
 	)
 	if err != nil {
-		log.Fatalf("rgst %v", err)
-		return err
+		log.Fatalf("increaseGoodNum(%v, %d) got error: %v, expected nil", db, id, err)
 	}
-	return err
+	num, err := res.RowsAffected()
+	if err != nil {
+		log.Fatalf("in increaseGoodNum, res.RowsAffected() got error: %v, expected nil", err)
+	}
+	// idがデータベースに存在しないなどの理由で更新されたデータがないときの処理
+	if num == 0 {
+		log.Fatalf("increaseBadNum(%v, %d) failed to update data of given id: %d", db, id, id)
+	}
+	return num, err
 }
 
-func increaseBadNum(db *sql.DB, id int) error {
-	_, err := db.Exec(
+func increaseBadNum(db *sql.DB, id int) (int64, error) {
+	res, err := db.Exec(
 		"UPDATE translations SET bad = bad + 1 WHERE id = ?",
 		id,
 	)
 	if err != nil {
 		log.Fatalf("rgst %v", err)
-		return err
 	}
-	return err
+	num, err := res.RowsAffected()
+	if err != nil {
+		log.Fatalf("in increaseBadNum, res.RowsAffected() got error: %v, expected nil", err)
+	}
+	// idがデータベースに存在しないなどの理由で更新されたデータがないときの処理
+	if num == 0 {
+		log.Fatalf("increaseBadNum(%v, %d) failed to update data of given id: %d", db, id, id)
+	}
+	return num, err
 }
