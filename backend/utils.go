@@ -2,8 +2,8 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"html/template"
-	"log"
 	"strconv"
 )
 
@@ -54,13 +54,13 @@ type errMessage struct {
 func Connect2DB(dbServerLocation string) (*sql.DB, error) {
 	db, err := sql.Open("mysql", dbServerLocation)
 	if err != nil {
-		log.Fatalf("Connect2DB(%q) got error: %v", dbServerLocation, err)
+		err = fmt.Errorf("Connect2DB(%q): got error: %v", dbServerLocation, err)
 		return db, err
 	}
 	// 上のOpen操作だとデータベースとやり取りはできないのでPingでやり取りできるか確認
 	err = db.Ping()
 	if err != nil {
-		log.Fatalf("in Connecet2DB, db.Ping() got error: %v", err)
+		err = fmt.Errorf("in Connecet2DB(%q), db.Ping() returned error: %v", dbServerLocation, err)
 	}
 	return db, err
 }
@@ -72,17 +72,15 @@ func registerTranslation(db *sql.DB, wordKr, wordJp, description string) (int64,
 		wordJp,
 		description)
 	if err != nil {
-		log.Fatalf("rgst %v", err)
-		var id int64 = -1
-		return id, err
+		err = fmt.Errorf("registerTranslation(%v, %q, %q, %q): got error while executing query, error: %v", db, wordKr, wordJp, description, err)
+		return -1, err
 	}
 
 	id, err := res.LastInsertId()
 	if err != nil {
-		var id int64 = -1
-		return id, err
+		err = fmt.Errorf("in registerTranslation(%v, %q, %q, %q): rows.Scan() returned error: %v", db, wordKr, wordJp, description, err)
+		return -1, err
 	}
-
 	return id, err
 }
 
@@ -93,7 +91,8 @@ func pullKeywordListFromDB(db *sql.DB) ([]string, error) {
 	)
 	rows, err := db.Query(("select wordKr from translations"))
 	if err != nil {
-		log.Fatal(err)
+		err = fmt.Errorf("pullKeyowrdListFromDB(%v): got error while executing query, error: %v", db, err)
+		return nil, err
 	}
 	defer rows.Close()
 
@@ -101,13 +100,15 @@ func pullKeywordListFromDB(db *sql.DB) ([]string, error) {
 		keywordList = append(keywordList, "")
 		err := rows.Scan(&keywordList[i])
 		if err != nil {
-			log.Fatal(err)
+			err = fmt.Errorf("in pullKeyowrdListFromDB(%v), rows.Scan() returned error: %v", db, err)
+			return nil, err
 		}
 		i++
 	}
 	err = rows.Err()
 	if err != nil {
-		log.Fatal(err)
+		err = fmt.Errorf("in pullTranslationFromDB(%v), rows.Err() returned error: %v", db, err)
+		return nil, err
 	}
 
 	return keywordList, err
@@ -118,60 +119,70 @@ func pullTranslationFromDB(db *sql.DB, wordKr string) (t []translationForm, err 
 
 	rows, err := db.Query("select wordJp, description, good, bad, id from translations where wordKr = ?", wordKr)
 	if err != nil {
-		log.Fatal(err)
+		err = fmt.Errorf("pullTranslationFromDB(%v, %q): got error while executing query, error: %v", db, wordKr, err)
+		return nil, err
 	}
 	defer rows.Close()
 
 	for rows.Next() {
+		// 鋳型をappend
 		tmp := translationForm{WordJp: "", Description: "", Good: 0, Bad: 0, Id: 0}
 		t = append(t, tmp)
+		// 鋳型にクエリで得たrowsの値を代入
 		err := rows.Scan(&t[i].WordJp, &t[i].Description, &t[i].Good, &t[i].Bad, &t[i].Id)
 		if err != nil {
-			log.Fatal(err)
+			err = fmt.Errorf("in pullTranslationFromDB(%v, %q), rows.Scan() returned error: %v", db, wordKr, err)
+			return nil, err
 		}
 		i++
 	}
 	err = rows.Err()
 	if err != nil {
-		log.Fatal(err)
+		err = fmt.Errorf("in pullTranslationFromDB(%v, %q), rows.Err() returned error: %v", db, wordKr, err)
+		return nil, err
 	}
 	return t, err
 }
 
-func increaseGoodNum(db *sql.DB, id int) (int64, error) {
+func increaseGoodNum(db *sql.DB, id int) error {
 	res, err := db.Exec(
 		"UPDATE translations SET good = good + 1 WHERE id = ?",
 		id,
 	)
 	if err != nil {
-		log.Fatalf("increaseGoodNum(%v, %d) got error: %v, expected nil", db, id, err)
+		err = fmt.Errorf("increaseGoodNum(%v, %d): got error while executing query, error: %v", db, id, err)
+		return err
 	}
 	num, err := res.RowsAffected()
 	if err != nil {
-		log.Fatalf("in increaseGoodNum, res.RowsAffected() got error: %v, expected nil", err)
+		err = fmt.Errorf("in increaseGoodNum(%v, %d), res.RowsAffected() got error: %v, expected nil", db, id, err)
+		return err
 	}
 	// idがデータベースに存在しないなどの理由で更新されたデータがないときの処理
 	if num == 0 {
-		log.Fatalf("increaseBadNum(%v, %d) failed to update data of given id: %d", db, id, id)
+		err = fmt.Errorf("increaseGoodNum(%v, %d): failed to update data of given id: %d", db, id, id)
+		return err
 	}
-	return num, err
+	return err
 }
 
-func increaseBadNum(db *sql.DB, id int) (int64, error) {
+func increaseBadNum(db *sql.DB, id int) error {
 	res, err := db.Exec(
 		"UPDATE translations SET bad = bad + 1 WHERE id = ?",
 		id,
 	)
 	if err != nil {
-		log.Fatalf("rgst %v", err)
+		err = fmt.Errorf("increaseBadNum(%v, %d): got error while executing query, error: %v", db, id, err)
+		return err
 	}
 	num, err := res.RowsAffected()
 	if err != nil {
-		log.Fatalf("in increaseBadNum, res.RowsAffected() got error: %v, expected nil", err)
+		err = fmt.Errorf("in increaseBadNum(%v, %d), res.RowsAffected() got error: %v", db, id, err)
+		return err
 	}
 	// idがデータベースに存在しないなどの理由で更新されたデータがないときの処理
 	if num == 0 {
-		log.Fatalf("increaseBadNum(%v, %d) failed to update data of given id: %d", db, id, id)
+		err = fmt.Errorf("increaseBadNum(%v, %d): failed to update data of given id: %d", db, id, id)
 	}
-	return num, err
+	return err
 }

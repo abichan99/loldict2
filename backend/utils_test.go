@@ -90,7 +90,7 @@ func TestPullTranslationFromDB_multipleTranslations(t *testing.T) {
 
 func TestIncreaseGoodNum_noErrExpected(t *testing.T) {
 	id := 21
-	_, err := increaseGoodNum(db, id)
+	err := increaseGoodNum(db, id)
 	if err != nil {
 		t.Fatalf(`increaseGoodNum(%v, %d): got err %v, expected nil`, db, id, err)
 	}
@@ -115,18 +115,15 @@ func TestIncreaseGoodNum_noErrExpected(t *testing.T) {
 
 func TestIncreaseGoodNum_invalidID(t *testing.T) {
 	id := 999999999999 // テスト用データベースだと合理的に存在しないid(そこまでテスト用の訳語を追加することはないと思うので)
-	num, err := increaseGoodNum(db, id)
-	if err != nil {
-		t.Fatalf(`increaseGoodNum(%v, %d): got err %v, expected nil`, db, id, err)
-	}
-	if num != 0 {
-		t.Fatalf("number of affected rows: %v, expected 0", num)
+	err := increaseGoodNum(db, id)
+	if err == nil {
+		t.Fatalf(`increaseGoodNum(%v, %d): got no err, expected given id not found error`, db, id)
 	}
 }
 
 func TestIncreaseBadNum_noErrExpected(t *testing.T) {
 	id := 23
-	_, err := increaseBadNum(db, id)
+	err := increaseBadNum(db, id)
 	if err != nil {
 		t.Fatalf(`increaseBadNum(%v, %d): got err %v, expected nil`, db, id, err)
 	}
@@ -151,11 +148,8 @@ func TestIncreaseBadNum_noErrExpected(t *testing.T) {
 
 func TestIncreaseBadNum_invalidID(t *testing.T) {
 	id := 999999999999 // テスト用データベースだと合理的に存在しないid(そこまでテスト用の訳語を追加することはないと思うので)
-	num, err := increaseBadNum(db, id)
-	if err != nil {
-		t.Fatalf(`increaseBadNum(%v, %d): got err %v, expected nil`, db, id, err)
-	}
-	if num != 0 {
-		t.Fatalf("number of affected rows: %v, expected 0", num)
+	err := increaseBadNum(db, id)
+	if err == nil {
+		t.Fatalf(`increaseBad(%v, %d): got no err, expected given id not found error`, db, id)
 	}
 }
