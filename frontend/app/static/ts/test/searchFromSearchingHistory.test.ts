@@ -15,9 +15,9 @@ describe("test searchFromSearchingHistory", () => {
     // ので以下のようにしてinvalidな値のhtmlを直接代入
     (
       document.getElementById("searchingHistoryField") as HTMLElement
-    ).innerHTML = "<div id='searched-word0'>" + "<button>invalid@</button>" + "</div>";
+    ).innerHTML = "<div id='id_invalid'>" + "<button>invalid@</button>" + "</div>";
     testSearchFromSearchingHistory(
-      ["word1,invalid@,word3,word4", "searched-word0"],
+      ["word1,invalid@,word3,word4", "id_invalid"],
       ["word1,invalid@,word3,word4", "http://dummy.com"],
     );
   });

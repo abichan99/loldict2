@@ -22,6 +22,14 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 }
 
 func main() {
+	// ログファイルの出力先をセット
+	f, err := os.OpenFile("./logFile.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Printf("error opening logFile.log: %v", err)
+	}
+	defer f.Close()
+	log.SetOutput(f)
+
 	// mode==deployの時http認証を行う。
 	// 認証取得に上限あるためいったんdeploy環境でも認証機能使わないようにしとく(mode=devにしとく)
 	mode := "dev"
@@ -29,7 +37,7 @@ func main() {
 	// データベースサーバーに接続する文が書かれたファイルを読み込む
 	dbServer, err := os.ReadFile("../dbServerLocation.txt")
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("Cannot read dbServerLocation.txt; err: %v", err)
 	}
 	// 開発環境の時はlocalhostのデータベース使う。
 	var dbServerLocation string
@@ -53,7 +61,7 @@ func main() {
 		e.Pre(middleware.HTTPSWWWRedirect())
 	}
 	e.Debug = true
-	// link this function with index.html
+	// link this program with index.html
 	renderer := &Template{
 		templates: template.Must(template.New("funcmap").Funcs(funcMap).ParseFiles("../frontend/app/templates/index.html")),
 	}
@@ -68,14 +76,14 @@ func main() {
 		data := make(map[string]interface{})
 		db, err := Connect2DB(dbServerLocation)
 		if err != nil {
+			log.Printf("got error in /: %v", err)
 			return c.String(http.StatusBadRequest, "Cannot connect to database")
 		}
 		// elements of autocompletion which is used for searching translations in the loldict website
 		keywordList, err := pullKeywordListFromDB(db)
 		if err != nil {
-			log.Fatal(err)
-			// TODO: change err msg
-			return c.String(http.StatusBadRequest, "Cannot connect to database")
+			log.Printf("got error in /: %v", err)
+			return c.String(http.StatusBadRequest, "Cannot pull keywords")
 		}
 
 		keyword := c.QueryParam("keyword")
@@ -87,9 +95,8 @@ func main() {
 		if keyword != "" {
 			translations, err = pullTranslationFromDB(db, keyword)
 			if err != nil {
-				log.Fatal(err)
-				// TODO: change err msg
-				return c.String(http.StatusBadRequest, "Cannot connect to database")
+				log.Printf("got error in /: %v", err)
+				return c.String(http.StatusBadRequest, "Cannot find translations")
 			}
 			data["translations"] = translations
 			// show error message if no translation found
@@ -109,10 +116,14 @@ func main() {
 	e.GET("/increaseGoodNum", func(c echo.Context) error {
 		db, err := Connect2DB(dbServerLocation)
 		if err != nil {
+			log.Printf("got error in /increaseGoodNum %v", err)
 			return c.String(http.StatusBadRequest, "Cannot connect to database")
 		}
 		tmp := c.QueryParam("id")
 		id, err := strconv.Atoi(tmp)
+		if err != nil {
+			log.Printf("in /increaseGoodNum, strconv.Atoi(%v) returned error: %v", tmp, err)
+		}
 		increaseGoodNum(db, id)
 		db.Close()
 		return c.String(http.StatusOK, "")
@@ -122,10 +133,14 @@ func main() {
 	e.GET("/increaseBadNum", func(c echo.Context) error {
 		db, err := Connect2DB(dbServerLocation)
 		if err != nil {
+			log.Printf("got error in /increaseBadNum %v", err)
 			return c.String(http.StatusBadRequest, "Cannot connect to database")
 		}
 		tmp := c.QueryParam("id")
 		id, err := strconv.Atoi(tmp)
+		if err != nil {
+			log.Printf("in /increaseGadNum, strconv.Atoi(%v) returned error: %v", tmp, err)
+		}
 		increaseBadNum(db, id)
 		db.Close()
 		return c.String(http.StatusOK, "")
@@ -135,17 +150,21 @@ func main() {
 	e.POST("/register", func(c echo.Context) (err error) {
 		var r registrationForm
 		if err = c.Bind(&r); err != nil {
-			return c.String(http.StatusBadRequest, "bad request")
+			log.Printf("in /register, c.Bind(%v) returned error: %v", &r, err)
+			return c.String(http.StatusBadRequest, "Cannot register")
 		}
 
 		db, err := Connect2DB(dbServerLocation)
 		if err != nil {
+			log.Printf("got error in /register: %v", err)
 			return c.String(http.StatusBadRequest, "Cannot connect to database")
 		}
 
 		id, err := registerTranslation(db, r.WordKr, r.WordJp, r.Description)
-		if id == -1 {
-			return c.String(http.StatusBadRequest, "cannot register to database")
+		_ = id // avoid unused error
+		if err != nil {
+			log.Printf("got error in /register: %v", err)
+			return c.String(http.StatusBadRequest, "cannot register")
 		}
 		db.Close()
 		return c.String(http.StatusOK, "등록 성공~")

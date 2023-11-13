@@ -2,7 +2,7 @@
 export function switchVisibilityRegistrationForm() {
   const formBtn = document.getElementById("collapseBtnRegistrationForm");
   formBtn?.addEventListener("click", (e) => {
-    (e.currentTarget as HTMLElement).classList.toggle("active"); // TODO: この文はなんだろう。。
+    (e.currentTarget as HTMLElement).classList.toggle("active");
     const content = document.getElementById("target-collapse");
 
     if (content != null && content.style.display === "block") {
