@@ -1,3 +1,4 @@
+// TODO: エラー出た時の画面表示工夫する
 // エラーのログ出力はmain関数内ではなく呼び出される関数のほうで出力する
 package main
 
@@ -46,6 +47,13 @@ func main() {
 	} else {
 		dbServerLocation = string(dbServer[:])
 	}
+	// データベースに接続
+	db, err := Connect2DB(dbServerLocation)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	defer db.Close()
 
 	e := echo.New()
 	e.Static("/static", "../frontend/app/static")
@@ -74,11 +82,6 @@ func main() {
 		)
 		// params of c.render(c.render renders index.html with given parameters)
 		data := make(map[string]interface{})
-		db, err := Connect2DB(dbServerLocation)
-		if err != nil {
-			log.Printf("got error in /: %v", err)
-			return c.String(http.StatusBadRequest, "Cannot connect to database")
-		}
 		// elements of autocompletion which is used for searching translations in the loldict website
 		keywordList, err := pullKeywordListFromDB(db)
 		if err != nil {
@@ -108,41 +111,27 @@ func main() {
 				return c.Render(http.StatusOK, "index.html", data)
 			}
 		}
-
-		db.Close()
 		return c.Render(http.StatusOK, "index.html", data)
 	})
 	// TODO: postに直す
 	e.GET("/increaseGoodNum", func(c echo.Context) error {
-		db, err := Connect2DB(dbServerLocation)
-		if err != nil {
-			log.Printf("got error in /increaseGoodNum %v", err)
-			return c.String(http.StatusBadRequest, "Cannot connect to database")
-		}
 		tmp := c.QueryParam("id")
 		id, err := strconv.Atoi(tmp)
 		if err != nil {
 			log.Printf("in /increaseGoodNum, strconv.Atoi(%v) returned error: %v", tmp, err)
 		}
 		increaseGoodNum(db, id)
-		db.Close()
 		return c.String(http.StatusOK, "")
 	})
 
 	// TODO: postに直す
 	e.GET("/increaseBadNum", func(c echo.Context) error {
-		db, err := Connect2DB(dbServerLocation)
-		if err != nil {
-			log.Printf("got error in /increaseBadNum %v", err)
-			return c.String(http.StatusBadRequest, "Cannot connect to database")
-		}
 		tmp := c.QueryParam("id")
 		id, err := strconv.Atoi(tmp)
 		if err != nil {
 			log.Printf("in /increaseGadNum, strconv.Atoi(%v) returned error: %v", tmp, err)
 		}
 		increaseBadNum(db, id)
-		db.Close()
 		return c.String(http.StatusOK, "")
 	})
 
@@ -153,20 +142,12 @@ func main() {
 			log.Printf("in /register, c.Bind(%v) returned error: %v", &r, err)
 			return c.String(http.StatusBadRequest, "Cannot register")
 		}
-
-		db, err := Connect2DB(dbServerLocation)
-		if err != nil {
-			log.Printf("got error in /register: %v", err)
-			return c.String(http.StatusBadRequest, "Cannot connect to database")
-		}
-
 		id, err := registerTranslation(db, r.WordKr, r.WordJp, r.Description)
 		_ = id // avoid unused error
 		if err != nil {
 			log.Printf("got error in /register: %v", err)
 			return c.String(http.StatusBadRequest, "cannot register")
 		}
-		db.Close()
 		return c.String(http.StatusOK, "등록 성공~")
 	})
 

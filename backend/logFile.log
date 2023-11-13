@@ -1,1 +1,5 @@
 2023/11/13 11:52:28 This is a test log entry
+2023/11/13 14:56:05 got error in /: in Connecet2DB("root:abichan9@tcp(localhost:3306)/loldictdb"), db.Ping() returned error: Error 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+2023/11/13 14:56:18 got error in /: pullKeyowrdListFromDB(&{{{} {} 0} 0xc00000a078 {{} {} 0} {0 0} [] map[] 0 0 0xc000030540 false map[] map[] 0 0 0 0 <nil> 0 0 0 0 0x1ecda0}): got error while executing query, error: Error 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+2023/11/13 14:56:19 got error in /: pullKeyowrdListFromDB(&{{{} {} 0} 0xc00000a078 {{} {} 0} {0 0} [] map[] 0 0 0xc000030540 false map[] map[] 0 0 0 0 <nil> 0 0 0 0 0x1ecda0}): got error while executing query, error: Error 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+2023/11/13 14:57:48 in Connecet2DB("root:abichan9@tcp(localhost:3306)/loldictdb"), db.Ping() returned error: Error 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
