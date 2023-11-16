@@ -8,7 +8,7 @@ import {
 } from "../src/displaySearchingHistory";
 import { createMockLocalStorage } from "./testTools";
 
-// loadHTML使えない
+//  ここではloadHTML使えない
 // index.html読み込んでhtmlに代入
 const fs = require("fs");
 

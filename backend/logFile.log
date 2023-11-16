@@ -3,3 +3,15 @@
 2023/11/13 14:56:18 got error in /: pullKeyowrdListFromDB(&{{{} {} 0} 0xc00000a078 {{} {} 0} {0 0} [] map[] 0 0 0xc000030540 false map[] map[] 0 0 0 0 <nil> 0 0 0 0 0x1ecda0}): got error while executing query, error: Error 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
 2023/11/13 14:56:19 got error in /: pullKeyowrdListFromDB(&{{{} {} 0} 0xc00000a078 {{} {} 0} {0 0} [] map[] 0 0 0xc000030540 false map[] map[] 0 0 0 0 <nil> 0 0 0 0 0x1ecda0}): got error while executing query, error: Error 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
 2023/11/13 14:57:48 in Connecet2DB("root:abichan9@tcp(localhost:3306)/loldictdb"), db.Ping() returned error: Error 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+2023/11/16 15:03:13 got error in /: pullKeyowrdListFromDB(&{{{} {} 0} 0xc0000ca068 {{} {} 1} {0 0} [] map[] 0 0 0xc0000864e0 true map[] map[] 0 0 0 0 <nil> 0 0 0 0 0xfd6a00}): got error while executing query, error: sql: database is closed
+2023/11/16 15:06:10 got error in /: pullKeyowrdListFromDB(&{{{} {} 0} 0xc0000ca068 {{} {} 1} {0 0} [] map[] 0 0 0xc0000864e0 true map[] map[] 0 0 0 0 <nil> 0 0 0 0 0xfd6a00}): got error while executing query, error: sql: database is closed
+2023/11/16 15:07:38 got error in /: pullKeyowrdListFromDB(&{{{} {} 0} 0xc0000ca068 {{} {} 1} {0 0} [] map[] 0 0 0xc0000864e0 true map[] map[] 0 0 0 0 <nil> 0 0 0 0 0xfd6a00}): got error while executing query, error: sql: database is closed
+2023/11/16 15:07:42 got error in /: pullKeyowrdListFromDB(&{{{} {} 0} 0xc0000ca068 {{} {} 1} {0 0} [] map[] 0 0 0xc0000864e0 true map[] map[] 0 0 0 0 <nil> 0 0 0 0 0xfd6a00}): got error while executing query, error: sql: database is closed
+2023/11/16 15:07:57 got error in /: pullKeyowrdListFromDB(&{{{} {} 0} 0xc0000ca068 {{} {} 1} {0 0} [] map[] 0 0 0xc0000864e0 true map[] map[] 0 0 0 0 <nil> 0 0 0 0 0xfd6a00}): got error while executing query, error: sql: database is closed
+2023/11/16 15:09:54 got error in /: pullKeyowrdListFromDB(&{{{} {} 0} 0xc0000ca068 {{} {} 1} {0 0} [] map[] 0 0 0xc0000864e0 true map[] map[] 0 0 0 0 <nil> 0 0 0 0 0x166a00}): got error while executing query, error: sql: database is closed
+2023/11/16 17:19:59 fsfsfsdfsdfsfsfd
+2023/11/16 17:20:28 fsfsfsdfsdfsfsfd
+2023/11/16 17:21:00 fsfsfsdfsdfsfsfd
+2023/11/16 17:21:02 fsfsfsdfsdfsfsfd
+2023/11/16 17:21:03 fsfsfsdfsdfsfsfd
+2023/11/16 17:41:35 fsfsfsdfsdfsfsfd

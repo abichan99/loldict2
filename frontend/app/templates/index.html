@@ -122,8 +122,8 @@
                         <button id="goodBtn" style="height: 30px; width: 30px;" class="rounded-full"><img src="/static/imgs/happy_bee.jpg" alt="good" width="35px" height="35px" class="rounded-full"></button>
                         <!-- display good-bad ratio of the translation -->
                         <div style="width: 180px; height: 20px;" id="gbRatio" class="flex">
-                            <div class="bg-red-300 text-center dark:bg-pink-900" style="width: {{$goodBarWidth}}%;"><p class="myapp-text">{{.Good}}</p></div>
-                            <div class="bg-zinc-200 text-center dark:bg-zinc-700" style="width: {{$badBarWidth}}%;"><p class="myapp-text">{{.Bad}}</p></div>
+                            <div class="myapp-translation-goodBar bg-red-300 text-center dark:bg-pink-900" style="width: {{$goodBarWidth}}%;"><p class="myapp-text">{{.Good}}</p></div>
+                            <div class="myapp-translation-badBar bg-zinc-200 text-center dark:bg-zinc-700" style="width: {{$badBarWidth}}%;"><p class="myapp-text">{{.Bad}}</p></div>
                         </div>
                         <!-- evaluate translation negatively -->
                         <button id="badBtn" style="height: 30px; width: 30px;" class="rounded-full"><img src="/static/imgs/sad_bee.jpg" alt="bad" width="35px" height="35px" class="rounded-full"></button>
@@ -176,5 +176,22 @@
             </div>
         </div>
         <script type="module" src="../static/bundle/main-bundle.js"></script>
+        <script type="module">
+            import { increaseGoodNum, increaseBadNum } from "../static/ts/dist/js/src/importOnly/increaseEvalNum.js";
+            // goのサーバーからの変数を使いたいので直接index.htmlのスクリプトに書いた。
+
+            const curURL = window.location.href;
+            const homePageURL = curURL.split("?")[0];
+            '{{range $index, $_ := index . "translations"}}'
+            // increase good or bad number if btns are clicked
+            // 波括弧であらわされる値は変数に代入せずそのまま使うこと
+            document.getElementById('{{createTranslationID $index}}').querySelector("#goodBtn").addEventListener("click", function() {
+                increaseGoodNum('{{.Id}}', '{{createTranslationID $index}}', homePageURL);
+            });
+            document.getElementById('{{createTranslationID $index}}').querySelector("#badBtn").addEventListener("click", function() {
+                increaseBadNum('{{.Id}}', '{{createTranslationID $index}}', homePageURL);
+            });
+            '{{end}}'
+        </script>
     </body>
 </html>

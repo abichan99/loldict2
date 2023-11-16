@@ -10,7 +10,7 @@ const beforeChangeMsg: string[] = [];
 for (let i = 0; i < IDlist.length; i++) {
   const msg = `msg${i.toString()}`; // 適当なエラーメッセージ
   (document.getElementById(IDlist[i]) as HTMLInputElement).setCustomValidity(
-    msg,
+    `msg${i.toString()}`,
   );
   (document.getElementById(IDlist[i]) as HTMLInputElement).value = msg;
   beforeChangeMsg.push(msg);
@@ -22,8 +22,9 @@ describe("test cleanValidationErrMsg", () => {
     const id = IDlist[i];
     const elem = document.getElementById(id) as HTMLInputElement;
     test(`要素の値が更新されたときにvalidation errorのメッセージが空になっているか、要素のid: ${id}`, () => {
-      fireEvent.change(elem, { target: { value: "a" } }); // valueは適当な値
-      expect(beforeChangeMsg[i] !== elem.value).toBe(true);
+      fireEvent.change(elem, { target: { value: "a" } }); // valueの値を適当に変更
+      const isValueChanged = beforeChangeMsg[i] !== elem.value;
+      expect(isValueChanged).toBe(true);
       expect(elem.validationMessage).toBe("");
     });
   }

@@ -1,7 +1,6 @@
-import { describe, expect, test } from "@jest/globals";
-import * as tmp from "../../src/increaseEvalNum";
+import * as tmp from "../../src/importOnly/increaseEvalNum";
 // sendAjaxReqのtest時に下のunused宣言はがす
-import { loadHTML, mockXhr as _u2 } from "../testTools";
+import { loadHTML, mockXhr as _u2 } from "../testTools/index";
 
 loadHTML();
 MockTranslation();

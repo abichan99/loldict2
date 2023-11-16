@@ -1,14 +1,15 @@
-// TODO: increaseGoodNum, increaseBadNumを統一
+// index.htmlからimportして使いたいのでtscでコンパイルしてexportsの代わりにexport文使うようにする
+
 // TODO: リロードせずに更新されるようにする
 // TODO: xhrの例外処理する(調べる)
 
 export function increaseGoodNum(
-  id: string,
+  databaseID: string,
   translationID: string,
-  curUrl: string,
+  homePageURL: string,
 ): void {
   // send ajax get request to increase good num
-  const url: string = `${curUrl}increaseGoodNum?id=${id}`;
+  const url: string = `${homePageURL}increaseGoodNum?id=${databaseID}`;
   sendAjaxReq(url, translationID, "good");
 
   // TODO: callback関数とか使ってみる
@@ -18,12 +19,12 @@ export function increaseGoodNum(
 }
 
 export function increaseBadNum(
-  id: string,
+  databaseID: string,
   translationID: string,
-  curUrl: string,
+  HomePageURL: string,
 ): void {
   // send ajax get request to increase good num
-  const url: string = `${curUrl}increaseBadNum?id=${id}`;
+  const url: string = `${HomePageURL}increaseBadNum?id=${databaseID}`;
   sendAjaxReq(url, translationID, "bad");
 
   // TODO: callback関数とか使ってみる
