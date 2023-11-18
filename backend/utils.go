@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"html/template"
 	"strconv"
 )
 
@@ -30,10 +29,6 @@ type registrationForm struct {
 	WordKr      string `json:"wordKr"`
 	WordJp      string `json:"wordJp"`
 	Description string `json:"description"`
-}
-
-type Template struct {
-	templates *template.Template
 }
 
 // データベースに登録されている訳語の情報を格納できたりする

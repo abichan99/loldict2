@@ -9,4 +9,3 @@ export * from "./switchVisibilityRegistrationForm";
 export * from "./searchFromSearchingHistory";
 export * from "./scrollSearchingHistory";
 export * from "./insertHomepageLink";
-export * from "./increaseEvalNum";
