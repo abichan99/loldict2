@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/PuerkitoBio/goquery"
@@ -57,6 +58,39 @@ func TestHomePage(t *testing.T) {
 		assert.Equal(t, true, containsNotFoundMsg(rec.Body))           // エラーメッセージ表示する要素があるかチェック
 	})
 }
+func TestRegister(t *testing.T) {
+	t.Run("正常動作", func(t *testing.T) {
+		// setup
+		e := echo.New()
+		req := httptest.NewRequest(http.MethodPost, "/register", strings.NewReader(`{"WordKr": "한국어1", "WordJp": "日本語1", "Description": "説明1"}`))
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		rec := httptest.NewRecorder()
+		c := e.NewContext(req, rec)
+		e.Renderer = &Template{
+			templates: template.Must(template.New("funcmap").Funcs(funcMap).ParseFiles("../frontend/app/templates/index.html")),
+		}
+		// ハンドラ実行及びエラーチェック
+		err := register(c, db)
+		assert.NoError(t, err)
+		assert.Equal(t, http.StatusOK, rec.Code)
+		// 登録したデータを取り出して確認
+		translations, err := pullTranslationFromDB(db, "한국어1")
+		if err != nil {
+			t.Fatalf("failed to make back the modified data, err: %v", err)
+		}
+		target := translations[len(translations)-1]
+		assert.Equal(t, "日本語1", target.WordJp)
+		assert.Equal(t, "説明1", target.Description)
+		// 修正されたデータを元に戻す
+		_, err = db.Exec(
+			"DELETE FROM translations WHERE wordKr = ?",
+			"한국어1",
+		)
+		if err != nil {
+			t.Fatalf("failed to make back the modified data, err: %v", err)
+		}
+	})
+}
 
 func checkNumTranslations(keyword string, t *testing.T) {
 	// setup
@@ -74,11 +108,11 @@ func checkNumTranslations(keyword string, t *testing.T) {
 	assert.Equal(t, homePage_cntTranslationsFromDB(db, keyword), homePage_cntTranslationsFromHTML(rec.Body))
 }
 
-func homePage_getKeywordsFromHTML(htmlStr *bytes.Buffer) []string {
+func homePage_getKeywordsFromHTML(htmlBuffer *bytes.Buffer) []string {
 	var keywordList = []string{}
 	// read html
 	dest := bytes.Buffer{}
-	dest.Write(htmlStr.Bytes())
+	dest.Write(htmlBuffer.Bytes())
 	html, err := goquery.NewDocumentFromReader(&dest)
 	if err != nil {
 		log.Fatal(err)
@@ -94,11 +128,11 @@ func homePage_getKeywordsFromHTML(htmlStr *bytes.Buffer) []string {
 	return keywordList
 }
 
-func homePage_cntTranslationsFromHTML(htmlStr *bytes.Buffer) int {
+func homePage_cntTranslationsFromHTML(htmlBuffer *bytes.Buffer) int {
 	numTranslations := 0
 	// read html
 	dest := bytes.Buffer{}
-	dest.Write(htmlStr.Bytes())
+	dest.Write(htmlBuffer.Bytes())
 	html, err := goquery.NewDocumentFromReader(&dest)
 	if err != nil {
 		log.Fatal(err)
@@ -126,11 +160,11 @@ func homePage_cntTranslationsFromDB(db *sql.DB, wordKr string) int {
 	return numT
 }
 
-func containsNotFoundMsg(htmlStr *bytes.Buffer) bool {
+func containsNotFoundMsg(htmlBuffer *bytes.Buffer) bool {
 	contain := false
 	// read html
 	dest := bytes.Buffer{}
-	dest.Write(htmlStr.Bytes())
+	dest.Write(htmlBuffer.Bytes())
 	html, err := goquery.NewDocumentFromReader(&dest)
 	if err != nil {
 		log.Fatal(err)

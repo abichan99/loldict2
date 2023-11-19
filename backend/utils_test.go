@@ -35,7 +35,7 @@ func TestRegisterTranslation(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	// 修正されたデータを元に戻す
+	// 登録した訳語を削除
 	_, err = db.Exec(
 		"DELETE FROM translations WHERE id = ?",
 		id,
