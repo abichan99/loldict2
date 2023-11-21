@@ -60,6 +60,15 @@ func main() {
 	}
 
 	e := echo.New()
+	// csrf対策
+	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
+		TokenLookup: "form:_csrf",
+	}))
+	e.Use(middleware.SecureWithConfig(middleware.SecureConfig{
+		XFrameOptions:      "DENY", // anti-clickjacking
+		ContentTypeNosniff: "nosniff",
+		// ContentSecurityPolicy: "default-src 'self, https://cdn.tailwindcss.com'",
+	}))
 	e.Static("/static", "../frontend/app/static")
 	if mode == "deploy" {
 		// https認証（実際に動くかはまだ試してない）
@@ -73,7 +82,7 @@ func main() {
 		e.Pre(middleware.HTTPSWWWRedirect())
 	}
 	e.Debug = true
-	// link this program with index.html
+	// テンプレートの設定
 	renderer := &Template{
 		templates: template.Must(template.New("funcmap").Funcs(funcMap).ParseFiles("../frontend/app/templates/index.html")),
 	}
@@ -177,6 +186,7 @@ func homePage(c echo.Context, db *sql.DB) error {
 			tmp := errMessage{ErrMessage: "등록되지 않은 단어입니다: " + keyword}
 			errorMessage = append(errorMessage, tmp)
 			data["errorMessage"] = errorMessage
+			data["csrfToken"] = c.Get(middleware.DefaultCSRFConfig.ContextKey)
 			return c.Render(http.StatusOK, "index.html", data)
 		}
 	}

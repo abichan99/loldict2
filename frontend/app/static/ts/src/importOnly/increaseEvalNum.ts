@@ -1,4 +1,5 @@
 // index.htmlからimportして使いたいのでtscでコンパイルしてexportsの代わりにexport文使うようにする
+// TODO: increaseGoodNum, increaseBadNumのユニットテスト
 
 // TODO: リロードせずに更新されるようにする
 // TODO: xhrの例外処理する(調べる)
