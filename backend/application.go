@@ -65,9 +65,9 @@ func main() {
 		TokenLookup: "form:_csrf",
 	}))
 	e.Use(middleware.SecureWithConfig(middleware.SecureConfig{
-		XFrameOptions:      "DENY", // anti-clickjacking
-		ContentTypeNosniff: "nosniff",
-		// ContentSecurityPolicy: "default-src 'self, https://cdn.tailwindcss.com'",
+		XFrameOptions:         "DENY", // anti-clickjacking
+		ContentTypeNosniff:    "nosniff",
+		ContentSecurityPolicy: "script-src 'self' https://cdn.tailwindcss.com",
 	}))
 	e.Static("/static", "../frontend/app/static")
 	if mode == "deploy" {
