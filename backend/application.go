@@ -67,7 +67,7 @@ func main() {
 	e.Use(middleware.SecureWithConfig(middleware.SecureConfig{
 		XFrameOptions:         "DENY", // anti-clickjacking
 		ContentTypeNosniff:    "nosniff",
-		ContentSecurityPolicy: "script-src 'self' https://cdn.tailwindcss.com",
+		ContentSecurityPolicy: "default-src 'self' 'unsafe-inline'; script-src 'self' https://cdn.tailwindcss.com 'sha256-EA3gDGGMY6TzHC5ikQyy1nqDhftHaEpPOl6ODKAFglY=' 'sha256-MCMB52Tm7CY2mMuDY9FeH78r35sfA37sR7tfdHFvQ1s=' 'sha256-xBRs1St98+DjL2AHmJNA+zAIEdQSkKPFPpOr3g2vlSU=';",
 	}))
 	e.Static("/static", "../frontend/app/static")
 	if mode == "deploy" {
@@ -92,21 +92,17 @@ func main() {
 		return homePage(c, db)
 	})
 	// TODO: postに直す
-	// FIXME: ブラウザでいいねボタン押しても何も起きないので、直す。
 	e.GET("/increaseGoodNum", func(c echo.Context) error {
 		return incGood(c, db)
 	})
-
 	// TODO: postに直す
 	e.GET("/increaseBadNum", func(c echo.Context) error {
 		return incBad(c, db)
 	})
-
 	// register the posted data to db
 	e.POST("/register", func(c echo.Context) (err error) {
 		return register(c, db)
 	})
-
 	httpPort := os.Getenv("PORT")
 	if httpPort == "" {
 		if mode == "deploy" {
