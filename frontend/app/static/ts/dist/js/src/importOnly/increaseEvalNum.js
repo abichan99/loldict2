@@ -1,33 +1,34 @@
 // index.htmlからimportして使いたいのでtscでコンパイルしてexportsの代わりにexport文使うようにする
-// TODO: リロードせずに更新されるようにする
-// TODO: xhrの例外処理する(調べる)
+// TODO: increaseGoodNum, increaseBadNumのユニットテスト
 export function increaseGoodNum(databaseID, translationID, homePageURL) {
-    // send ajax get request to increase good num
-    var url = "".concat(homePageURL, "increaseGoodNum?id=").concat(databaseID);
-    sendAjaxReq(url, translationID, "good");
-    // TODO: callback関数とか使ってみる
+    // send ajax post request to increase good num
+    var url = "".concat(homePageURL, "increaseGoodNum");
+    var data = { dbID: databaseID };
+    sendAjaxReq(url, translationID, "good", data);
     // 1秒後(サーバーとのやり取りが終わった後)に画面更新
     var output = function () { return window.location.reload(); };
     setTimeout(output, 1000); // time unit: ms
 }
 export function increaseBadNum(databaseID, translationID, HomePageURL) {
-    // send ajax get request to increase good num
-    var url = "".concat(HomePageURL, "increaseBadNum?id=").concat(databaseID);
-    sendAjaxReq(url, translationID, "bad");
-    // TODO: callback関数とか使ってみる
+    // send ajax post request to increase bad num
+    var url = "".concat(HomePageURL, "increaseBadNum");
+    var data = { dbID: databaseID };
+    sendAjaxReq("/increaseBadNum", translationID, "bad", data);
     // 1秒後(サーバーとのやり取りが終わった後)に画面更新
     var output = function () { return window.location.reload(); };
-    setTimeout(output, 1000); // time unit: ms
+    setTimeout(output, 100000); // time unit: ms
 }
-export function sendAjaxReq(url, translationID, state) {
+export function sendAjaxReq(url, translationID, state, data) {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
+    xhr.open("POST", url, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             updateEval(translationID, state);
         }
     };
-    xhr.send(null);
+    // xhr.responseType = "json";
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(data));
 }
 /**
  * stateをもとにgoodまたはbadが押された回数と幅を更新。

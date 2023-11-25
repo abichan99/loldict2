@@ -4,6 +4,8 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
+	"html"
 	"html/template"
 	"io"
 	"log"
@@ -60,14 +62,10 @@ func main() {
 	}
 
 	e := echo.New()
-	// csrf対策
-	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
-		TokenLookup: "form:_csrf",
-	}))
 	e.Use(middleware.SecureWithConfig(middleware.SecureConfig{
-		XFrameOptions:         "DENY", // anti-clickjacking
-		ContentTypeNosniff:    "nosniff",
-		ContentSecurityPolicy: "default-src 'self' 'unsafe-inline'; script-src 'self' https://cdn.tailwindcss.com 'sha256-EA3gDGGMY6TzHC5ikQyy1nqDhftHaEpPOl6ODKAFglY=' 'sha256-MCMB52Tm7CY2mMuDY9FeH78r35sfA37sR7tfdHFvQ1s=' 'sha256-xBRs1St98+DjL2AHmJNA+zAIEdQSkKPFPpOr3g2vlSU=';",
+		XFrameOptions:      "DENY", // anti-clickjacking
+		ContentTypeNosniff: "nosniff",
+		// ContentSecurityPolicy: "default-src 'self' 'unsafe-inline'; script-src 'self' https://cdn.tailwindcss.com 'sha256-EA3gDGGMY6TzHC5ikQyy1nqDhftHaEpPOl6ODKAFglY=' 'sha256-MCMB52Tm7CY2mMuDY9FeH78r35sfA37sR7tfdHFvQ1s=' 'sha256-xBRs1St98+DjL2AHmJNA+zAIEdQSkKPFPpOr3g2vlSU=';",
 	}))
 	e.Static("/static", "../frontend/app/static")
 	if mode == "deploy" {
@@ -92,11 +90,11 @@ func main() {
 		return homePage(c, db)
 	})
 	// TODO: postに直す
-	e.GET("/increaseGoodNum", func(c echo.Context) error {
+	e.POST("/increaseGoodNum", func(c echo.Context) error {
 		return incGood(c, db)
 	})
 	// TODO: postに直す
-	e.GET("/increaseBadNum", func(c echo.Context) error {
+	e.POST("/increaseBadNum", func(c echo.Context) error {
 		return incBad(c, db)
 	})
 	// register the posted data to db
@@ -130,23 +128,33 @@ func register(c echo.Context, db *sql.DB) (err error) {
 	return c.String(http.StatusOK, "등록 성공~")
 }
 
-func incGood(c echo.Context, db *sql.DB) error {
-	tmp := c.QueryParam("id")
-	id, err := strconv.Atoi(tmp)
+func incGood(c echo.Context, db *sql.DB) (err error) {
+	var params postParams
+	err = json.NewDecoder(c.Request().Body).Decode(&params)
 	if err != nil {
-		log.Printf("in /increaseGoodNum, strconv.Atoi(%v) returned error: %v", tmp, err)
+		log.Printf("in /incBad, c.Bind(%v) returned error: %v", &params, err)
+		return nil
+	}
+	id, err := strconv.Atoi(params.dbID)
+	if err != nil {
+		log.Printf("in /increaseGoodNum, strconv.Atoi(%v) returned error: %v", params.dbID, err)
 	}
 	increaseGoodNum(db, id)
 	return c.String(http.StatusOK, "")
 }
 
-func incBad(c echo.Context, db *sql.DB) error {
-	tmp := c.QueryParam("id")
-	id, err := strconv.Atoi(tmp)
-	if err != nil {
-		log.Printf("in /increaseGadNum, strconv.Atoi(%v) returned error: %v", tmp, err)
-	}
-	increaseBadNum(db, id)
+func incBad(c echo.Context, db *sql.DB) (err error) {
+	// var params postParams
+	// err = json.NewDecoder(c.Request().Body).Decode(&params)
+	// if err != nil {
+	// 	log.Printf("in /incBad, c.Bind(%v) returned error: %v", &params, err)
+	// 	return nil
+	// }
+	// id, err := strconv.Atoi(params.dbID)
+	// if err != nil {
+	// 	log.Printf("in /increaseGadNum, strconv.Atoi(%v) returned error: %v", params.dbID, err)
+	// }
+	// increaseBadNum(db, id)
 	return c.String(http.StatusOK, "")
 }
 
@@ -164,14 +172,15 @@ func homePage(c echo.Context, db *sql.DB) error {
 		return c.String(http.StatusBadRequest, "Cannot pull keywords")
 	}
 
-	keyword := c.QueryParam("keyword")
+	keywordEscaped := html.EscapeString(c.QueryParam("keyword"))
 	data["registeredWords"] = keywordList
 	data["translations"] = translations
 	data["errorMessage"] = errorMessage
+	data["csrfToken"] = c.Get(middleware.DefaultCSRFConfig.ContextKey)
 
 	// render the loldict website with translations when clients search for translations
-	if keyword != "" {
-		translations, err = pullTranslationFromDB(db, keyword)
+	if keywordEscaped != "" {
+		translations, err = pullTranslationFromDB(db, keywordEscaped)
 		if err != nil {
 			log.Printf("got error in /: %v", err)
 			return c.String(http.StatusBadRequest, "Cannot find translations")
@@ -179,10 +188,9 @@ func homePage(c echo.Context, db *sql.DB) error {
 		data["translations"] = translations
 		// show error message if no translation found
 		if len(translations) == 0 {
-			tmp := errMessage{ErrMessage: "등록되지 않은 단어입니다: " + keyword}
+			tmp := errMessage{ErrMessage: "등록되지 않은 단어입니다: " + keywordEscaped}
 			errorMessage = append(errorMessage, tmp)
 			data["errorMessage"] = errorMessage
-			data["csrfToken"] = c.Get(middleware.DefaultCSRFConfig.ContextKey)
 			return c.Render(http.StatusOK, "index.html", data)
 		}
 	}

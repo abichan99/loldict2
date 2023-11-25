@@ -156,7 +156,7 @@
             </div>
             <div id="target-collapse" class="flex justify-center items-center hidden overflow-hidden mb-8">
                 <form id="registrationForm" role="search" method="post" action="/register" class="w-full">
-                    <input type="hidden" name="_csrf" value="{{.csrfToken}}">
+                    <input id="csrfToken" type="hidden" name="_csrf" value="{{.csrfToken}}">
                     <!-- input template: https://preline.co/docs/input.html -->
                     <div id="wordInput" class="flex">
                         <div class="w-3/6 shadow-sm">
@@ -184,6 +184,7 @@
 
             const curURL = window.location.href;
             const homePageURL = curURL.split("?")[0];
+            const csrtToken = document.getElementById("csrfToken").value;
             '{{range $index, $_ := index . "translations"}}'
             // increase good or bad number if btns are clicked
             // 波括弧であらわされる値は変数に代入せずそのまま使うこと

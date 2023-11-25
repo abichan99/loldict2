@@ -4,16 +4,19 @@
 // TODO: リロードせずに更新されるようにする
 // TODO: xhrの例外処理する(調べる)
 
+type PostParams = {
+  dbID: string;
+};
+
 export function increaseGoodNum(
   databaseID: string,
   translationID: string,
   homePageURL: string,
 ): void {
-  // send ajax get request to increase good num
-  const url: string = `${homePageURL}increaseGoodNum?id=${databaseID}`;
-  sendAjaxReq(url, translationID, "good");
-
-  // TODO: callback関数とか使ってみる
+  // send ajax post request to increase good num
+  const url: string = `${homePageURL}increaseGoodNum`;
+  const data: PostParams = { dbID: databaseID };
+  sendAjaxReq(url, translationID, "good", data);
   // 1秒後(サーバーとのやり取りが終わった後)に画面更新
   const output = () => window.location.reload();
   setTimeout(output, 1000); // time unit: ms
@@ -24,29 +27,31 @@ export function increaseBadNum(
   translationID: string,
   HomePageURL: string,
 ): void {
-  // send ajax get request to increase good num
-  const url: string = `${HomePageURL}increaseBadNum?id=${databaseID}`;
-  sendAjaxReq(url, translationID, "bad");
-
-  // TODO: callback関数とか使ってみる
+  // send ajax post request to increase bad num
+  const url: string = `${HomePageURL}increaseBadNum`;
+  const data: PostParams = { dbID: databaseID };
+  sendAjaxReq(url, translationID, "bad", data);
   // 1秒後(サーバーとのやり取りが終わった後)に画面更新
   const output = () => window.location.reload();
-  setTimeout(output, 1000); // time unit: ms
+  setTimeout(output, 100000); // time unit: ms
 }
 
 export function sendAjaxReq(
   url: string,
   translationID: string,
   state: "good" | "bad",
+  data: PostParams,
 ) {
   const xhr = new XMLHttpRequest();
-  xhr.open("GET", url, true);
+  xhr.open("POST", url, true);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
       updateEval(translationID, state);
     }
   };
-  xhr.send(null);
+  // xhr.responseType = "json";
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send(JSON.stringify(data));
 }
 
 /**

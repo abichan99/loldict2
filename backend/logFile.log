@@ -97,3 +97,6 @@
 2023/11/21 18:31:14 in /register, c.Bind(&{  }) returned error: code=400, message=invalid semicolon separator in query, internal=invalid semicolon separator in query
 2023/11/21 18:36:48 in /register, c.Bind(&{  }) returned error: code=400, message=invalid semicolon separator in query, internal=invalid semicolon separator in query
 2023/11/21 18:36:48 in /register, c.Bind(&{  }) returned error: code=400, message=invalid semicolon separator in query, internal=invalid semicolon separator in query
+2023/11/22 22:08:56 in /increaseGoodNum, strconv.Atoi() returned error: strconv.Atoi: parsing "": invalid syntax
+2023/11/22 22:09:05 in /increaseGoodNum, strconv.Atoi() returned error: strconv.Atoi: parsing "": invalid syntax
+2023/11/22 22:09:22 in /increaseGadNum, strconv.Atoi() returned error: strconv.Atoi: parsing "": invalid syntax

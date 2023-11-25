@@ -29,6 +29,7 @@ type registrationForm struct {
 	WordKr      string `json:"wordKr"`
 	WordJp      string `json:"wordJp"`
 	Description string `json:"description"`
+	_csrf       string `json:"_csrf"`
 }
 
 // データベースに登録されている訳語の情報を格納できたりする
@@ -42,6 +43,10 @@ type translationForm struct {
 
 type errMessage struct {
 	ErrMessage string
+}
+
+type postParams struct {
+	dbID string
 }
 
 // FIXME: dbの住所が間違ったりしてもerr変数にエラーが保存されない。。(ブラウザで開くブラウザのデフォルトのエラー出る)

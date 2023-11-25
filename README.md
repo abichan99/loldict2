@@ -14,7 +14,6 @@ lol dictionary app code
       - browserify ^17.0.0 (バンドラー)
 
 # 作ったきっかけ
- 
 
 # （重要）本番切り替え時に修正すること：
  - main.tsのHOMEPAGE_URL変数の値(サーバーの住所)切り替えとバンドル
@@ -26,6 +25,8 @@ lol dictionary app code
       - テスト： ./backend> go test -v
  - frontend
       - テスト： ./frontend> npm test
-      - tsからjsへのトランスパイル(babel)： babel foo.ts -o (app/ts/dist/jsまでの相対経路)/(jsフォルダ下はtsフォル 　ダ下とほぼ同じなので、それを参考に経路を指定)/foo.js
-    トランスパイル対象のファイルのあるフォルダから実行する。
-      - tsからjsへのトランスパイル(typescript)： babelの時と同じ要領で実行する。
+      - コンパイル
+          1. tsからjsへのトランスパイル(babel)： babel foo.ts -o (app/ts/dist/jsまでの相対経路)/(jsフォ　　ルダ下はtsフォルダ下とほぼ同じなので、それを参考に経路を指定)/foo.js
+    　　　　　トランスパイル対象のファイルのあるフォルダから実行する。
+          2. tsからjsへのトランスパイル(typescript)： babelの時と同じ要領で実行する。--outDirでコマンドラ　　インで指定。
+      - コンパイルしたらbabel
