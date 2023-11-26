@@ -4,7 +4,6 @@ package main
 
 import (
 	"database/sql"
-	"encoding/json"
 	"html"
 	"html/template"
 	"io"
@@ -62,6 +61,7 @@ func main() {
 	}
 
 	e := echo.New()
+	e.Use(middleware.CSRF())
 	e.Use(middleware.SecureWithConfig(middleware.SecureConfig{
 		XFrameOptions:      "DENY", // anti-clickjacking
 		ContentTypeNosniff: "nosniff",
@@ -130,31 +130,29 @@ func register(c echo.Context, db *sql.DB) (err error) {
 
 func incGood(c echo.Context, db *sql.DB) (err error) {
 	var params postParams
-	err = json.NewDecoder(c.Request().Body).Decode(&params)
-	if err != nil {
-		log.Printf("in /incBad, c.Bind(%v) returned error: %v", &params, err)
+	if err = c.Bind(&params); err != nil {
+		log.Printf("in /increaseGoodNum, c.Bind(%v) returned error: %v", &params, err)
 		return nil
 	}
-	id, err := strconv.Atoi(params.dbID)
+	id, err := strconv.Atoi(params.DbID)
 	if err != nil {
-		log.Printf("in /increaseGoodNum, strconv.Atoi(%v) returned error: %v", params.dbID, err)
+		log.Printf("in /increaseGoodNum, strconv.Atoi(%v) returned error: %v", params.DbID, err)
 	}
 	increaseGoodNum(db, id)
 	return c.String(http.StatusOK, "")
 }
 
 func incBad(c echo.Context, db *sql.DB) (err error) {
-	// var params postParams
-	// err = json.NewDecoder(c.Request().Body).Decode(&params)
-	// if err != nil {
-	// 	log.Printf("in /incBad, c.Bind(%v) returned error: %v", &params, err)
-	// 	return nil
-	// }
-	// id, err := strconv.Atoi(params.dbID)
-	// if err != nil {
-	// 	log.Printf("in /increaseGadNum, strconv.Atoi(%v) returned error: %v", params.dbID, err)
-	// }
-	// increaseBadNum(db, id)
+	var params postParams
+	if err = c.Bind(&params); err != nil {
+		log.Printf("in /increaseBadNum, c.Bind(%v) returned error: %v", &params, err)
+		return nil
+	}
+	id, err := strconv.Atoi(params.DbID)
+	if err != nil {
+		log.Printf("in /increaseGadNum, strconv.Atoi(%v) returned error: %v", params.DbID, err)
+	}
+	increaseBadNum(db, id)
 	return c.String(http.StatusOK, "")
 }
 
@@ -176,7 +174,6 @@ func homePage(c echo.Context, db *sql.DB) error {
 	data["registeredWords"] = keywordList
 	data["translations"] = translations
 	data["errorMessage"] = errorMessage
-	data["csrfToken"] = c.Get(middleware.DefaultCSRFConfig.ContextKey)
 
 	// render the loldict website with translations when clients search for translations
 	if keywordEscaped != "" {

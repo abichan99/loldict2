@@ -62,7 +62,6 @@
             <!-- input form template: https://preline.co/docs/input-group.html -->
             <div class="flex justify-center items-center rounded-md shadow-sm" id="search">
                 <form id="searchingForm" role="search" method="get" autocomplete="off" class="flex w-full">
-                    <input type="hidden" name="_csrf" value="{{.csrfToken}}">
                     <input list="datalistOptions" id="translationSearchingBar" placeholder="Type to search..." class="py-3 px-4 block w-full border-gray-200 shadow-sm rounded-l-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 myapp-text">
                     <datalist id="datalistOptions">
                         {{range $v:= index . "registeredWords"}}
@@ -156,7 +155,6 @@
             </div>
             <div id="target-collapse" class="flex justify-center items-center hidden overflow-hidden mb-8">
                 <form id="registrationForm" role="search" method="post" action="/register" class="w-full">
-                    <input id="csrfToken" type="hidden" name="_csrf" value="{{.csrfToken}}">
                     <!-- input template: https://preline.co/docs/input.html -->
                     <div id="wordInput" class="flex">
                         <div class="w-3/6 shadow-sm">
@@ -179,12 +177,11 @@
         </div>
         <script type="module" src="../static/bundle/main-bundle.js"></script>
         <script type="module">
-            import { increaseGoodNum, increaseBadNum } from "../static/ts/dist/js/src/importOnly/increaseEvalNum.js";
+            import { increaseGoodNum, increaseBadNum } from "../static/ts/dist/js/src/importOnly/importOnly/increaseEvalNum.js";
             // goのサーバーからの変数を使いたいので直接index.htmlのスクリプトに書いた。
 
             const curURL = window.location.href;
             const homePageURL = curURL.split("?")[0];
-            const csrtToken = document.getElementById("csrfToken").value;
             '{{range $index, $_ := index . "translations"}}'
             // increase good or bad number if btns are clicked
             // 波括弧であらわされる値は変数に代入せずそのまま使うこと

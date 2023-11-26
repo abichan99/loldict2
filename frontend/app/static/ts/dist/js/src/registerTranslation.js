@@ -7,6 +7,7 @@ exports.IDs = void 0;
 exports.registerIfValid = registerIfValid;
 exports.registerTranslation = registerTranslation;
 var _index = require("./utils/index");
+var _cookie = require("./utils/cookie");
 var IDs = exports.IDs = {
   registrationForm: "registrationForm",
   wordKr: "wordKrInput",
@@ -48,12 +49,11 @@ function registerIfValid(e) {
   }
 
   // include input data to json if valid
-  var csrfToken = document.getElementById("csrfToken").value;
+  var csrfToken = (0, _cookie.getCookie)("_csrf");
   var requestData = {
     wordKr: wordKr.value,
     wordJp: wordJp.value,
-    description: description.value,
-    _csrf: csrfToken
+    description: description.value
   };
 
   // send ajax post request to register data to db

@@ -292,7 +292,7 @@ function convert2classCode(classList) {
 }
 exports.convert2classCode = convert2classCode;
 
-},{"./utils/index":19}],9:[function(require,module,exports){
+},{"./utils/index":20}],9:[function(require,module,exports){
 "use strict";
 // TODO: increaseGoodNum, increaseBadNumを統一
 // TODO: リロードせずに更新されるようにする
@@ -390,7 +390,7 @@ __exportStar(require("./scrollSearchingHistory"), exports);
 __exportStar(require("./insertHomepageLink"), exports);
 __exportStar(require("./increaseEvalNum"), exports);
 
-},{"./cleanValidationErrMsg":2,"./darkMode/index":3,"./displaySearchingHistory":8,"./increaseEvalNum":9,"./insertHomepageLink":11,"./registerTranslation":12,"./scrollSearchingHistory":13,"./searchForTranslation":14,"./searchFromSearchingHistory":15,"./switchVisibilityRegistrationForm":16,"./utils/index":19}],11:[function(require,module,exports){
+},{"./cleanValidationErrMsg":2,"./darkMode/index":3,"./displaySearchingHistory":8,"./increaseEvalNum":9,"./insertHomepageLink":11,"./registerTranslation":12,"./scrollSearchingHistory":13,"./searchForTranslation":14,"./searchFromSearchingHistory":15,"./switchVisibilityRegistrationForm":16,"./utils/index":20}],11:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.insertHomepageLink = void 0;
@@ -414,6 +414,7 @@ exports.IDs = void 0;
 exports.registerIfValid = registerIfValid;
 exports.registerTranslation = registerTranslation;
 var _index = require("./utils/index");
+var _cookie = require("./utils/cookie");
 var IDs = exports.IDs = {
   registrationForm: "registrationForm",
   wordKr: "wordKrInput",
@@ -455,12 +456,11 @@ function registerIfValid(e) {
   }
 
   // include input data to json if valid
-  var csrfToken = document.getElementById("csrfToken").value;
+  var csrfToken = (0, _cookie.getCookie)("_csrf");
   var requestData = {
     wordKr: wordKr.value,
     wordJp: wordJp.value,
-    description: description.value,
-    _csrf: csrfToken
+    description: description.value
   };
 
   // send ajax post request to register data to db
@@ -479,7 +479,7 @@ function registerIfValid(e) {
   xhr.send(JSON.stringify(requestData));
 }
 
-},{"./utils/index":19}],13:[function(require,module,exports){
+},{"./utils/cookie":18,"./utils/index":20}],13:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.scroll = exports.scrollSearchingHistory = exports.INTERVAL_MS = exports.SCROLL_PX = void 0;
@@ -558,7 +558,7 @@ function searchIfValid(e, curUrl) {
 }
 exports.searchIfValid = searchIfValid;
 
-},{"./utils/index":19}],15:[function(require,module,exports){
+},{"./utils/index":20}],15:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.searchFromSearchingHistory = void 0;
@@ -590,7 +590,7 @@ function searchFromSearchingHistory(homepageUrl) {
 }
 exports.searchFromSearchingHistory = searchFromSearchingHistory;
 
-},{"./utils/index":19}],16:[function(require,module,exports){
+},{"./utils/index":20}],16:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.switchVisibilityRegistrationForm = void 0;
@@ -630,9 +630,27 @@ exports.cntStoredKeywords = cntStoredKeywords;
 
 },{}],18:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getCookie = getCookie;
+function getCookie(name) {
+  var value = "; ".concat(document.cookie);
+  var parts = value.split("; ".concat(name, "="));
+  if (parts.length === 2) {
+    if (parts !== undefined) {
+      return parts.pop().split(";").shift();
+    }
+  }
+  return "";
+}
 
 },{}],19:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+
+},{}],20:[function(require,module,exports){
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -654,7 +672,7 @@ __exportStar(require("./validators"), exports);
 __exportStar(require("./falsy"), exports);
 __exportStar(require("./cntStoredKeywords"), exports);
 
-},{"./cntStoredKeywords":17,"./falsy":18,"./store2localStorage":20,"./validators":21}],20:[function(require,module,exports){
+},{"./cntStoredKeywords":17,"./falsy":19,"./store2localStorage":21,"./validators":22}],21:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.move2end = exports.removeOldestAndAdd = exports.store2localStorage = void 0;
@@ -754,7 +772,7 @@ function move2end(validKeywordAry, validKeyword) {
 }
 exports.move2end = move2end;
 
-},{"./index":19}],21:[function(require,module,exports){
+},{"./index":20}],22:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createRegexpGu = exports.returnValidationResult = exports.validateDescription = exports.validateWord = void 0;

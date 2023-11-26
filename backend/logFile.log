@@ -100,3 +100,7 @@
 2023/11/22 22:08:56 in /increaseGoodNum, strconv.Atoi() returned error: strconv.Atoi: parsing "": invalid syntax
 2023/11/22 22:09:05 in /increaseGoodNum, strconv.Atoi() returned error: strconv.Atoi: parsing "": invalid syntax
 2023/11/22 22:09:22 in /increaseGadNum, strconv.Atoi() returned error: strconv.Atoi: parsing "": invalid syntax
+2023/11/26 13:01:18 in /increaseGoodNum, strconv.Atoi() returned error: strconv.Atoi: parsing "": invalid syntax
+2023/11/26 13:01:34 in /increaseGoodNum, strconv.Atoi() returned error: strconv.Atoi: parsing "": invalid syntax
+2023/11/26 13:16:12 in /increaseGoodNum, strconv.Atoi() returned error: strconv.Atoi: parsing "": invalid syntax
+2023/11/26 13:18:18 in /increaseGoodNum, strconv.Atoi() returned error: strconv.Atoi: parsing "": invalid syntax

@@ -1,6 +1,8 @@
 // index.htmlからimportして使いたいのでtscでコンパイルしてexportsの代わりにexport文使うようにする
 // TODO: increaseGoodNum, increaseBadNumのユニットテスト
 
+import { getCookie } from "../utils/cookie.js";
+
 // TODO: リロードせずに更新されるようにする
 // TODO: xhrの例外処理する(調べる)
 
@@ -17,9 +19,6 @@ export function increaseGoodNum(
   const url: string = `${homePageURL}increaseGoodNum`;
   const data: PostParams = { dbID: databaseID };
   sendAjaxReq(url, translationID, "good", data);
-  // 1秒後(サーバーとのやり取りが終わった後)に画面更新
-  const output = () => window.location.reload();
-  setTimeout(output, 1000); // time unit: ms
 }
 
 export function increaseBadNum(
@@ -31,9 +30,6 @@ export function increaseBadNum(
   const url: string = `${HomePageURL}increaseBadNum`;
   const data: PostParams = { dbID: databaseID };
   sendAjaxReq(url, translationID, "bad", data);
-  // 1秒後(サーバーとのやり取りが終わった後)に画面更新
-  const output = () => window.location.reload();
-  setTimeout(output, 100000); // time unit: ms
 }
 
 export function sendAjaxReq(
@@ -46,10 +42,11 @@ export function sendAjaxReq(
   xhr.open("POST", url, true);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
-      updateEval(translationID, state);
+      window.location.reload();
     }
   };
-  // xhr.responseType = "json";
+  const csrfToken = getCookie("_csrf");
+  xhr.setRequestHeader("X-CSRF-Token", (csrfToken as string));
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.send(JSON.stringify(data));
 }

@@ -1,32 +1,28 @@
 // index.htmlからimportして使いたいのでtscでコンパイルしてexportsの代わりにexport文使うようにする
 // TODO: increaseGoodNum, increaseBadNumのユニットテスト
+import { getCookie } from "../utils/cookie.js";
 export function increaseGoodNum(databaseID, translationID, homePageURL) {
     // send ajax post request to increase good num
     var url = "".concat(homePageURL, "increaseGoodNum");
     var data = { dbID: databaseID };
     sendAjaxReq(url, translationID, "good", data);
-    // 1秒後(サーバーとのやり取りが終わった後)に画面更新
-    var output = function () { return window.location.reload(); };
-    setTimeout(output, 1000); // time unit: ms
 }
 export function increaseBadNum(databaseID, translationID, HomePageURL) {
     // send ajax post request to increase bad num
     var url = "".concat(HomePageURL, "increaseBadNum");
     var data = { dbID: databaseID };
-    sendAjaxReq("/increaseBadNum", translationID, "bad", data);
-    // 1秒後(サーバーとのやり取りが終わった後)に画面更新
-    var output = function () { return window.location.reload(); };
-    setTimeout(output, 100000); // time unit: ms
+    sendAjaxReq(url, translationID, "bad", data);
 }
 export function sendAjaxReq(url, translationID, state, data) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            updateEval(translationID, state);
+            window.location.reload();
         }
     };
-    // xhr.responseType = "json";
+    var csrfToken = getCookie("_csrf");
+    xhr.setRequestHeader("X-CSRF-Token", csrfToken);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(JSON.stringify(data));
 }

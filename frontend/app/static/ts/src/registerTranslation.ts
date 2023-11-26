@@ -1,4 +1,5 @@
 import { validateWord, validateDescription } from "./utils/index";
+import { getCookie } from "./utils/cookie";
 
 export const IDs = {
   registrationForm: "registrationForm",
@@ -56,12 +57,11 @@ export function registerIfValid(e: Event): undefined {
   }
 
   // include input data to json if valid
-  const csrfToken = (document.getElementById("csrfToken") as HTMLInputElement).value;
+  const csrfToken = getCookie("_csrf");
   const requestData = {
     wordKr: (wordKr as HTMLInputElement).value,
     wordJp: (wordJp as HTMLInputElement).value,
     description: (description as HTMLInputElement).value,
-    _csrf: csrfToken,
   };
 
   // send ajax post request to register data to db
@@ -70,7 +70,7 @@ export function registerIfValid(e: Event): undefined {
   ).action;
   const xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
-  xhr.setRequestHeader("X-CSRF-Token", csrfToken);
+  xhr.setRequestHeader("X-CSRF-Token", (csrfToken as string));
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
