@@ -1,5 +1,7 @@
-# lol-dict
-lol dictionary app code
+# lol韓->日辞典
+lolというゲームの用語に対する韓国語->日本語訳を提供する辞書アプリです。
+訳語の検索、登録、評価ができます。
+使いやすさを意識して作りました。
 
 # 使った言語及びライブラリ
  - backend
@@ -12,21 +14,25 @@ lol dictionary app code
       - jest ^29 (テストライブラリ)
       - eslint(本体) ^8.53.0 (linter)
       - browserify ^17.0.0 (バンドラー)
+ - database
+      - mysql 
+ - AWS
+      - elastic beanstalk
+      - RDS
+ - etc
+      - tailwind css (css framework)
+      - owasp zap (check vulnerability)
 
 # 作ったきっかけ
+ 趣味でとあるゲームyoutuberの動画を翻訳していましたが、ゲーム内で使われる用語を翻訳するのに困っていました。lolというゲームで、日本語版、韓国語版ともにあるので自分で役を考える必要はなかったのですが、韓国語の用語に対する日本語訳を見つけるのにすごく時間がかかり、正確さにも多少欠けていたのです。なので、ちょうどほかの方々とも一緒に翻訳していたので、このゲームの韓国語->日本語の辞書を作ると翻訳時間の短縮になるのではないかと思ってこの辞書アプリを作りました。
 
-# （重要）本番切り替え時に修正すること：
- - main.tsのHOMEPAGE_URL変数の値(サーバーの住所)切り替えとバンドル
- - application.goのmode変数の修正
+# 機能一覧
+ - ダークモード(tailwind css)
+ - 訳語登録機能(ajax)
+ - 訳語検索機能
+ - 訳語評価機能(ajax)
+ - 検索履歴
+ - 検索可能な訳語の一覧表示機能
 
-# コマンドについて
- - backend
-      - サーバー稼働：air または go run . (./backendフォルダ内で実行)
-      - テスト： ./backend> go test -v
- - frontend
-      - テスト： ./frontend> npm test
-      - コンパイル
-          1. tsからjsへのトランスパイル(babel)： babel foo.ts -o (app/ts/dist/jsまでの相対経路)/(jsフォ　　ルダ下はtsフォルダ下とほぼ同じなので、それを参考に経路を指定)/foo.js
-    　　　　　トランスパイル対象のファイルのあるフォルダから実行する。
-          2. tsからjsへのトランスパイル(typescript)： babelの時と同じ要領で実行する。--outDirでコマンドラ　　インで指定。
-      - コンパイルしたらbabel
+# セキュリティ機能一覧
+ - クリックジャッキング対策

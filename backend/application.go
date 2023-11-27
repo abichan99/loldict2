@@ -61,7 +61,12 @@ func main() {
 	}
 
 	e := echo.New()
-	e.Use(middleware.CSRF())
+	// e.Use(middleware.CSRF())
+	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
+		TokenLookup:    "cookie:_csrf",
+		CookieHTTPOnly: true,
+		CookieSameSite: http.SameSiteStrictMode,
+	}))
 	e.Use(middleware.SecureWithConfig(middleware.SecureConfig{
 		XFrameOptions:      "DENY", // anti-clickjacking
 		ContentTypeNosniff: "nosniff",
@@ -89,11 +94,9 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return homePage(c, db)
 	})
-	// TODO: postに直す
 	e.POST("/increaseGoodNum", func(c echo.Context) error {
 		return incGood(c, db)
 	})
-	// TODO: postに直す
 	e.POST("/increaseBadNum", func(c echo.Context) error {
 		return incBad(c, db)
 	})
