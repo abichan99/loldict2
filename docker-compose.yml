@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  lol_dict:
+    depends_on:
+      - lol_dict_db
+    build: 
+      context: .
+    container_name: lol_dict_container
+    ports:
+      - 5000:5000
+    tty: true
+    stdin_open: true
+
+  lol_dict_db:
+    build: 
+      context: .
+      dockerfile: ./db/Dockerfile
+    container_name: lol_dict_db
+    volumes:
+      - loldictdb:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: abichan99
+      TZ: Asia/Tokyo
+    restart: always
+
+volumes:
+  loldictdb:
+    external: true
+
+networks:
+  loldictBridge:
+    driver: bridge

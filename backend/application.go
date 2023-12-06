@@ -13,8 +13,6 @@ import (
 
 	"net/http"
 
-	"golang.org/x/crypto/acme/autocert"
-
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -49,7 +47,7 @@ func main() {
 	// 開発環境の時はlocalhostのデータベース使う。
 	var dbServerLocation string
 	if mode == "dev" {
-		dbServerLocation = "root:abichan99@tcp(localhost:3306)/loldictdb"
+		dbServerLocation = "root:abichan99@tcp(lol_dict_db:3306)/loldictdb"
 	} else {
 		dbServerLocation = string(dbServer[:])
 	}
@@ -73,17 +71,8 @@ func main() {
 		// ContentSecurityPolicy: "default-src 'self' 'unsafe-inline'; script-src 'self' https://cdn.tailwindcss.com 'sha256-EA3gDGGMY6TzHC5ikQyy1nqDhftHaEpPOl6ODKAFglY=' 'sha256-MCMB52Tm7CY2mMuDY9FeH78r35sfA37sR7tfdHFvQ1s=' 'sha256-xBRs1St98+DjL2AHmJNA+zAIEdQSkKPFPpOr3g2vlSU=';",
 	}))
 	e.Static("/static", "../frontend/app/static")
-	if mode == "deploy" {
-		// https認証（実際に動くかはまだ試してない）
-		e.AutoTLSManager.HostPolicy = autocert.HostWhitelist("www.loldictkrjp.ap-northeast-1.elasticbeanstalk.com/")
-		e.AutoTLSManager.Cache = autocert.DirCache("/var/www/.cache")
-	}
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-	if mode == "deploy" {
-		// https認証（実際に動くかはまだ試してない）
-		e.Pre(middleware.HTTPSWWWRedirect())
-	}
 	e.Debug = true
 	// テンプレートの設定
 	renderer := &Template{

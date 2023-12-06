@@ -1,11 +1,12 @@
 # コマンドについて
  - backend
-      - サーバー稼働：air または go run . (./backendフォルダ内で実行)
+      - サーバー稼働 go run . (./backendフォルダ内で実行)
       - テスト： ./backend> go test -v
  - frontend
       - テスト： ./frontend> npm test
       - コンパイル
-       1. tsからjsへのトランスパイル(babel)： babel foo.ts -o (app/ts/dist/jsまでの相対経路)/(jsフォ　　ルダ下はtsフォルダ下とほぼ同じなので、それを参考に経路を指定)/foo.js
-    　　　　　トランスパイル対象のファイルのあるフォルダから実行する。
+       1. tsからjsへのトランスパイル(babel)： babel foo.ts -o (app/ts/dist/jsまでの相対経路)/(jsフォルダ下はtsフォルダ下とほぼ同じなので、それを参考に経路を指定)/foo.js
+    　　  トランスパイル対象のファイルのあるフォルダから実行する。
+       2. 
        2. tsからjsへのトランスパイル(typescript)： babelの時と同じ要領で実行する。--outDirでコマンドラ　　インで指定。
       - コンパイルしたらbabel
