@@ -11,5 +11,5 @@ jobs:
         run: |
           cd frontend
           npm install
-      - uses: stefanoeb/jest-action@latest # run jest
+      - uses: stefanoeb/jest-action@1.0.3 # run jest
     
