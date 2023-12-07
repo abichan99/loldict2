@@ -37,7 +37,7 @@ lolというゲームの用語に対する韓国語->日本語訳を提供する
 
 # 脆弱性対策一覧
  - クリックジャッキング対策
-  - XFrameOptionsヘッダにDENY指定
+     - XFrameOptionsヘッダにDENY指定
  - csrfトークン付与
  - クライアント側でvalidation
  - 受け取ったデータのエスケープ処理
