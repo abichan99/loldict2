@@ -1,16 +1,22 @@
 # syntax=docker/dockerfile:1
 
-FROM golang:1.20
+
+
+################# frontend #################
+FROM node:18 AS frontend
 
 # dbServerLocation.txt: the text file that includes the location of database server
 WORKDIR /lol_dict
 COPY dbServerLocation.txt ./
 
-################# frontend #################
+WORKDIR /lol_dict/frontend
+COPY frontend/package*.json ./
+RUN npm install
+COPY frontend/ .
 
-ENV DIRPATH=/lol_dict/frontend/app
 WORKDIR /lol_dict/frontend
 COPY ./frontend/ ./
+# ENV DIRPATH=/lol_dict/frontend/app
 # # copy html file
 # WORKDIR ${DIRPATH}/templates
 # COPY ./frontend/app/templates/index.html ./
@@ -30,6 +36,7 @@ COPY ./frontend/ ./
 
 
 ################# backend #################
+FROM golang:1.20 AS backend
 
 # download go modules into go vendor
 WORKDIR /lol_dict/backend
@@ -40,7 +47,13 @@ COPY ./backend/ ./
 # Build
 RUN CGO_ENABLED=0 GOOS=linux go build -o /lolDict
 
-EXPOSE 8080
+#################  #################
+FROM debian:latest
+WORKDIR /lol_dict
+COPY --from=frontend /lol_dict/frontend/app ./frontend/app
+COPY --from=frontend /lol_dict/dbServerLocation.txt ./
+COPY --from=backend /lolDict .
 
 # Run
-CMD ["/lolDict"]
+WORKDIR /lol_dict/backend
+CMD ["/lol_dict/lolDict"]
