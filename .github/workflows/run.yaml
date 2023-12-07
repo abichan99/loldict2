@@ -10,6 +10,7 @@ jobs:
       - name: install node
         uses: actions/setup-node@v4
       - name: npm install
+        run: cd frontend
         run: npm install
       - name: run jest
         run: stefanoeb/jest-action@latest
