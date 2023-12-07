@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"strconv"
+
+	"github.com/go-sql-driver/mysql"
 )
 
 var funcMap = map[string]interface{}{
@@ -53,7 +55,12 @@ type postParams struct {
 func Connect2DB(dbServerLocation string) (*sql.DB, error) {
 	db, err := sql.Open("mysql", dbServerLocation)
 	if err != nil {
-		err = fmt.Errorf("Connect2DB(%q): got error: %v", dbServerLocation, err)
+		// エラーが発生した場合、Errフィールドからエラー文を取得
+		if dbErr, ok := err.(*mysql.MySQLError); ok {
+			err = fmt.Errorf("Connect2DB(%q): got error: %v, %v", dbServerLocation, dbErr.Number, dbErr.Message)
+		} else {
+			err = fmt.Errorf("Connect2DB(%q): got error: %v", dbServerLocation, err)
+		}
 		return db, err
 	}
 	// 上のOpen操作だとデータベースとやり取りはできないのでPingでやり取りできるか確認
