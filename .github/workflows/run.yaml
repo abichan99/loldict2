@@ -12,7 +12,7 @@ jobs:
           cd frontend
           npm install
       - name: Run Jest
-        working-directory: ./frontend
         uses: stefanoeb/jest-action@1.0.3
+        working-directory: ./frontend
 
     
