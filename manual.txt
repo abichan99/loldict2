@@ -1,12 +1,23 @@
 # コマンドについて
  - backend
       - サーバー稼働 go run . (./backendフォルダ内で実行)
-      - テスト： ./backend> go test -v
+      - テスト： ./bdackend> go test -v
  - frontend
       - テスト： ./frontend> npm test
       - コンパイル
-       1. tsからjsへのトランスパイル(babel)： babel foo.ts -o (app/ts/dist/jsまでの相対経路)/(jsフォルダ下はtsフォルダ下とほぼ同じなので、それを参考に経路を指定)/foo.js
-    　　  トランスパイル対象のファイルのあるフォルダから実行する。
+       基本的な手順：単体ファイルのコンパイル　-> フォルダ内にindex.tsがある場合、それもコンパイル
+                    -> main.tsまたはpreload.tsのコンパイル -> browserifyで、直前のステップでコンパイルしたファイルをバンドル
+       - tsからjsへのトランスパイル(babel)
+        1. 単体ファイルのトランスパイル(babel): babel foo.ts -o (./frontend/app/static/jsまでの相対経路)/(jsフォルダ下はtsフォルダ下とほぼ同じなので、それを参考に経路を指定)/foo.js
+          トランスパイル対象のファイルのあるフォルダから実行する。
+          (i.e) \frontend\app\static\ts\src> babel searchForTranslation.ts -o ../../js/src/searchForTranslation.js
+        2. 1. でのフォルダ内にindex.tsがある場合は、1. と同じ要領デコンパイル
+          (i.e) \frontend\app\static\ts\src> babel index.ts -o ../../js/src/index.js
+        3. main.tsやpreload.tsなどのファイルを1.と同じ要領でトランスパイル
+          (i.e) \frontend\app\static\ts> babel main.ts -o ../../js/main.js
+        4. browserifyで、3.でトランスパイルしたファイルをバンドル
+          (i.e) \frontend\app\static\ts> browserify main.js -o main-bundle.js
+
        2. 
        2. tsからjsへのトランスパイル(typescript)： babelの時と同じ要領で実行する。--outDirでコマンドラ　　インで指定。
-      - コンパイルしたらbabel
+      - コンパイルしたらbabel 

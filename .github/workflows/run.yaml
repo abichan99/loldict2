@@ -10,9 +10,9 @@ jobs:
       - name: Install Dependencies
         run: |
           cd frontend
+          sudo rm -rf node_modules
           npm install
       - name: Run Jest
-        uses: stefanoeb/jest-action@1.0.3
-        working-directory: ./frontend
-
-    
+        run: |
+          cd frontend
+          npm test

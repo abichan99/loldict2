@@ -47,6 +47,7 @@ func main() {
 	// 開発環境の時はlocalhostのデータベース使う。
 	var dbServerLocation string
 	if mode == "dev" {
+		// dbServerLocation = "root:abichan99@tcp(localhost:3306)/loldictdb"
 		dbServerLocation = "root:abichan99@tcp(lol_dict_db:3306)/loldictdb"
 	} else {
 		dbServerLocation = string(dbServer[:])

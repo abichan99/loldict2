@@ -1,41 +1,24 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
+
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+var src = _interopRequireWildcard(require("./src/index"));
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 // TODO: validator.jsのリファクタリング
-const src = __importStar(require("./src/index"));
+
 // ローカルで開発するときはのHOMEPAGE_URLを自分のローカルの住所に変える
 // const HOMEPAGE_URL: string = "http://loldictkrjp.ap-northeast-1.elasticbeanstalk.com/";  // 本番の住所
-const HOMEPAGE_URL = "http://localhost:5000/";
+var HOMEPAGE_URL = "http://localhost:5000/";
 src.insertHomepageLink(HOMEPAGE_URL);
+
 // 以下2文の順序を変えないこと。
 src.initializeDarkModeBtn();
 src.toggleDarkMode();
 src.displaySearchingHistory();
 src.scrollSearchingHistory(); // この関数の内部関数であるsrcollのみtest済み
+
 src.searchFromSearchingHistory(HOMEPAGE_URL);
 src.registerTranslation();
 src.searchForTranslation(HOMEPAGE_URL);
@@ -43,7 +26,7 @@ src.cleanValidationErrMsg();
 src.switchVisibilityRegistrationForm();
 src.toggleFontColor();
 
-},{"./src/index":10}],2:[function(require,module,exports){
+},{"./src/index":9}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -75,202 +58,243 @@ function cleanMsg(IDlist) {
 
 },{}],3:[function(require,module,exports){
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _toggleFontColor = require("./toggleFontColor");
+Object.keys(_toggleFontColor).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _toggleFontColor[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _toggleFontColor[key];
     }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./toggleFontColor"), exports);
-__exportStar(require("./toggleDarkMode"), exports);
-__exportStar(require("./initializeDarkModeBtn"), exports);
-__exportStar(require("./initializeDarkMode"), exports);
+  });
+});
+var _toggleDarkMode = require("./toggleDarkMode");
+Object.keys(_toggleDarkMode).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _toggleDarkMode[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _toggleDarkMode[key];
+    }
+  });
+});
+var _initializeDarkModeBtn = require("./initializeDarkModeBtn");
+Object.keys(_initializeDarkModeBtn).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _initializeDarkModeBtn[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _initializeDarkModeBtn[key];
+    }
+  });
+});
+var _initializeDarkMode = require("./initializeDarkMode");
+Object.keys(_initializeDarkMode).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _initializeDarkMode[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _initializeDarkMode[key];
+    }
+  });
+});
 
 },{"./initializeDarkMode":4,"./initializeDarkModeBtn":5,"./toggleDarkMode":6,"./toggleFontColor":7}],4:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.initializeDarkMode = void 0;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.initializeDarkMode = initializeDarkMode;
 // tailwind公式文書を参照して作成：https://tailwindcss.com/docs/dark-mode
 /** 画面ロード時にlocal storageやwindow.matchMediaを使ってdark modeにするかどうかを決定する。
  *
  * </body>下のスクリプトタグ内に置くと、画面が一瞬白になってからダークモードが発動するので目に悪いので、headタグ内に置く。
  */
 function initializeDarkMode() {
-    if (localStorage.getItem("theme") === "dark"
-        || (!("theme" in localStorage)
-            && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-        localStorage.setItem("theme", "dark");
-        document.documentElement.classList.add("dark");
-    }
-    else {
-        localStorage.setItem("theme", "light");
-        document.documentElement.classList.remove("dark");
-    }
+  if (localStorage.getItem("theme") === "dark" || !("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    localStorage.setItem("theme", "dark");
+    document.documentElement.classList.add("dark");
+  } else {
+    localStorage.setItem("theme", "light");
+    document.documentElement.classList.remove("dark");
+  }
 }
-exports.initializeDarkMode = initializeDarkMode;
 
 },{}],5:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.initializeDarkModeBtn = void 0;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.initializeDarkModeBtn = initializeDarkModeBtn;
 /** localStorage.themeの値によってダークモードボタンのcheck具合を変える
  * head内にも似たようなコードがあるが、以下のコードはhtmlが読み込まれた後にdark mode switchをチェック状態にするかどうかを決めている */
 function initializeDarkModeBtn() {
-    const darkModeBtn = document.getElementById("darkModeBtn");
-    if (darkModeBtn === null) {
-        return;
-    }
-    if (localStorage.theme === "dark") {
-        darkModeBtn.checked = true;
-    }
-    else {
-        darkModeBtn.checked = false;
-    }
+  var darkModeBtn = document.getElementById("darkModeBtn");
+  if (darkModeBtn === null) {
+    return;
+  }
+  if (localStorage.theme === "dark") {
+    darkModeBtn.checked = true;
+  } else {
+    darkModeBtn.checked = false;
+  }
 }
-exports.initializeDarkModeBtn = initializeDarkModeBtn;
 
 },{}],6:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.toggleDarkMode = void 0;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.toggleDarkMode = toggleDarkMode;
 /** toggle dark mode and switch localStorage value (localStorage.theme: dark <-> light) */
 function toggleDarkMode() {
-    const darkModeBtn = document.getElementById("darkModeBtn");
-    if (darkModeBtn === null) {
-        return;
+  var darkModeBtn = document.getElementById("darkModeBtn");
+  if (darkModeBtn === null) {
+    return;
+  }
+  darkModeBtn.addEventListener("change", function () {
+    if (this.checked === true) {
+      localStorage.theme = "dark";
+      // htmlタグのクラスにdarkを追加するとtailwind css下でダークモードになる。
+      document.documentElement.classList.add("dark");
+    } else {
+      localStorage.theme = "light";
+      document.documentElement.classList.remove("dark");
     }
-    darkModeBtn.addEventListener("change", function () {
-        if (this.checked === true) {
-            localStorage.theme = "dark";
-            // htmlタグのクラスにdarkを追加するとtailwind css下でダークモードになる。
-            document.documentElement.classList.add("dark");
-        }
-        else {
-            localStorage.theme = "light";
-            document.documentElement.classList.remove("dark");
-        }
-    });
+  });
 }
-exports.toggleDarkMode = toggleDarkMode;
 
 },{}],7:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.toggleFontColor = exports.props = void 0;
-exports.props = {
-    nameClass: "myapp-text",
-    darkMode: "dark:text-gray-400",
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.props = void 0;
+exports.toggleFontColor = toggleFontColor;
+var props = exports.props = {
+  nameClass: "myapp-text",
+  // index.htmlのテキスト要素につけているclassの名前
+  darkMode: "dark:text-gray-400"
 };
+
 /** ダークモード時の文字色を指定する関数。適用させたい要素のclass属性にmtapp-textを追加する */
 function toggleFontColor() {
-    const textElemList = document.getElementsByClassName(exports.props.nameClass);
-    // arrayに変換してfor文使えるようにする
-    Array.from(textElemList).forEach((element) => {
-        element.classList.add(exports.props.darkMode);
-    });
+  var textElemList = document.getElementsByClassName(props.nameClass);
+  // arrayに変換してfor文使えるようにする
+  Array.from(textElemList).forEach(function (element) {
+    element.classList.add(props.darkMode);
+  });
 }
-exports.toggleFontColor = toggleFontColor;
 
 },{}],8:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.convert2classCode = exports.createHtmlDisplayingSearchingHistory = exports.displaySearchingHistory = exports.classListBtn = exports.classListDiv = void 0;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.classListDiv = exports.classListBtn = void 0;
+exports.convert2classCode = convert2classCode;
+exports.createHtml4SearchingHistory = createHtml4SearchingHistory;
+exports.displaySearchingHistory = displaySearchingHistory;
+var _index = require("./utils/index");
 /* eslint-disable @typescript-eslint/no-redundant-type-constituents */
-const index_1 = require("./utils/index");
-exports.classListDiv = [
-    "flex",
-    "justify-center",
-    "items-center",
-    "mx-3.5",
-];
-exports.classListBtn = [
-    "mx-2",
-    "myapp-text",
-    "break-keep",
-    "hover:underline",
-]; // Btnと書いているが、検索ワードを表示する役がメインであり、クリックすると飛ぶようにしたかったので仕方なくボタンにした。
+
+var classListDiv = exports.classListDiv = ["flex", "justify-center", "items-center", "mx-3.5"];
+var classListBtn = exports.classListBtn = ["mx-2", "myapp-text", "break-keep", "hover:underline"]; // Btnと書いているが、検索ワードを表示する役がメインであり、クリックすると飛ぶようにしたかったので仕方なくボタンにした。
+
 /** localHistory内に作ったsearchingHistoryを使って検索履歴を表示させる関数。 */
 function displaySearchingHistory() {
-    // display searching history dynamically using javascript
-    // classList：wordのelementそれぞれに対する共通のクラス
-    // それぞれのワードに対するdivのid：searched-word + i(iはそれぞれのワードを区別するためのもので特に取り方に意味なし、iは0～検索履歴の単語の数-1、整数)
-    const searchingHistory = window.localStorage.getItem("searchingHistory");
-    const html4searchingHistory = createHtmlDisplayingSearchingHistory(searchingHistory, exports.classListDiv, exports.classListBtn);
-    const target = document.getElementById("searchingHistoryField");
-    if (html4searchingHistory !== "" && target != null) {
-        target.innerHTML = html4searchingHistory;
-    }
+  // classList：wordのelementそれぞれに対する共通のクラス
+  // それぞれのワードに対するdivのid：searched-word + i(iはそれぞれのワードを区別するためのもので特に取り方に意味なし、iは0～検索履歴の単語の数-1、整数)
+  var searchingHistory = window.localStorage.getItem("searchingHistory");
+  var html4searchingHistory = createHtml4SearchingHistory(searchingHistory, classListDiv, classListBtn);
+  var target = document.getElementById("searchingHistoryField");
+  if (html4searchingHistory !== "" && target != null) {
+    target.innerHTML = html4searchingHistory;
+  }
 }
-exports.displaySearchingHistory = displaySearchingHistory;
+
 /**
  * 検索履歴を表示するためのhtmlコードを生成する関数。
- * 表示するものがないときはundefinedを返す。生成例は関数内のコメントを参照。
+ * 表示するものがないときは空の文字列を返す。生成例は関数内のコメントを参照。
  *
  * @param {string | Falsy} searchingHistory csv形式の検索履歴
  * @param {Array<string>} classListDiv 作成するコード内のdivのクラスの値の配列
  * @param {Array<string>} classListBtn 作成するコード内のbtnのクラスの値の配列
  * @returns
  */
-function createHtmlDisplayingSearchingHistory(searchingHistory, classListDiv, classListBtn) {
-    // 完成形は以下のような感じ
-    // <div id="searched-word0" class="a1 a2 ...">
-    //     <button class="b1 b2 ...">word1</button>
-    // </div>
-    // <div id="searched-word1" class="a1 a2 ...">
-    //     <button class="b1 b2 ...">word2</button>
-    // </div>
-    // ...
-    // searchingHistoryがfalsyな時は何もしない
-    if (!searchingHistory) {
-        return "";
+function createHtml4SearchingHistory(searchingHistory, classListDiv, classListBtn) {
+  // 完成形は以下のような感じ
+  // <div id="searched-word0" class="a1 a2 ...">
+  //     <button class="b1 b2 ...">word1</button>
+  // </div>
+  // <div id="searched-word1" class="a1 a2 ...">
+  //     <button class="b1 b2 ...">word2</button>
+  // </div>
+  // ...
+
+  // searchingHistoryがfalsyな時は何もしない
+  if (!searchingHistory) {
+    return "";
+  }
+
+  // wordList：最新の検索履歴が前に来る配列
+  var wordList;
+  if (searchingHistory.indexOf(",") === -1) {
+    // 検索履歴の単語が一つの時の処理
+    wordList = [searchingHistory];
+  } else {
+    wordList = searchingHistory.split(",").reverse();
+  }
+  // divのidを動的生成すうための変数
+  var i = 0;
+  var retval = "";
+
+  // wordListのすべての文字が表示不可条件を満たしていないときは何もしない。
+  // 表示不可条件：wordがfalsyかinvalid
+  var refuseDisplay = function refuseDisplay(word) {
+    return !word || word === "undefined" || !(0, _index.validateWord)(word).isValid;
+  };
+  if (wordList.every(refuseDisplay)) {
+    return "";
+  }
+
+  // eslint-disable-next-line consistent-return
+  wordList.forEach(function (word) {
+    // ここでのreturnはfor文でのcontinueと同じ
+    // wordがfalsyの時、invalidの時はわざわざ表示しない
+    if (!word || word === "undefined" || !(0, _index.validateWord)(word).isValid) {
+      return "";
     }
-    // wordList：最新の検索履歴が前に来る配列
-    let wordList;
-    if (searchingHistory.indexOf(",") === -1) {
-        wordList = [searchingHistory];
-    }
-    else {
-        wordList = searchingHistory.split(",").reverse();
-    }
-    // divのidを動的生成すうための変数
-    let i = 0;
-    let retval = "";
-    // wordListのすべての文字が表示不可条件を満たしていないときは何もしない。
-    // 表示不可条件：wordがfalsyかinvalid
-    const refuseDisplay = (word) => !word || word === "undefined" || !(0, index_1.validateWord)(word).isValid;
-    if (wordList.every(refuseDisplay)) {
-        return "";
-    }
-    // eslint-disable-next-line consistent-return
-    wordList.forEach((word) => {
-        // ここでのreturnはfor文でのcontinueと同じ
-        // wordがfalsyの時、invalidの時はわざわざ表示しない
-        if (!word || word === "undefined" || !(0, index_1.validateWord)(word).isValid) {
-            return "";
-        }
-        // それぞれのwordに対するdivにid追加
-        let html = "<div ";
-        html += `id="searched-word${i}" `;
-        i += 1;
-        // 引数のclassListでclass属性のコード書く
-        html += `${convert2classCode(classListDiv)}>`;
-        html += `<button ${convert2classCode(classListBtn)}>${word}</button>`;
-        html += "</div>";
-        // 単語を表示するそれぞれhtmlコードをretvalに追加
-        retval += html;
-    });
-    return retval;
+
+    // それぞれのwordに対するdivにid追加
+    var html = "<div ";
+    html += "id=\"searched-word".concat(i, "\" ");
+    i += 1;
+
+    // 引数のclassListでclass属性のコード書く
+    html += "".concat(convert2classCode(classListDiv), ">");
+    html += "<button ".concat(convert2classCode(classListBtn), ">").concat(word, "</button>");
+    html += "</div>";
+
+    // 単語を表示するそれぞれhtmlコードをretvalに追加
+    retval += html;
+  });
+  return retval;
 }
-exports.createHtmlDisplayingSearchingHistory = createHtmlDisplayingSearchingHistory;
+
 /**
  * class="classList[0] classList[1] ... classList[-1]"
  * を作ってreturnする
@@ -279,132 +303,152 @@ exports.createHtmlDisplayingSearchingHistory = createHtmlDisplayingSearchingHist
  * @returns 上記の説明のとおり。
  */
 function convert2classCode(classList) {
-    let classCode;
-    if (classList.length === 0) {
-        return "class=\"\"";
-    }
-    classCode = `class="${classList[0]}`;
-    for (let i = 1; i < classList.length; i++) {
-        classCode = `${classCode} ${classList[i]}`;
-    }
-    classCode += "\"";
-    return classCode;
+  var classCode;
+  if (classList.length === 0) {
+    return "class=\"\"";
+  }
+  classCode = "class=\"".concat(classList[0]);
+  for (var i = 1; i < classList.length; i++) {
+    classCode = "".concat(classCode, " ").concat(classList[i]);
+  }
+  classCode += "\"";
+  return classCode;
 }
-exports.convert2classCode = convert2classCode;
 
-},{"./utils/index":20}],9:[function(require,module,exports){
+},{"./utils/index":19}],9:[function(require,module,exports){
 "use strict";
-// TODO: increaseGoodNum, increaseBadNumを統一
-// TODO: リロードせずに更新されるようにする
-// TODO: xhrの例外処理する(調べる)
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateEval = exports.sendAjaxReq = exports.increaseBadNum = exports.increaseGoodNum = void 0;
-function increaseGoodNum(id, translationID, curUrl) {
-    // send ajax get request to increase good num
-    const url = `${curUrl}increaseGoodNum?id=${id}`;
-    sendAjaxReq(url, translationID, "good");
-    // TODO: callback関数とか使ってみる
-    // 1秒後(サーバーとのやり取りが終わった後)に画面更新
-    const output = () => window.location.reload();
-    setTimeout(output, 1000); // time unit: ms
-}
-exports.increaseGoodNum = increaseGoodNum;
-function increaseBadNum(id, translationID, curUrl) {
-    // send ajax get request to increase good num
-    const url = `${curUrl}increaseBadNum?id=${id}`;
-    sendAjaxReq(url, translationID, "bad");
-    // TODO: callback関数とか使ってみる
-    // 1秒後(サーバーとのやり取りが終わった後)に画面更新
-    const output = () => window.location.reload();
-    setTimeout(output, 1000); // time unit: ms
-}
-exports.increaseBadNum = increaseBadNum;
-function sendAjaxReq(url, translationID, state) {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            updateEval(translationID, state);
-        }
-    };
-    xhr.send(null);
-}
-exports.sendAjaxReq = sendAjaxReq;
-/**
- * stateをもとにgoodまたはbadが押された回数と幅を更新。
- *
- * 幅は0~100で押された回数全体に対する外套の評価が占める割合の100分率である。整数。
- * @param translationID 押されたボタンが属する訳語のid
- * @param state どのボタンが押されたか。
- */
-function updateEval(translationID, state) {
-    const translation = document.getElementById(translationID);
-    const good = translation === null || translation === void 0 ? void 0 : translation.querySelector(".myapp-translation-goodBar");
-    const bad = translation === null || translation === void 0 ? void 0 : translation.querySelector(".myapp-translation-badBar");
-    // stateに応じてgoodまたはbadが押された回数に1を足す。さらにdom内に記録された回数も更新
-    let goodNum = parseInt(good.children[0].innerHTML, 10);
-    let badNum = parseInt(bad.children[0].innerHTML, 10);
-    if (state === "good") {
-        goodNum += 1;
-    }
-    else {
-        badNum += 1;
-    }
-    good.children[0].innerHTML = goodNum.toString();
-    bad.children[0].innerHTML = badNum.toString();
-    // 更新されたgoodNum, badNumをもとに幅を計算しdom要素のstyle.widthに代入
-    const totalNum = goodNum + badNum;
-    const goodWidth = Math.round((goodNum * 100) / totalNum);
-    const badWidth = 100 - goodWidth;
-    good.style.width = `${goodWidth.toString()}px`;
-    bad.style.width = `${badWidth.toString()}px`;
-}
-exports.updateEval = updateEval;
 
-},{}],10:[function(require,module,exports){
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _index = require("./darkMode/index");
+Object.keys(_index).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _index[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _index[key];
     }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./darkMode/index"), exports);
-__exportStar(require("./utils/index"), exports);
-__exportStar(require("./searchForTranslation"), exports);
-__exportStar(require("./registerTranslation"), exports);
-__exportStar(require("./cleanValidationErrMsg"), exports);
-__exportStar(require("./displaySearchingHistory"), exports);
-__exportStar(require("./switchVisibilityRegistrationForm"), exports);
-__exportStar(require("./searchFromSearchingHistory"), exports);
-__exportStar(require("./scrollSearchingHistory"), exports);
-__exportStar(require("./insertHomepageLink"), exports);
-__exportStar(require("./increaseEvalNum"), exports);
+  });
+});
+var _index2 = require("./utils/index");
+Object.keys(_index2).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _index2[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _index2[key];
+    }
+  });
+});
+var _searchForTranslation = require("./searchForTranslation");
+Object.keys(_searchForTranslation).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _searchForTranslation[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _searchForTranslation[key];
+    }
+  });
+});
+var _registerTranslation = require("./registerTranslation");
+Object.keys(_registerTranslation).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _registerTranslation[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _registerTranslation[key];
+    }
+  });
+});
+var _cleanValidationErrMsg = require("./cleanValidationErrMsg");
+Object.keys(_cleanValidationErrMsg).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _cleanValidationErrMsg[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _cleanValidationErrMsg[key];
+    }
+  });
+});
+var _displaySearchingHistory = require("./displaySearchingHistory");
+Object.keys(_displaySearchingHistory).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _displaySearchingHistory[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _displaySearchingHistory[key];
+    }
+  });
+});
+var _switchVisibilityRegistrationForm = require("./switchVisibilityRegistrationForm");
+Object.keys(_switchVisibilityRegistrationForm).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _switchVisibilityRegistrationForm[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _switchVisibilityRegistrationForm[key];
+    }
+  });
+});
+var _searchFromSearchingHistory = require("./searchFromSearchingHistory");
+Object.keys(_searchFromSearchingHistory).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _searchFromSearchingHistory[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _searchFromSearchingHistory[key];
+    }
+  });
+});
+var _scrollSearchingHistory = require("./scrollSearchingHistory");
+Object.keys(_scrollSearchingHistory).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _scrollSearchingHistory[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _scrollSearchingHistory[key];
+    }
+  });
+});
+var _insertHomepageLink = require("./insertHomepageLink");
+Object.keys(_insertHomepageLink).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _insertHomepageLink[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _insertHomepageLink[key];
+    }
+  });
+});
 
-},{"./cleanValidationErrMsg":2,"./darkMode/index":3,"./displaySearchingHistory":8,"./increaseEvalNum":9,"./insertHomepageLink":11,"./registerTranslation":12,"./scrollSearchingHistory":13,"./searchForTranslation":14,"./searchFromSearchingHistory":15,"./switchVisibilityRegistrationForm":16,"./utils/index":20}],11:[function(require,module,exports){
+},{"./cleanValidationErrMsg":2,"./darkMode/index":3,"./displaySearchingHistory":8,"./insertHomepageLink":10,"./registerTranslation":11,"./scrollSearchingHistory":12,"./searchForTranslation":13,"./searchFromSearchingHistory":14,"./switchVisibilityRegistrationForm":15,"./utils/index":19}],10:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertHomepageLink = void 0;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.insertHomepageLink = insertHomepageLink;
 // ホームページへのリンク挿入はhtmlに直接書き込まずjsの変数を利用して自動化している。こっちのほうが環境の切り替えの時に安全。
 function insertHomepageLink(homepageUrl) {
-    window.addEventListener("DOMContentLoaded", () => {
-        // headerのホーム遷移ボタンが押されたときにHOMEPAGE_URLに移動。
-        const elem = document.getElementById("header-title");
-        elem === null || elem === void 0 ? void 0 : elem.setAttribute("href", homepageUrl);
-    });
+  window.addEventListener("DOMContentLoaded", function () {
+    // headerのホーム遷移ボタンが押されたときにHOMEPAGE_URLに移動。
+    var elem = document.getElementById("header-title");
+    elem === null || elem === void 0 || elem.setAttribute("href", homepageUrl);
+  });
 }
-exports.insertHomepageLink = insertHomepageLink;
 
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -479,156 +523,172 @@ function registerIfValid(e) {
   xhr.send(JSON.stringify(requestData));
 }
 
-},{"./utils/cookie":18,"./utils/index":20}],13:[function(require,module,exports){
+},{"./utils/cookie":17,"./utils/index":19}],12:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.scroll = exports.scrollSearchingHistory = exports.INTERVAL_MS = exports.SCROLL_PX = void 0;
-exports.SCROLL_PX = 4;
-exports.INTERVAL_MS = 10;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SCROLL_PX = exports.INTERVAL_MS = void 0;
+exports.scroll = scroll;
+exports.scrollSearchingHistory = scrollSearchingHistory;
+var SCROLL_PX = exports.SCROLL_PX = 4;
+var INTERVAL_MS = exports.INTERVAL_MS = 10;
+
 /** ボタンが押されたときに一定の時間間隔で訳語をスクロール(押しっぱなしの処理) */
 function scrollSearchingHistory() {
-    const directions = ["left", "right"];
-    directions.forEach((direction) => {
-        var _a;
-        (_a = document
-            .getElementById(`scroll-button-${direction}`)) === null || _a === void 0 ? void 0 : _a.addEventListener("pointerdown", () => {
-            const intervalId = setInterval(() => {
-                scroll(direction, exports.SCROLL_PX);
-            }, exports.INTERVAL_MS); // 引数渡すための記述法、第二引数の単位：ms
-            // document要素にイベント登録することで、クリックした後ボタンから動かしてもOK
-            // once: true を指定して一度発火したらイベントを削除する
-            document.addEventListener("pointerup", () => {
-                clearInterval(intervalId);
-            }, { once: true });
-        });
+  var directions = ["left", "right"];
+  directions.forEach(function (direction) {
+    var _document$getElementB;
+    (_document$getElementB = document.getElementById("scroll-button-".concat(direction))) === null || _document$getElementB === void 0 || _document$getElementB.addEventListener("pointerdown", function () {
+      var intervalId = setInterval(function () {
+        scroll(direction, SCROLL_PX);
+      }, INTERVAL_MS); // 引数渡すための記述法、第二引数の単位：ms
+
+      // document要素にイベント登録することで、クリックした後ボタンから動かしてもOK
+      // once: true を指定して一度発火したらイベントを削除する
+      document.addEventListener("pointerup", function () {
+        clearInterval(intervalId);
+      }, {
+        once: true
+      });
     });
+  });
 }
-exports.scrollSearchingHistory = scrollSearchingHistory;
+
 /**
  * ボタンを押すとdirection方向にscrollPx移動する関数。
  * @param direction "left" or "right"
  * @param scrollPx
  */
 function scroll(direction, scrollPx) {
-    const contentSearchingHistory = document.getElementById("searchingHistoryField");
-    if (direction === "left" && contentSearchingHistory != null) {
-        contentSearchingHistory.scrollLeft -= scrollPx; // scrollPxごとにスクロールする（適宜調整可能）
-    }
-    else if (direction === "right" && contentSearchingHistory != null) {
-        contentSearchingHistory.scrollLeft += scrollPx;
-    }
+  var contentSearchingHistory = document.getElementById("searchingHistoryField");
+  if (direction === "left" && contentSearchingHistory != null) {
+    contentSearchingHistory.scrollLeft -= scrollPx; // scrollPxごとにスクロールする（適宜調整可能）
+  } else if (direction === "right" && contentSearchingHistory != null) {
+    contentSearchingHistory.scrollLeft += scrollPx;
+  }
 }
-exports.scroll = scroll;
 
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.searchIfValid = exports.searchForTranslation = void 0;
-const index_1 = require("./utils/index");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.searchForTranslation = searchForTranslation;
+exports.searchIfValid = searchIfValid;
+var _index = require("./utils/index");
 /** 検索ワードがvalidなときに訳語を検索、あれば表示する関数。なければないと知らせる。
  *
  * 検索ワードがinvalidな時はurl更新せずinput fieldにエラーメッセージ表示。
  * @param homepageUrl ホームページのurl
  */
 function searchForTranslation(homepageUrl) {
-    var _a;
-    (_a = document
-        .getElementById("searchingForm")) === null || _a === void 0 ? void 0 : _a.addEventListener("submit", (event) => {
-        searchIfValid(event, homepageUrl);
-    });
+  var _document$getElementB;
+  (_document$getElementB = document.getElementById("searchingForm")) === null || _document$getElementB === void 0 || _document$getElementB.addEventListener("submit", function (event) {
+    searchIfValid(event, homepageUrl);
+  });
 }
-exports.searchForTranslation = searchForTranslation;
+
 /**
  * 検索ワードがinvalidならエラーメッセージを表示し、validならurlを更新して訳語を検索する関数。
  * @param curUrl この関数が実行されたときのurl
  */
 function searchIfValid(e, curUrl) {
-    e.preventDefault();
-    const elem = e.target.querySelector("#translationSearchingBar");
-    const keyword = elem.value;
-    const tmp = (0, index_1.validateWord)(keyword);
-    // when invalid, stop sending data and display error messages on input fields
-    if (elem != null && !tmp.isValid) {
-        elem.setCustomValidity(tmp.errMessage);
-        return;
-    }
-    (0, index_1.store2localStorage)(keyword);
-    const url = `${curUrl}?keyword=${keyword}`;
-    window.location.href = url;
+  e.preventDefault();
+  var elem = e.target.querySelector("#translationSearchingBar");
+  var keyword = elem.value;
+  var tmp = (0, _index.validateWord)(keyword);
+  // when invalid, stop sending data and display error messages on input fields
+  if (elem != null && !tmp.isValid) {
+    elem.setCustomValidity(tmp.errMessage);
+    return;
+  }
+  (0, _index.store2localStorage)(keyword);
+  var url = "".concat(curUrl, "?keyword=").concat(keyword);
+  window.location.href = url;
 }
-exports.searchIfValid = searchIfValid;
 
-},{"./utils/index":20}],15:[function(require,module,exports){
+},{"./utils/index":19}],14:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.searchFromSearchingHistory = void 0;
-const index_1 = require("./utils/index");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.searchFromSearchingHistory = searchFromSearchingHistory;
+var _index = require("./utils/index");
 /**
  * 検索履歴の単語が押されたときにその単語を検索ワードとして訳語をサーチ。検索ワードのvalidationも行う。
  * @param homepageUrl ホームページのurl
  */
 function searchFromSearchingHistory(homepageUrl) {
-    var _a;
-    const numStoredKeywords = (0, index_1.cntStoredKeywords)();
-    for (let i = 0; i < numStoredKeywords; i++) {
-        const id = `searched-word${i.toString()}`; // 検索履歴に表示された単語それぞれのhtmlのid
-        const wordBtn = (_a = document.getElementById(id)) === null || _a === void 0 ? void 0 : _a.children[0];
-        const keyword = wordBtn === null || wordBtn === void 0 ? void 0 : wordBtn.innerHTML;
-        wordBtn === null || wordBtn === void 0 ? void 0 : wordBtn.addEventListener("click", () => {
-            if (keyword === undefined) {
-                return;
-            }
-            // when invalid, stop sending data and display error messages on input fields
-            if (!(0, index_1.validateWord)(keyword).isValid) {
-                return;
-            }
-            // store the input elem to local storage(検索履歴の単語の順番を更新)
-            (0, index_1.store2localStorage)(keyword);
-            window.location.href = `${homepageUrl}?keyword=${keyword}`;
-        });
-    }
+  var numStoredKeywords = (0, _index.cntStoredKeywords)();
+  var _loop = function _loop() {
+    var _document$getElementB;
+    var id = "searched-word".concat(i.toString()); // 検索履歴に表示された単語それぞれのhtmlのid
+    var wordBtn = (_document$getElementB = document.getElementById(id)) === null || _document$getElementB === void 0 ? void 0 : _document$getElementB.children[0];
+    var keyword = wordBtn === null || wordBtn === void 0 ? void 0 : wordBtn.innerHTML;
+    wordBtn === null || wordBtn === void 0 || wordBtn.addEventListener("click", function () {
+      if (keyword === undefined) {
+        return;
+      }
+      // when invalid, stop sending data and display error messages on input fields
+      if (!(0, _index.validateWord)(keyword).isValid) {
+        return;
+      }
+      // store the input elem to local storage(検索履歴の単語の順番を更新)
+      (0, _index.store2localStorage)(keyword);
+      window.location.href = "".concat(homepageUrl, "?keyword=").concat(keyword);
+    });
+  };
+  for (var i = 0; i < numStoredKeywords; i++) {
+    _loop();
+  }
 }
-exports.searchFromSearchingHistory = searchFromSearchingHistory;
 
-},{"./utils/index":20}],16:[function(require,module,exports){
+},{"./utils/index":19}],15:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.switchVisibilityRegistrationForm = void 0;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.switchVisibilityRegistrationForm = switchVisibilityRegistrationForm;
 /** 訳語登録フォームの表示／非表示の切り替え */
 function switchVisibilityRegistrationForm() {
-    const formBtn = document.getElementById("collapseBtnRegistrationForm");
-    formBtn === null || formBtn === void 0 ? void 0 : formBtn.addEventListener("click", (e) => {
-        e.currentTarget.classList.toggle("active"); // TODO: この文はなんだろう。。
-        const content = document.getElementById("target-collapse");
-        if (content != null && content.style.display === "block") {
-            content.style.display = "none";
-        }
-        else if (content != null) {
-            content.style.display = "block";
-        }
-    });
+  var formBtn = document.getElementById("collapseBtnRegistrationForm");
+  formBtn === null || formBtn === void 0 || formBtn.addEventListener("click", function (e) {
+    e.currentTarget.classList.toggle("active");
+    var content = document.getElementById("target-collapse");
+    if (content != null && content.style.display === "block") {
+      content.style.display = "none";
+    } else if (content != null) {
+      content.style.display = "block";
+    }
+  });
 }
-exports.switchVisibilityRegistrationForm = switchVisibilityRegistrationForm;
 
-},{}],17:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.cntStoredKeywords = void 0;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.cntStoredKeywords = cntStoredKeywords;
 /**
  * localStorageのsearchingHistoryに保存されている単語の数を検索
  * @returns searchingHistoryに保存されている単語の数
  */
 function cntStoredKeywords() {
-    const searchingHistory = localStorage.getItem("searchingHistory");
-    let numStoredKeywords = 0;
-    if (!!searchingHistory && searchingHistory !== "undefined") {
-        numStoredKeywords = searchingHistory.split(",").length;
-    }
-    return numStoredKeywords;
+  var searchingHistory = localStorage.getItem("searchingHistory");
+  var numStoredKeywords = 0;
+  if (!!searchingHistory && searchingHistory !== "undefined") {
+    numStoredKeywords = searchingHistory.split(",").length;
+  }
+  return numStoredKeywords;
 }
-exports.cntStoredKeywords = cntStoredKeywords;
 
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -646,88 +706,128 @@ function getCookie(name) {
   return "";
 }
 
+},{}],18:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 },{}],19:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 
-},{}],20:[function(require,module,exports){
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _store2localStorage = require("./store2localStorage");
+Object.keys(_store2localStorage).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _store2localStorage[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _store2localStorage[key];
     }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./store2localStorage"), exports);
-__exportStar(require("./validators"), exports);
-__exportStar(require("./falsy"), exports);
-__exportStar(require("./cntStoredKeywords"), exports);
+  });
+});
+var _validators = require("./validators");
+Object.keys(_validators).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _validators[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _validators[key];
+    }
+  });
+});
+var _falsy = require("./falsy");
+Object.keys(_falsy).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _falsy[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _falsy[key];
+    }
+  });
+});
+var _cntStoredKeywords = require("./cntStoredKeywords");
+Object.keys(_cntStoredKeywords).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _cntStoredKeywords[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _cntStoredKeywords[key];
+    }
+  });
+});
 
-},{"./cntStoredKeywords":17,"./falsy":19,"./store2localStorage":21,"./validators":22}],21:[function(require,module,exports){
+},{"./cntStoredKeywords":16,"./falsy":18,"./store2localStorage":20,"./validators":21}],20:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.move2end = exports.removeOldestAndAdd = exports.store2localStorage = void 0;
-const index_1 = require("./index");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.move2end = move2end;
+exports.removeOldestAndAdd = removeOldestAndAdd;
+exports.store2localStorage = store2localStorage;
+var _index = require("./index");
 /**
  *
  * @param keyword 検索された単語(dbに登録されてないものも含む、一応validationする)
  * @returns keywordが追加されたcsv形式の検索履歴
  */
 function store2localStorage(keyword) {
-    // local storageに保存するkeywordの最大値
-    const MAX_KEYWORD_NUM = 10;
-    const searchingHistory = window.localStorage.getItem("searchingHistory");
-    if (!(0, index_1.validateWord)(keyword).isValid) {
-        return;
+  // local storageに保存するkeywordの最大値
+  var MAX_KEYWORD_NUM = 10;
+  var searchingHistory = window.localStorage.getItem("searchingHistory");
+  if (!(0, _index.validateWord)(keyword).isValid) {
+    return;
+  }
+  var validKeyword = keyword;
+  // local storageには文字列しか入力できないので、csv形式で検索ワードを保存する(単語が一つの時は先頭にコンマ書く)。
+  // 検索履歴がないときの処理
+  if (searchingHistory === null || searchingHistory === "") {
+    window.localStorage.setItem("searchingHistory", validKeyword);
+    return;
+  }
+
+  // local storageに保存されているワードをリストに保存
+  var storedKeywordAry;
+  if (searchingHistory.indexOf(",") === -1) {
+    storedKeywordAry = [searchingHistory];
+  } else {
+    storedKeywordAry = searchingHistory.split(",");
+  }
+  // storedKeywordsAryの要素のうちvalidな単語だけ抽出
+  var validKeywordAry = [];
+  storedKeywordAry.forEach(function (word) {
+    if ((0, _index.validateWord)(word).isValid) {
+      validKeywordAry.push(word);
     }
-    const validKeyword = keyword;
-    // local storageには文字列しか入力できないので、csv形式で検索ワードを保存する(単語が一つの時は先頭にコンマ書く)。
-    // 検索履歴がないときの処理
-    if (searchingHistory === null || searchingHistory === "") {
-        window.localStorage.setItem("searchingHistory", validKeyword);
-        return;
-    }
-    // local storageに保存されているワードをリストに保存
-    let storedKeywordAry;
-    if (searchingHistory.indexOf(",") === -1) {
-        storedKeywordAry = [searchingHistory];
-    }
-    else {
-        storedKeywordAry = searchingHistory.split(",");
-    }
-    // storedKeywordsAryの要素のうちvalidな単語だけ抽出
-    const validKeywordAry = [];
-    storedKeywordAry.forEach((word) => {
-        if ((0, index_1.validateWord)(word).isValid) {
-            validKeywordAry.push(word);
-        }
-    });
-    const numValidKeywords = validKeywordAry.length;
-    // 検索履歴に含まれているものを検索した場合、重複を許さず該当のワードを最新の検索ワードとするように順番を入れ替える
-    // ex) keyword: Mango, searchingHistory: "Banana,Orange,Apple,Mango,Berry"
-    // retval: "Banana,Orange,Apple,Berry,Mango"
-    if (validKeywordAry.indexOf(validKeyword) !== -1) {
-        window.localStorage.setItem("searchingHistory", move2end(validKeywordAry, validKeyword));
-        return;
-    }
-    // 保存された検索ワード数がMAX_KEYWORD_NUMを超えたときに、一番長く検索されなかったワードを捨てて最新の検索ワードを追加する
-    if (numValidKeywords >= MAX_KEYWORD_NUM) {
-        window.localStorage.setItem("searchingHistory", removeOldestAndAdd(validKeywordAry, validKeyword));
-        return;
-    }
-    // 検索履歴に含まれていないワードが検索されたときはsearchingHistoryの最後尾にワードを追加
-    window.localStorage.setItem("searchingHistory", `${searchingHistory},${keyword}`);
+  });
+  var numValidKeywords = validKeywordAry.length;
+
+  // 検索履歴に含まれているものを検索した場合、重複を許さず該当のワードを最新の検索ワードとするように順番を入れ替える
+  // ex) keyword: Mango, searchingHistory: "Banana,Orange,Apple,Mango,Berry"
+  // retval: "Banana,Orange,Apple,Berry,Mango"
+  if (validKeywordAry.indexOf(validKeyword) !== -1) {
+    window.localStorage.setItem("searchingHistory", move2end(validKeywordAry, validKeyword));
+    return;
+  }
+
+  // 保存された検索ワード数がMAX_KEYWORD_NUMを超えたときに、一番長く検索されなかったワードを捨てて最新の検索ワードを追加する
+  if (numValidKeywords >= MAX_KEYWORD_NUM) {
+    window.localStorage.setItem("searchingHistory", removeOldestAndAdd(validKeywordAry, validKeyword));
+    return;
+  }
+
+  // 検索履歴に含まれていないワードが検索されたときはsearchingHistoryの最後尾にワードを追加
+  window.localStorage.setItem("searchingHistory", "".concat(searchingHistory, ",").concat(keyword));
 }
-exports.store2localStorage = store2localStorage;
+
 /**
  * 先頭要素(一番古く検索された単語)を削除したvalidKeywordsAryとkeywordを用いて、keywordを最新の検索単語とするcsv形式の検索履歴を返す
  *
@@ -736,14 +836,14 @@ exports.store2localStorage = store2localStorage;
  * @returns 一番古く検索された単語を削除し、最新の単語を追加したcsv形式の検索履歴
  */
 function removeOldestAndAdd(validKeywordAry, validatedKeyword) {
-    let newSearchingHistory = validKeywordAry[1];
-    for (let i = 2; i < validKeywordAry.length; i++) {
-        newSearchingHistory = `${newSearchingHistory},${validKeywordAry[i]}`;
-    }
-    newSearchingHistory = `${newSearchingHistory},${validatedKeyword}`;
-    return newSearchingHistory;
+  var newSearchingHistory = validKeywordAry[1];
+  for (var i = 2; i < validKeywordAry.length; i++) {
+    newSearchingHistory = "".concat(newSearchingHistory, ",").concat(validKeywordAry[i]);
+  }
+  newSearchingHistory = "".concat(newSearchingHistory, ",").concat(validatedKeyword);
+  return newSearchingHistory;
 }
-exports.removeOldestAndAdd = removeOldestAndAdd;
+
 /** keywordを最後尾の単語とするcsv形式の検索履歴を返す関数
 
  *  ex) keyword: Mango, validKeywordsAry: ["Banana","Orange","Apple","Mango","Berry"]
@@ -755,105 +855,74 @@ exports.removeOldestAndAdd = removeOldestAndAdd;
  * @returns 新しく生成されたcsv形式の検索履歴
  */
 function move2end(validKeywordAry, validKeyword) {
-    if (validKeywordAry.length === 1 && validKeywordAry[0] === validKeyword) {
-        return validKeyword.toString();
-    }
-    // storedKeywordAryからkeywordを取り除く
-    const index = validKeywordAry.indexOf(validKeyword);
-    validKeywordAry.splice(index, 1);
-    let newSearchingHistory = validKeywordAry[0];
-    // 更新られたsotredKeywordAryをカンマ区切りの文字列に変換
-    for (let i = 1; i < validKeywordAry.length; i++) {
-        newSearchingHistory = `${newSearchingHistory},${validKeywordAry[i]}`;
-    }
-    // keywordを最後尾に追加
-    newSearchingHistory = `${newSearchingHistory},${validKeyword}`;
-    return newSearchingHistory;
+  if (validKeywordAry.length === 1 && validKeywordAry[0] === validKeyword) {
+    return validKeyword.toString();
+  }
+  // storedKeywordAryからkeywordを取り除く
+  var index = validKeywordAry.indexOf(validKeyword);
+  validKeywordAry.splice(index, 1);
+  var newSearchingHistory = validKeywordAry[0];
+  // 更新られたsotredKeywordAryをカンマ区切りの文字列に変換
+  for (var i = 1; i < validKeywordAry.length; i++) {
+    newSearchingHistory = "".concat(newSearchingHistory, ",").concat(validKeywordAry[i]);
+  }
+  // keywordを最後尾に追加
+  newSearchingHistory = "".concat(newSearchingHistory, ",").concat(validKeyword);
+  return newSearchingHistory;
 }
-exports.move2end = move2end;
 
-},{"./index":20}],22:[function(require,module,exports){
+},{"./index":19}],21:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.createRegexpGu = exports.returnValidationResult = exports.validateDescription = exports.validateWord = void 0;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createRegexpGu = createRegexpGu;
+exports.returnValidationResult = returnValidationResult;
+exports.validateDescription = validateDescription;
+exports.validateWord = validateWord;
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
+
+/**
+ * validationする際の条件
+ *
+ * maxCharNum: 文字数の上限
+ *
+ * allowedUnicodeCategoryList: 許可するunicode category
+ *
+ * allowedIndividualCharacterList: allowedUnicodeCategoryListの条件を満たさない文字のうち、例外的に許可する文字
+ */
+
 /**
  *
  * @param {string} word validate対象の文字列
  * @returns {{boolean; string}} {isValid, errMessage} validかどうか、invalidの時のエラーメッセ―ジ
  */
 function validateWord(word) {
-    const validationConditions = {
-        maxCharNum: 30,
-        // allowed unicode properties: Letter, Number
-        allowedUnicodeCategoryList: ["L", "N"],
-        allowedIndividualCharacterList: [
-            " ",
-            "　",
-            "`",
-            "_",
-            "-",
-            "、",
-            "。",
-            "「",
-            "」",
-            "ー",
-            "(",
-            ")",
-            "（",
-            "）",
-            "[",
-            "]",
-            "%",
-            "％",
-            "‘",
-            "’",
-        ],
-    };
-    return returnValidationResult(word, validationConditions);
+  var validationConditions = {
+    maxChar: 30,
+    // allowed unicode properties: Letter, Number
+    allowedUnicodeCategoryList: ["L", "N"],
+    allowedIndividualCharacterList: [" ", "　", "`", "_", "-", "、", "。", "「", "」", "ー", "(", ")", "（", "）", "[", "]", "%", "％", "‘", "’"]
+  };
+  return returnValidationResult(word, validationConditions);
 }
-exports.validateWord = validateWord;
+
 /**
  *
  * @param {string} description validate対象の文字列
  * @returns {{boolean; string}} {isValid, errMessage} validかどうか、invalidの時のエラーメッセ―ジ
  */
 function validateDescription(description) {
-    const validationConditions = {
-        maxCharNum: 200,
-        // allowed unicode properties: Letter, Number
-        allowedUnicodeCategoryList: ["L", "N"],
-        allowedIndividualCharacterList: [
-            ".",
-            ",",
-            " ",
-            "　",
-            "\"",
-            "'",
-            "`",
-            "_",
-            "-",
-            "、",
-            "。",
-            "「",
-            "」",
-            "^",
-            "~",
-            "ー",
-            "(",
-            ")",
-            "{",
-            "}",
-            "[",
-            "]",
-            "%",
-            "％",
-            "‘",
-            "’",
-        ],
-    };
-    return returnValidationResult(description, validationConditions);
+  var validationConditions = {
+    maxChar: 200,
+    // allowed unicode properties: Letter, Number
+    allowedUnicodeCategoryList: ["L", "N"],
+    allowedIndividualCharacterList: [".", ",", " ", "　", "\"", "'", "`", "_", "-", "、", "。", "「", "」", "^", "~", "ー", "(", ")", "{", "}", "[", "]", "%", "％", "‘", "’"]
+  };
+  return returnValidationResult(description, validationConditions);
 }
-exports.validateDescription = validateDescription;
+
 /**
  *
  * @param {string} target validate対象の文字列
@@ -861,45 +930,49 @@ exports.validateDescription = validateDescription;
  * @returns
  */
 function returnValidationResult(target, validationConditions) {
-    // validationConditions.allowedUnicodeCategoryListに入っているunicode categoryに属さない文字をすべてリストに代入する正規表現
-    const REGEXP_PROHIBITED_CHARACTERS = createRegexpGu(validationConditions.allowedUnicodeCategoryList);
-    // raise an error if word length is longer than validationConditions.maxCharNum
-    if (target.length > validationConditions.maxCharNum) {
-        return {
-            isValid: false,
-            errMessage: `${validationConditions.maxCharNum}자 이내로 입력해 주세요.`,
-        };
-    }
-    // NFC：サロゲートペアを単一の文字コードで表すように正規化にする
-    // NFCの説明：https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize
-    const normalizedWord = target.normalize("NFC");
-    const invalidCharacterList = normalizedWord.match(REGEXP_PROHIBITED_CHARACTERS);
-    if (invalidCharacterList === null) {
-        return {
-            isValid: true,
-            errMessage: "",
-        };
-    }
-    // raise an error if...
-    // 1. word includes characters that are not letters or numbers and
-    // 2. any of them are not the element of validationConditions.allowedIndividualCharacterList
-    for (let i = 0; i < invalidCharacterList.length; i++) {
-        const invalidCharacter = invalidCharacterList[i];
-        if (!validationConditions.allowedIndividualCharacterList.includes(invalidCharacter)) {
-            return {
-                isValid: false,
-                errMessage: `사용 할 수 없는 문자가 포함되어 있습니다: ${invalidCharacter}.`,
-            };
-        }
-    }
-    // this must be at the end of this function
-    // set isValid as true if the given word passes all the validation
+  // validationConditions.allowedUnicodeCategoryListに入っているunicode categoryに属さない文字をすべてリストに代入する正規表現
+  var REGEXP_PROHIBITED_CHARACTERS = createRegexpGu(validationConditions.allowedUnicodeCategoryList);
+
+  // raise an error if word length is longer than validationConditions.maxCharNum
+  if (target.length > validationConditions.maxChar) {
     return {
-        isValid: true,
-        errMessage: "",
+      isValid: false,
+      errMessage: "".concat(validationConditions.maxChar, "\uC790 \uC774\uB0B4\uB85C \uC785\uB825\uD574 \uC8FC\uC138\uC694.")
     };
+  }
+
+  // NFC：サロゲートペアを単一の文字コードで表すように正規化にする
+  // NFCの説明：https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize
+  var normalizedWord = target.normalize("NFC");
+  var invalidCharacterList = normalizedWord.match(REGEXP_PROHIBITED_CHARACTERS);
+  if (invalidCharacterList === null) {
+    return {
+      isValid: true,
+      errMessage: ""
+    };
+  }
+
+  // raise an error if...
+  // 1. word includes characters that are not letters or numbers and
+  // 2. any of them are not the element of validationConditions.allowedIndividualCharacterList
+  for (var i = 0; i < invalidCharacterList.length; i++) {
+    var invalidCharacter = invalidCharacterList[i];
+    if (!validationConditions.allowedIndividualCharacterList.includes(invalidCharacter)) {
+      return {
+        isValid: false,
+        errMessage: "\uC0AC\uC6A9 \uD560 \uC218 \uC5C6\uB294 \uBB38\uC790\uAC00 \uD3EC\uD568\uB418\uC5B4 \uC788\uC2B5\uB2C8\uB2E4: ".concat(invalidCharacter, ".")
+      };
+    }
+  }
+
+  // this must be at the end of this function
+  // set isValid as true if the given word passes all the validation
+  return {
+    isValid: true,
+    errMessage: ""
+  };
 }
-exports.returnValidationResult = returnValidationResult;
+
 /**
  * 入力を許可するunicode categoryのリストを引数として受け取り、それ以外の文字を見つける正規表現を返す。
  * 正規表現のフラグgu：マッチするすべての文字をリストで返す。サロゲートペアまで正しく処理する。(フラグについて：https://javascript.info/regexp-introduction)
@@ -908,14 +981,13 @@ exports.returnValidationResult = returnValidationResult;
  * @returns 引数で与えられたunicode categoryに属さない文字を見つける正規表現
  */
 function createRegexpGu(unicodeCategoryList) {
-    let regexp = "[^";
-    for (let i = 0; i < unicodeCategoryList.length; i++) {
-        const elem = unicodeCategoryList[i];
-        regexp += `\\p{${elem}}`;
-    }
-    regexp += "]";
-    return new RegExp(regexp, "gu");
+  var regexp = "[^";
+  for (var i = 0; i < unicodeCategoryList.length; i++) {
+    var elem = unicodeCategoryList[i];
+    regexp += "\\p{".concat(elem, "}");
+  }
+  regexp += "]";
+  return new RegExp(regexp, "gu");
 }
-exports.createRegexpGu = createRegexpGu;
 
 },{}]},{},[1]);
