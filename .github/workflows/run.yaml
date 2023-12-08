@@ -16,3 +16,7 @@ jobs:
         run: |
           cd frontend
           npm test
+      - name: Run golang test
+        run: |
+          cd backends
+          go test -v
