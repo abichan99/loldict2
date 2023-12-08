@@ -52,7 +52,7 @@ describe("test convert2classCode", () => {
   });
   test("クラスの値が2つ以上の時", () => {
     const multipleClasses: Array<string> = ["sth1", "sth2"];
-    expect(convert2classCode(multipleClasses)).toBe("class=\"sth111111 sth2\"");
+    expect(convert2classCode(multipleClasses)).toBe("class=\"sth1 sth2\"");
   });
 });
 
