@@ -1,0 +1,14 @@
+FROM node:18 AS frontend
+
+# dbServerLocation.txt: the text file that includes the location of database server
+WORKDIR /lol_dict
+COPY dbServerLocation.txt ./
+
+# フロントエンドのファイルのコピー及び依存関係のインストール
+WORKDIR /lol_dict/frontend
+COPY ./frontend/ ./
+RUN rm -rf node_modules
+RUN npm install
+
+# run test
+CMD [ "npm", "test" ] 

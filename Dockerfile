@@ -18,7 +18,7 @@ COPY ./frontend/ ./
 ################# backend #################
 FROM golang:1.20 AS backend
 
-# download go modules into go vendor
+# download go modules
 WORKDIR /lol_dict/backend
 COPY ./backend/go.mod ./backend/go.sum ./
 RUN go mod download
