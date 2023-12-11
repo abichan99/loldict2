@@ -1,22 +1,14 @@
 # syntax=docker/dockerfile:1
 
-################# frontend #################
-FROM node:18 AS frontend
+FROM golang:1.20 AS backend
 
 # dbServerLocation.txt: the text file that includes the location of database server
 WORKDIR /lol_dict
 COPY dbServerLocation.txt ./
 
-WORKDIR /lol_dict/frontend
-COPY frontend/package*.json ./
-RUN npm install
-COPY frontend/ .
-
-WORKDIR /lol_dict/frontend
-COPY ./frontend/ ./
-
-################# backend #################
-FROM golang:1.20 AS backend
+# バックエンドでのレンダリングに必要なフロントエンドのファイルをコピー
+WORKDIR /lol_dict/frontend/app
+COPY ./frontend/app ./
 
 # download go modules
 WORKDIR /lol_dict/backend
@@ -27,21 +19,32 @@ COPY ./backend/ ./
 # Build
 RUN CGO_ENABLED=0 GOOS=linux go build -o /lolDict
 
-#################  #################
-FROM node:18 
+################# fianl image #################
+FROM alpine:3.19
 WORKDIR /lol_dict
-COPY --from=frontend /lol_dict/frontend ./frontend
-WORKDIR /lol_dict/frontend
-RUN rm -rf node_modules
-RUN npm install
-WORKDIR /lol_dict
-COPY --from=frontend /lol_dict/dbServerLocation.txt ./
-COPY --from=backend /lol_dict/backend ./backend
-COPY --from=backend /lolDict/ ./backend
-COPY --from=backend /usr/local/go /usr/local/go
-
-# goコマンド使えるようにする
-ENV PATH="/usr/local/go/bin:${PATH}"
-# Run
+# データベースサーバーの書かれたファイル
+COPY --from=backend /lol_dict/dbServerLocation.txt ./
+# バックエンドでのレンダリングに必要なフロントエンドのファイル
+COPY --from=backend /lol_dict/frontend/app ./frontend/app
+# サーバーのバイナリファイル
 WORKDIR /lol_dict/backend
+COPY --from=backend /lol_dict/backend ./
+COPY --from=backend /lolDict/ ./
+
+# サーバーのバイナリファイル実行
 CMD ["/lol_dict/backend/lolDict"]
+# #################  #################
+# FROM node:18 
+# WORKDIR /lol_dict
+# COPY --from=frontend /lol_dict/frontend ./frontend
+# WORKDIR /lol_dict/frontend
+# RUN rm -rf node_modules
+# RUN npm install
+# WORKDIR /lol_dict
+# COPY --from=backend /lol_dict/backend ./backend
+# COPY --from=backend /usr/local/go /usr/local/go
+
+# # goコマンド使えるようにする
+# ENV PATH="/usr/local/go/bin:${PATH}"
+# # Run
+# WORKDIR /lol_dict/backend
