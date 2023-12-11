@@ -14,6 +14,7 @@ import (
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -27,6 +28,13 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 }
 
 func main() {
+	// 開発環境か本番環境かを設定
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Printf("Error loading .env file' %v", err)
+	}
+	mode := os.Getenv("MODE")
+
 	// ログファイルの出力先をセット
 	f, err := os.OpenFile("./logFile.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
@@ -35,22 +43,21 @@ func main() {
 	defer f.Close()
 	log.SetOutput(f)
 
-	// mode==deployの時http認証を行う。
-	// 認証取得に上限あるためいったんdeploy環境でも認証機能使わないようにしとく(mode=devにしとく)
-	mode := "dev"
-
 	// データベースサーバーに接続する文が書かれたファイルを読み込む
 	dbServer, err := os.ReadFile("../dbServerLocation.txt")
 	if err != nil {
 		log.Printf("Cannot read dbServerLocation.txt; err: %v", err)
 	}
-	// 開発環境の時はlocalhostのデータベース使う。
+	// 環境に合わせてdbサーバーの住所を切り替え
 	var dbServerLocation string
-	if mode == "dev" {
-		// dbServerLocation = "root:abichan99@tcp(localhost:3306)/loldictdb"
+	if mode == "dev_container" {
 		dbServerLocation = "root:abichan99@tcp(lol_dict_db:3306)/loldictdb"
-	} else {
+	} else if mode == "dev_localhost" {
+		dbServerLocation = "root:abichan99@tcp(localhost:3306)/loldictdb"
+	} else if mode == "production" {
 		dbServerLocation = string(dbServer[:])
+	} else {
+		log.Printf("err in .env: set the correct mode, available mode: production, dev_container, dev_localhost, got %v", mode)
 	}
 	// データベースに接続
 	db, err := Connect2DB(dbServerLocation)
@@ -96,13 +103,8 @@ func main() {
 	})
 	httpPort := os.Getenv("PORT")
 	if httpPort == "" {
-		if mode == "deploy" {
-			httpPort = "443"
-			e.Logger.Fatal(e.StartAutoTLS(":443"))
-		} else {
-			httpPort = "5000"
-			e.Logger.Fatal(e.Start(":" + httpPort))
-		}
+		httpPort = "5000"
+		e.Logger.Fatal(e.Start(":" + httpPort))
 	}
 }
 

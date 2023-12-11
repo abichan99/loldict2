@@ -3,14 +3,43 @@
 package main
 
 import (
+	"database/sql"
+	"log"
+	"os"
 	"reflect"
 	"testing"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 )
 
-// テスト用のローカルデータベース
-var dbServerLocation = "root:abichan99@tcp(localhost:3306)/loldictdb"
+var dbServerLocation string
+var db *sql.DB
+
+func init() {
+	// 環境に合わせてdbサーバーの住所を切り替え
+	// 開発環境か本番環境かを設定
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Printf("Error loading .env file' %v", err)
+	}
+	// データベースサーバーに接続する文が書かれたファイルを読み込む
+	dbServer, err := os.ReadFile("../dbServerLocation.txt")
+	if err != nil {
+		log.Printf("Cannot read dbServerLocation.txt; err: %v", err)
+	}
+	mode := os.Getenv("MODE")
+	if mode == "dev_container" {
+		dbServerLocation = "root:abichan99@tcp(lol_dict_db:3306)/loldictdb"
+	} else if mode == "dev_localhost" {
+		dbServerLocation = "root:abichan99@tcp(localhost:3306)/loldictdb"
+	} else if mode == "production" {
+		dbServerLocation = string(dbServer[:])
+	} else {
+		log.Println("err in .env: set the correct mode, available mode: production, dev_container, dev_localhost")
+	}
+	db, _ = Connect2DB(dbServerLocation)
+}
 
 func TestConnect2DB_noErrExpected(t *testing.T) {
 	_, err := Connect2DB(dbServerLocation)
@@ -26,9 +55,6 @@ func TestConnect2DB_invalidDBlocation(t *testing.T) {
 		t.Fatal("got no err, expected invalid db location error")
 	}
 }
-
-// 上のテストでdbへの接続が確認できたので、グローバルに使ってコードの重複減らす
-var db, _ = Connect2DB(dbServerLocation)
 
 func TestRegisterTranslation(t *testing.T) {
 	id, err := registerTranslation(db, "sthKr", "sthJp", "description")
@@ -53,14 +79,24 @@ func TestPullKeywordListFromDB(t *testing.T) {
 }
 
 func TestPullTranslationFromDB_noErrExpected(t *testing.T) {
+	// デモデータ登録
+	registerTranslation(db, "demoKr", "demoJp", "description")
 	keyword := "demoKr"
-	expect := translationForm{"demoJp", "descripton", 0, 0, 18}
+	expect := translationForm{"demoJp", "description", 0, 0, 18} // id(最後の要素)は適当
 	translation, err := pullTranslationFromDB(db, keyword)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !(reflect.DeepEqual(translation[0], expect)) {
+	if !(checkEqualityTranslation(translation[0], expect)) {
 		t.Fatalf("got %v, expected: %v", translation[0], expect)
+	}
+	// 追加したデータを削除
+	_, err = db.Exec(
+		"DELETE FROM translations WHERE wordKr = ?",
+		keyword,
+	)
+	if err != nil {
+		t.Fatalf("failed to make back the modified data, err: %v", err)
 	}
 }
 
@@ -77,28 +113,43 @@ func TestPullTranslationFromDB_KeywordNotRegistered(t *testing.T) {
 }
 
 func TestPullTranslationFromDB_multipleTranslations(t *testing.T) {
+	// デモデータ登録
+	registerTranslation(db, "abundantKr", "abundantJp1", "description")
+	registerTranslation(db, "abundantKr", "abundantJp2", "description")
 	// 一つのkeywordに対して複数の訳語が登録されているとき、それらを格納したリストを返すことを期待
 	keyword := "abundantKr"
-	expected1 := translationForm{"abundantJp1", "description", 0, 0, 19}
-	expected2 := translationForm{"abundantJp2", "description", 0, 0, 20}
+	expected0 := translationForm{"abundantJp1", "description", 0, 0, 19} // id(最後の要素)は適当
+	expected1 := translationForm{"abundantJp2", "description", 0, 0, 20} // id(最後の要素)は適当
 	translations, err := pullTranslationFromDB(db, keyword)
-	both_match := (reflect.DeepEqual(expected1, translations[0]) && reflect.DeepEqual(expected2, translations[1]))
+	both_match := (checkEqualityTranslation(expected0, translations[0]) && checkEqualityTranslation(expected1, translations[1]))
 	if err != nil {
 		t.Fatal(err)
 	}
 	if !both_match {
-		t.Logf("got %v, expected %v", translations[0], expected1)
-		t.Fatalf("got %v, expected %v", translations[1], expected2)
+		t.Logf("got %v, expected %v", translations[0], expected0)
+		t.Fatalf("got %v, expected %v", translations[1], expected1)
+	}
+	// 追加したデータを削除
+	_, err = db.Exec(
+		"DELETE FROM translations WHERE wordKr = ?",
+		keyword,
+	)
+	if err != nil {
+		t.Fatalf("failed to make back the modified data, err: %v", err)
 	}
 }
 
 func TestIncreaseGoodNum_noErrExpected(t *testing.T) {
-	id := 21
+	keyword := "goodNumKr"
+	// デモデータ登録
+	registerTranslation(db, keyword, "goodNumJp", "description")
+	// id取得
+	translations, _ := pullTranslationFromDB(db, keyword)
+	id := translations[0].Id
 	err := increaseGoodNum(db, id)
 	if err != nil {
 		t.Fatal(err)
 	}
-	keyword := "goodNumKr"
 	expect := translationForm{"goodNumJp", "description", 1, 0, id}
 	translation, err := pullTranslationFromDB(db, keyword)
 	if err != nil {
@@ -107,10 +158,10 @@ func TestIncreaseGoodNum_noErrExpected(t *testing.T) {
 	if expect != translation[0] || err != nil {
 		t.Fatalf("got %v, expected %v", translation[0], expect)
 	}
-	// 修正されたデータを元に戻す
+	// 追加したデータを削除
 	_, err = db.Exec(
-		"UPDATE translations SET good = good - 1 WHERE id = ?",
-		id,
+		"DELETE FROM translations WHERE wordKr = ?",
+		keyword,
 	)
 	if err != nil {
 		t.Fatalf("failed to make back the modified data, err: %v", err)
@@ -126,13 +177,17 @@ func TestIncreaseGoodNum_invalidID(t *testing.T) {
 }
 
 func TestIncreaseBadNum_noErrExpected(t *testing.T) {
-	id := 23
-	err := increaseBadNum(db, id)
+	// デモデータ登録
+	keyword := "badNumKr"
+	registerTranslation(db, keyword, "badNumJp", "description")
+	// id取得
+	translations, _ := pullTranslationFromDB(db, keyword)
+	id := translations[0].Id
+	err := increaseGoodNum(db, id)
 	if err != nil {
 		t.Fatal(err)
 	}
-	keyword := "badNumKr"
-	expect := translationForm{"badNumJp", "description", 0, 1, id}
+	expect := translationForm{"badNumJp", "description", 1, 0, id}
 	translation, err := pullTranslationFromDB(db, keyword)
 	if err != nil {
 		t.Fatal(err)
@@ -140,10 +195,10 @@ func TestIncreaseBadNum_noErrExpected(t *testing.T) {
 	if expect != translation[0] || err != nil {
 		t.Fatalf("got %v, expected %v", translation[0], expect)
 	}
-	// 修正されたデータを元に戻す
+	// 追加したデータを削除
 	_, err = db.Exec(
-		"UPDATE translations SET bad = bad - 1 WHERE id = ?",
-		id,
+		"DELETE FROM translations WHERE wordKr = ?",
+		keyword,
 	)
 	if err != nil {
 		t.Fatalf("failed to make back the modified data, err: %v", err)
@@ -156,4 +211,12 @@ func TestIncreaseBadNum_invalidID(t *testing.T) {
 	if err == nil {
 		t.Fatalf(`increaseBad(%v, %d): got no err, expected given id not found error`, db, id)
 	}
+}
+
+func checkEqualityTranslation(translation translationForm, expect translationForm) bool {
+	// id以外すべて一致する場合trueを返す
+	return (reflect.DeepEqual(translation.WordJp, expect.WordJp) &&
+		reflect.DeepEqual(translation.Description, expect.Description) &&
+		reflect.DeepEqual(translation.Good, expect.Good) &&
+		reflect.DeepEqual(translation.Bad, expect.Bad))
 }

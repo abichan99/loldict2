@@ -1,3 +1,2 @@
 # （重要）本番切り替え時に修正すること：
- - main.tsのHOMEPAGE_URL変数の値(サーバーの住所)切り替えとバンドル
- - application.goのmode変数の修正
+ - .envファイルのmodeの切り替え

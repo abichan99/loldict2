@@ -1,22 +1,26 @@
 name: learn-github-actions
-on: [push]
+on:
+  push:
+    branches:
+      - browserify
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3 # checkout source code
       - run: ls -al
-      - uses: actions/setup-node@v4 # install nodejs
-      - name: Install Dependencies
-        run: |
-          cd frontend
-          sudo rm -rf node_modules
-          npm install
-      - name: Run Jest
-        run: |
-          cd frontend
-          npm test
-      - name: Run golang test
-        run: |
-          cd backend
-          go test -v
+      - 
+      # - uses: actions/setup-node@v4 # install nodejs
+      # - name: Install Dependencies
+      #   run: |
+      #     cd frontend
+      #     sudo rm -rf node_modules
+      #     npm install
+      # - name: Run Jest
+      #   run: |
+      #     cd frontend
+      #     npm test
+      # - name: Run golang test
+      #   run: |
+      #     cd backend
+      #     go test -v

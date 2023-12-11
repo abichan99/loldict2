@@ -98,7 +98,7 @@ func pullKeywordListFromDB(db *sql.DB) ([]string, error) {
 	// 登録されてる韓国語を全部取ってくる
 	rows, err := db.Query(("select wordKr from translations"))
 	if err != nil {
-		err = fmt.Errorf("pullKeyowrdListFromDB(%v): got error while executing query, error: %v", db, err)
+		err = fmt.Errorf("pullKeywordListFromDB(%v): got error while executing query, error: %v", db, err)
 		return nil, err
 	}
 	defer rows.Close()
@@ -108,14 +108,14 @@ func pullKeywordListFromDB(db *sql.DB) ([]string, error) {
 		keywordList = append(keywordList, "")
 		err := rows.Scan(&keywordList[i])
 		if err != nil {
-			err = fmt.Errorf("in pullKeyowrdListFromDB(%v), rows.Scan() returned error: %v", db, err)
+			err = fmt.Errorf("in pullKeywordListFromDB(%v), rows.Scan() returned error: %v", db, err)
 			return nil, err
 		}
 		i++
 	}
 	err = rows.Err()
 	if err != nil {
-		err = fmt.Errorf("in pullTranslationFromDB(%v), rows.Err() returned error: %v", db, err)
+		err = fmt.Errorf("in pullKeywordListFromDB(%v), rows.Err() returned error: %v", db, err)
 		return nil, err
 	}
 

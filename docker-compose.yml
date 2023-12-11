@@ -3,7 +3,8 @@ version: '3.8'
 services:
   lol_dict:
     depends_on:
-      - lol_dict_db
+      lol_dict_db:
+        condition: service_healthy
     build: 
       context: .
     container_name: lol_dict_container
@@ -23,6 +24,10 @@ services:
       MYSQL_ROOT_PASSWORD: abichan99
       TZ: Asia/Tokyo
     restart: always
+    healthcheck:
+      test: ["CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
+      timeout: 20s
+      retries: 10
 
 volumes:
   loldictdb:
