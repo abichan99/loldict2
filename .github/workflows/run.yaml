@@ -13,17 +13,3 @@ jobs:
             docker-compose -f ./backend-test.yml up --build --abort-on-container-exit
             docker-compose -f ./frontend-test.yml up --build --abort-on-container-exit
           working-directory: ./
-      # - uses: actions/setup-node@v4 # install nodejs
-      # - name: Install Dependencies
-      #   run: |
-      #     cd frontend
-      #     sudo rm -rf node_modules
-      #     npm install
-      # - name: Run Jest
-      #   run: |
-      #     cd frontend
-      #     npm test
-      # - name: Run golang test
-      #   run: |
-      #     cd backend
-      #     go test -v
