@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3 # checkout source code
       - name: run test on docker-compose
-          run: |
-            docker-compose -f ./backend-test.yml up --build --abort-on-container-exit
-            docker-compose -f ./frontend-test.yml up --build --abort-on-container-exit
-          working-directory: ./
+        run: |
+          docker-compose -f ./backend-test.yml up --build --abort-on-container-exit
+          docker-compose -f ./frontend-test.yml up --build --abort-on-container-exit
+        working-directory: ./
