@@ -13,14 +13,13 @@ services:
       - 5000:5000
     tty: true
     stdin_open: true
-
   lol_dict_db:
     build: 
       context: .
       dockerfile: ./db/Dockerfile
     container_name: lol_dict_db
     volumes:
-      - loldictdb:/var/lib/mysql
+      - ./db/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: abichan99
       TZ: Asia/Tokyo
@@ -29,7 +28,3 @@ services:
       test: ["CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
       timeout: 20s
       retries: 10
-
-volumes:
-  loldictdb:
-    external: true

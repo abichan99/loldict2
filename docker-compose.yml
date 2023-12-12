@@ -20,7 +20,6 @@ services:
     container_name: lol_dict_db
     volumes:
       - ./db/mysql:/var/lib/mysql
-    command: --lower_case_table_names=0
     environment:
       MYSQL_ROOT_PASSWORD: abichan99
       TZ: Asia/Tokyo
