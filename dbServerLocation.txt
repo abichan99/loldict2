@@ -1,1 +1,0 @@
-admin5837:abichan99@tcp(lol-dict-db.cfde47hgrlfq.ap-northeast-1.rds.amazonaws.com:3306)/loldictdb

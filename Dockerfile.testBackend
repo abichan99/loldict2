@@ -1,9 +1,5 @@
 FROM golang:1.20 AS backend
 
-# dbServerLocation.txt: the text file that includes the location of database server
-WORKDIR /lol_dict
-COPY dbServerLocation.txt ./
-
 # copy frontend files that are needed in backend files
 WORKDIR /lol_dict/frontend
 COPY frontend/ .

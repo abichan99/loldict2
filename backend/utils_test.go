@@ -23,18 +23,13 @@ func init() {
 	if err != nil {
 		log.Printf("Error loading .env file' %v", err)
 	}
-	// データベースサーバーに接続する文が書かれたファイルを読み込む
-	dbServer, err := os.ReadFile("../dbServerLocation.txt")
-	if err != nil {
-		log.Printf("Cannot read dbServerLocation.txt; err: %v", err)
-	}
 	mode := os.Getenv("MODE")
 	if mode == "dev_container" {
 		dbServerLocation = "root:abichan99@tcp(lol_dict_db:3306)/loldictdb"
 	} else if mode == "dev_localhost" {
 		dbServerLocation = "root:abichan99@tcp(localhost:3306)/loldictdb"
 	} else if mode == "production" {
-		dbServerLocation = string(dbServer[:])
+		dbServerLocation = "root:abichan99@tcp(lol_dict_db:3306)/loldictdb"
 	} else {
 		log.Println("err in .env: set the correct mode, available mode: production, dev_container, dev_localhost")
 	}
