@@ -1,7 +1,8 @@
 # apt-get出来る様にdebian版を使う。
-FROM mysql:8.0.30-debian
+FROM mysql:8.0.35-debian
 # コンテナ内で日本語が打てるようにlocalを変更といらないファイル削除
-RUN apt-get update \
+USER root
+RUN apt-get update --allow-insecure-repositories \
     && apt-get install -y locales \
     && sed -i -E 's/# (ja_JP.UTF-8)/\1/' /etc/locale.gen \
     && locale-gen \
