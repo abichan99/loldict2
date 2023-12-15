@@ -2,6 +2,7 @@
 FROM mysql:8.0.35-debian
 # コンテナ内で日本語が打てるようにlocalを変更といらないファイル削除
 USER root
+# TODO: apt-get updateに、"--allow-insecure-repositories"を応急措置として付与。安全ではないので後で治す
 RUN apt-get update --allow-insecure-repositories \
     && apt-get install -y locales \
     && sed -i -E 's/# (ja_JP.UTF-8)/\1/' /etc/locale.gen \
