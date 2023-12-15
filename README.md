@@ -2,6 +2,8 @@
 lolというゲームの用語に対する韓国語->日本語訳を提供する辞書アプリです。  
 訳語の検索、登録、評価ができます。  
 使いやすさを意識して作りました。
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/readMeImg/main.png?raw=true)
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/readMeImg/translations.png?raw=true)
 
 # 使った言語、ライブラリなど
  - backend
