@@ -42,5 +42,5 @@ jobs:
 
       - name: Docker build & push to docker repo
         run: |
-              docker-compose build -f docker-compose.yml -t ${{ secrets.DOCKER_REPO }}/lol-dictionary:latest .
-              docker push ${{ secrets.DOCKER_REPO }}/lol-dictionary
+              docker-compose build -f docker-compose.yml -t ${{ secrets.DOCKERHUB_REPO }}/lol-dictionary:latest .
+              docker push ${{ secrets.DOCKERHUB_REPO }}/lol-dictionary
