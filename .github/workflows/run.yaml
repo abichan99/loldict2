@@ -43,7 +43,6 @@ jobs:
     name: continuos deploy
     runs-on: ubuntu-latest
     steps:
-    - run: cd loldict2
     - name: Deploy to server
       uses: appleboy/ssh-action@master
       id: deploy
@@ -53,6 +52,7 @@ jobs:
         key: ${{ secrets.KEY_EC2 }}
         envs: GITHUB_SHA
         script: |
+          cd loldict2
           sudo docker rm -f $(docker ps -qa)
           sudo docker pull ${{ secrets.DOCKERHUB_REPO }}lol-dictionary:db-latest
           sudo docker pull ${{ secrets.DOCKERHUB_REPO }}lol-dictionary:app-latest
