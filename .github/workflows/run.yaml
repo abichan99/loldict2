@@ -37,3 +37,24 @@ jobs:
               docker build --tag abichan/lol-dictionary:app-latest .
               docker push ${{ secrets.DOCKERHUB_REPO }}/lol-dictionary:db-latest
               docker push ${{ secrets.DOCKERHUB_REPO }}/lol-dictionary:app-latest
+  
+  cd-pipeline:
+    needs: build-and-push-image
+    name: continuos deploy
+    runs-on: ubuntu-latest
+    steps:
+    - run: cd loldict2
+    - name: Deploy to server
+      uses: appleboy/ssh-action@master
+      id: deploy
+      with:
+        host: ${{ secrets.HOST }}
+        username: ec2-user
+        key: ${{ secrets.KEY_EC2 }}
+        envs: GITHUB_SHA
+        script: |
+          sudo docker rm -f $(docker ps -qa)
+          sudo docker pull ${{ secrets.DOCKERHUB_REPO }}lol-dictionary:db-latest
+          sudo docker pull ${{ secrets.DOCKERHUB_REPO }}lol-dictionary:app-latest
+          sudo docker run -d --hostname lol_dict_db --network loldict-net -v ${pwd}/db/mysql:/var/lib/mysql abichan/lol-dictionary:db-latest
+          sudo docker run -d --network loldict-net -p 5000:5000  abichan/lol-dictionary:app-latest
