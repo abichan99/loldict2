@@ -12,5 +12,8 @@ RUN apt-get update --allow-insecure-repositories \
     && rm -rf /var/lib/apt/lists/*
 ENV MYSQL_ROOT_PASSWORD=abichan99
 ENV LC_ALL ja_JP.UTF-8
+# app containerが正常にdb containerに接続するようにhealthcheckする
+HEALTHCHECK --interval=30s --timeout=20s --retries=10 \
+  CMD mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD || exit 1
 
 EXPOSE 3306
