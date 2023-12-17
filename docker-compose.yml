@@ -7,6 +7,7 @@ services:
         condition: service_healthy
     build: 
       context: .
+    image: "abichan/lol-dictionary:app-latest"
     container_name: lol_dict_container
     ports:
       - 5000:5000
@@ -17,6 +18,7 @@ services:
     build: 
       context: .
       dockerfile: ./db/Dockerfile
+    image: "abichan/lol-dictionary:db-latest"
     container_name: lol_dict_db
     volumes:
       - ./db/mysql:/var/lib/mysql
