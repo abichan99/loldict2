@@ -14,9 +14,9 @@
         2. 1. でのフォルダ内にindex.tsがある場合は、1. と同じ要領デコンパイル
           (i.e) \frontend\app\static\ts\src> babel index.ts -o ../../js/src/index.js
         3. main.tsやpreload.tsなどのファイルを1.と同じ要領でトランスパイル
-          (i.e) \frontend\app\static\ts> babel main.ts -o ../../js/main.js
+          (i.e) \frontend\app\static\ts> babel main.ts -o ../js/main.js
         4. browserifyで、3.でトランスパイルしたファイルをバンドル
-          (i.e) \frontend\app\static\ts> browserify main.js -o main-bundle.js
+          (i.e) \frontend\app\static\js> browserify main.js -o ../bundle/main-bundle.js
 
        2. 
        2. tsからjsへのトランスパイル(typescript)： babelの時と同じ要領で実行する。--outDirでコマンドラ　　インで指定。
