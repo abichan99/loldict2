@@ -12,7 +12,7 @@ jobs:
         run: |
           cd backend
           source .env
-          if [ "$MODE" != "dev_localhost" && "$MODE" != "dev_container" ] then exit 1 fi
+          [ "$MODE" != "dev_localhost" ] && [ "$MODE" != "dev_container" ] && exit 1
       - name: run test on docker-compose
         run: |
           docker-compose -f ./backend-test.yml up --build --abort-on-container-exit
