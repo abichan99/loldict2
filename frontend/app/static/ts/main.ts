@@ -4,7 +4,8 @@ import * as src from "./src/index";
 
 // ローカルで開発するときはのHOMEPAGE_URLを自分のローカルの住所に変える
 // const HOMEPAGE_URL: string = "http://loldictkrjp.ap-northeast-1.elasticbeanstalk.com/";  // 本番の住所
-const HOMEPAGE_URL: string = "http://localhost:5000/";
+const curURL = window.location.href;
+const HOMEPAGE_URL = curURL.split("?")[0];
 
 src.insertHomepageLink(HOMEPAGE_URL);
 

@@ -9,7 +9,8 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
 
 // ローカルで開発するときはのHOMEPAGE_URLを自分のローカルの住所に変える
 // const HOMEPAGE_URL: string = "http://loldictkrjp.ap-northeast-1.elasticbeanstalk.com/";  // 本番の住所
-var HOMEPAGE_URL = "http://localhost:5000/";
+var curURL = window.location.href;
+var HOMEPAGE_URL = curURL.split("?")[0];
 src.insertHomepageLink(HOMEPAGE_URL);
 
 // 以下2文の順序を変えないこと。
