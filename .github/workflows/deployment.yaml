@@ -12,7 +12,10 @@ jobs:
         run: |
           cd backend
           source .env
-          [ "$MODE" != production ] && exit 1
+          cd ../sh
+          ls
+          chmod +x check_if_production.sh
+          ./check_if_production.sh $MODE
       - name: run test on docker-compose
         run: |
           docker-compose -f ./backend-test.yml up --build --abort-on-container-exit
