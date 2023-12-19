@@ -38,6 +38,13 @@ lolというゲームの用語に対する韓国語->日本語訳を提供する
 
 # 機能一覧
  - アプリ
+   | トップ画面 |　ログイン画面 |
+   | ---- | ---- |
+   | ![Top画面](https://github.com/abichan99/loldict2/blob/browserify/readMeImg/main.png?raw=true) | ![ログイン画面](https://github.com/abichan99/loldict2/blob/browserify/readMeImg/translations.png?raw=true) |
+   | 登録せずにサービスをお試しいただくためのトライアル機能を実装しました。 | ログインIDとパスワードでの認証機能を実装しました。 |
+
+# 機能一覧
+ - アプリ
       - ダークモード(tailwind css)
       - 訳語登録機能(ajax)
       - 訳語検索機能
