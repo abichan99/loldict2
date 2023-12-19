@@ -2,12 +2,20 @@ name: learn-github-actions
 on:
   push:
     branches:
-      - browserify
+      - deployment
 jobs:
   test-frontend-and-backend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3 # checkout source code
+      - name: check if env variables in /root/background are correctly set 
+        run: |
+          cd backend
+          source .env
+          cd ../sh
+          ls
+          chmod +x check_if_production.sh
+          ./check_if_production.sh $MODE
       - name: run test on docker-compose
         run: |
           docker-compose -f ./backend-test.yml up --build --abort-on-container-exit
