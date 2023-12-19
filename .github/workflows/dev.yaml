@@ -8,11 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3 # checkout source code
-      - name: check if env variables are correctly set 
+      - name: check if env variables in /root/background are correctly set 
         run: |
           cd backend
           source .env
-          ([ "$MODE"!="dev_localhost" ] && [ "$MODE"!="dev_container" ]) && exit 1
+          ([ "$MODE" != dev_localhost ] && [ "$MODE" != dev_container ]) && (echo "please set MODE in /root/backend/.env correctly"; exit 1)
       - name: run test on docker-compose
         run: |
           docker-compose -f ./backend-test.yml up --build --abort-on-container-exit
