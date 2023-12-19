@@ -46,11 +46,11 @@ func main() {
 	// 環境に合わせてdbサーバーの住所を切り替え
 	var dbServerLocation string
 	if mode == "dev_container" {
-		dbServerLocation = "root:abichan99@tcp(lol_dict_db:3306)/loldictdb"
+		dbServerLocation = "operator:abichan99@tcp(lol_dict_db:3306)/loldictdb"
 	} else if mode == "dev_localhost" {
-		dbServerLocation = "root:abichan99@tcp(localhost:3306)/loldictdb"
+		dbServerLocation = "operator:abichan99@tcp(localhost:3306)/loldictdb"
 	} else if mode == "production" {
-		dbServerLocation = "root:abichan99@tcp(172.19.0.2:3306)/loldictdb"
+		dbServerLocation = "operator:abichan99@tcp(172.19.0.2:3306)/loldictdb"
 	} else {
 		log.Printf("err in .env: set the correct mode, available mode: production, dev_container, dev_localhost, got %v", mode)
 	}
