@@ -12,7 +12,7 @@ jobs:
         run: |
           cd backend
           source .env
-          ../.github/workflows/sh/dceck_if_dev.sh $MODE
+          ../sh/dceck_if_dev.sh $MODE
       - name: run test on docker-compose
         run: |
           docker-compose -f ./backend-test.yml up --build --abort-on-container-exit
