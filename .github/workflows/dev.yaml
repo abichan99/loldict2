@@ -12,7 +12,7 @@ jobs:
         run: |
           cd backend
           source .env
-          ([ "$MODE" != dev_localhost ] && [ "$MODE" != dev_container ]) && (echo "please set MODE in /root/backend/.env correctly"; exit 1) || echo 123213213
+          ([ "$MODE" != "dev_localhost" ] && [ "$MODE" != "dev_container" ]) && (echo "please set MODE in /root/backend/.env correctly"; exit 1) || echo 123213213
       - name: run test on docker-compose
         run: |
           docker-compose -f ./backend-test.yml up --build --abort-on-container-exit
