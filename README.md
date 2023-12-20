@@ -39,12 +39,12 @@ lolというゲームで使われる用語に対する韓国語->日本語訳を
  - アプリ
    | トップ画面 |　訳語登録画面 |
    | ---- | ---- |
-   | ![Top画面](https://github.com/abichan99/loldict2/blob/browserify/readMeImg/main.png?raw=true) | ![ログイン画面](https://github.com/abichan99/loldict2/blob/browserify/readMeImg/translations.png?raw=true) |
+   | ![Top画面](https://github.com/abichan99/loldict2/blob/deployment/readMeImg/main.png?raw=true) | ![訳語登録画面](https://github.com/abichan99/loldict2/blob/deployment/readMeImg/rgstForm.png?raw=true) |
    | 使いやすいようシンプルに実装しました。検索履歴を表示し、押したら検索される機能も実装しました。また、ajaxを用い訳語検索機能を実装しました。 | ajaxを用い、訳語を登録する機能を用いました。基本的なvalidation機能も実装しました。 |
 
    | 訳語表示画面 |　ダークモード画面 |
    | ---- | ---- |
-   | ![Top画面](https://github.com/abichan99/loldict2/blob/browserify/readMeImg/main.png?raw=true) | ![ログイン画面](https://github.com/abichan99/loldict2/blob/browserify/readMeImg/translations.png?raw=true) |
+   | ![訳語表示画面](https://github.com/abichan99/loldict2/blob/deployment/readMeImg/translations.png?raw=true) | ![ダークモード画面](https://github.com/abichan99/loldict2/blob/deployment/readMeImg/darkmode.png?raw=true) |
    | 評価ボタンを実装し訳語のクォリティーが分かるようにしました。 | 夜に作業する人のために実装しました。 |
  - CI/CD
    
