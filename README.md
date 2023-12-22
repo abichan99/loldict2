@@ -2,6 +2,10 @@
 lolというゲームで使われる用語に対する韓国語->日本語訳を提供する辞書アプリです。
 訳語の検索、登録、評価ができます。
 使いやすさを意識して作りました。
+以下のurlからアクセスできます。
+
+http://ec2-18-183-144-79.ap-northeast-1.compute.amazonaws.com:5000/
+
 ![alt text](https://github.com/abichan99/loldict2/blob/deployment/readMeImg/main.png?raw=true)
 
 # 使った言語、ライブラリなど
