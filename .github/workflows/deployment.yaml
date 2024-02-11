@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3 # checkout source code
-      - name: check if env variables in /root/background are correctly set 
+      - name: check if env variables in /root/backend are correctly set 
         run: |
           cd backend
           source .env
