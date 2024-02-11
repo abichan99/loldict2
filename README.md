@@ -32,6 +32,7 @@ http://ec2-18-183-144-79.ap-northeast-1.compute.amazonaws.com:5000/
       - tailwind css ^latest(css framework)
       - owasp zap (check vulnerability)
       - google fonts
+      - github copilot
 
 # 作ったきっかけ
 趣味でとあるゲームyoutuberの動画を翻訳していましたが、ゲーム内で使われる用語を翻訳するのに困っていました。lolというゲームで、日本語版、韓国語版とともにあるので自分で役を考える必要があったのですが、韓国語の用語に対する日本語訳を見つけるのにすごく時間がかかり、正確さにも多少欠けていました。ですので、ちょうどほかの方々とも一緒に翻訳していたので、このゲームの韓国語->日本語の辞書を作ると翻訳時間の短縮になるのではないかと思ってこの辞書アプリを作りました。
