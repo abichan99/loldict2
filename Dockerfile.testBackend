@@ -1,3 +1,5 @@
+# コンテナ環境下でもうまく動作するかを確認するためのテスト用のDockerfile
+
 FROM golang:1.20 AS backend
 
 # copy frontend files that are needed in backend files

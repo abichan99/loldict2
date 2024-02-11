@@ -178,7 +178,7 @@
         <script type="module" src="../static/bundle/main-bundle.js"></script>
         <script type="module">
             import { increaseGoodNum, increaseBadNum } from "../static/js/importOnly/importOnly/increaseEvalNum.js";
-            // goのサーバーから渡される変数を使いたいのでindex.html内に直接jsスクリプトを書いた。
+            // goのサーバーからの変数を使いたいので直接index.htmlのスクリプトに書いた。
 
             const curURL = window.location.href;
             const homePageURL = curURL.split("?")[0];

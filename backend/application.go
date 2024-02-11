@@ -52,7 +52,7 @@ func main() {
 	} else if mode == "production" {
 		dbServerLocation = "operator:abichan99@tcp(lol_dict_db:3306)/loldictdb"
 	} else {
-		log.Printf("err in .env: set the correct mode, available mode: production, dev_container, dev_localhost, got %v", mode)
+		log.Printf("err in .env: please set the correct mode. available mode: production, dev_container, dev_localhost, got %v", mode)
 	}
 	// データベースに接続
 	db, err := Connect2DB(dbServerLocation)

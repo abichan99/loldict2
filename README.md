@@ -19,6 +19,7 @@ http://ec2-18-183-144-79.ap-northeast-1.compute.amazonaws.com:5000/
       - jest ^29 (テストライブラリ)
       - eslint ^8.53.0 (linter)
       - browserify ^17.0.0 (バンドラー)
+      - tailwind css ^latest(css framework)
  - database
       - mysql 8.0.35
  - AWS
@@ -29,7 +30,6 @@ http://ec2-18-183-144-79.ap-northeast-1.compute.amazonaws.com:5000/
  - CI/CD
       - github actions
  - etc
-      - tailwind css ^latest(css framework)
       - owasp zap (check vulnerability)
       - google fonts
       - github copilot

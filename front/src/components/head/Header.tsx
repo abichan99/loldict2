@@ -4,7 +4,7 @@ import DarkModeSwitcher from './darkModeSwitcher/DarkModeSwitcher';
 
 const Header: React.FC = () => {
     return (
-        <div>
+        <div className="container mx-auto">
             <Title />
             <DarkModeSwitcher />
         </div>
