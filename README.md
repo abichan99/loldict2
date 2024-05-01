@@ -30,7 +30,7 @@ http://ec2-18-183-144-79.ap-northeast-1.compute.amazonaws.com:5000/
  - CI/CD
       - github actions
  - etc
-      - owasp zap (check vulnerability)
+      - owasp zap (脆弱性検査)
       - google fonts
       - github copilot
 
